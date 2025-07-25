@@ -1,0 +1,16 @@
+{
+  "name": "lambda",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1577.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.152",
+    "typescript": "^5.3.3"
+  }
+}
