@@ -1,20 +1,21 @@
 {
-  "name": "lambda-dynamodb-cdk-starter",
+  "name": "lambda-dynamodb-starter",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
     "build": "tsc",
+    "cdk": "cdk",
+    "watch": "tsc --watch",
+    "synth": "cdk synth",
     "deploy": "cdk deploy",
     "destroy": "cdk destroy"
   },
-  "dependencies": {
-    "aws-cdk-lib": "^2.50.0",
-    "constructs": "^10.0.0",
-    "aws-sdk": "^2.1352.0"
-  },
   "devDependencies": {
-    "aws-cdk": "^2.50.0",
-    "typescript": "^5.0.0",
-    "@types/node": "^18.0.0"
+    "aws-cdk-lib": "^2.102.0",
+    "constructs": "^10.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1360.0"
   }
 }
