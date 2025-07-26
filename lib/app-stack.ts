@@ -18,8 +18,8 @@ export class AppStack extends cdk.Stack {
 
     // Lambda function for creating notes
     const createNoteLambda = new NodejsFunction(this, 'CreateNoteFunction', {
-      runtime: lambda.Runtime.NODEJS_18_X,
-      entry: path.join(__dirname, '..', 'lambda', 'notes', 'createNote.ts'),
+      runtime: lambda.Runtime.NODEJS_22_X,
+      entry: path.join(__dirname, '..', 'lambda', 'src', 'createNote.ts'),
       handler: 'handler',
       environment: {
         NOTES_TABLE: table.tableName,
