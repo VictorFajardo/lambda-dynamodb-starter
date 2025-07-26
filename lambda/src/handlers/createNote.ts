@@ -1,13 +1,13 @@
-import { DynamoDB } from 'aws-sdk';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-
-const dynamo = new DynamoDB.DocumentClient();
+import { PutCommand } from '@aws-sdk/lib-dynamodb';
+import { Note } from '../types/types';import { docClient } from '../utils/dynamoClient';
 
 export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   try {
     const body = JSON.parse(event.body || '{}');
+
     if (!body.content) {
       return {
         statusCode: 400,
@@ -21,21 +21,22 @@ export const handler = async (
       createdAt: new Date().toISOString(),
     };
 
-    await dynamo
-      .put({
-        TableName: process.env.NOTES_TABLE as string,
-        Item: note,
+    await docClient.send(
+      new PutCommand({
+        TableName: process.env.NOTES_TABLE,
+        Item: note satisfies Note,
       })
-      .promise();
+    );
 
     return {
       statusCode: 201,
       body: JSON.stringify({ message: 'Note created', note }),
     };
   } catch (error) {
+    console.error('Create Note Error:', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: 'Internal Server Error', error }),
+      body: JSON.stringify({ message: 'Internal Server Error' }),
     };
   }
 };
