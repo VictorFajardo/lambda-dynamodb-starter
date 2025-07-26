@@ -1,6 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { PutCommand } from '@aws-sdk/lib-dynamodb';
-import { Note } from '../types/types';import { docClient } from '../utils/dynamoClient';
+import { docClient } from '../utils/dynamoClient';
+import { createNoteSchema } from '../schemas/createNoteSchema';
 
 export const handler = async (
   event: APIGatewayProxyEvent
@@ -8,23 +9,28 @@ export const handler = async (
   try {
     const body = JSON.parse(event.body || '{}');
 
-    if (!body.content) {
+    const parsed = createNoteSchema.safeParse(body);
+
+    if (!parsed.success) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ message: 'Content is required' }),
+        body: JSON.stringify({
+          message: 'Validation failed',
+          errors: parsed.error.flatten().fieldErrors,
+        }),
       };
     }
 
     const note = {
+      ...parsed.data,
       id: Date.now().toString(),
-      content: body.content,
       createdAt: new Date().toISOString(),
     };
 
     await docClient.send(
       new PutCommand({
         TableName: process.env.NOTES_TABLE,
-        Item: note satisfies Note,
+        Item: note,
       })
     );
 

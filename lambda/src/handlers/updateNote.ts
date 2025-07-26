@@ -3,13 +3,17 @@ import {
   UpdateCommand,
 } from '@aws-sdk/lib-dynamodb';
 import { docClient } from '../utils/dynamoClient';
+import { updateNoteSchema } from '../schemas/updateNoteSchema';
 
 export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   try {
     const noteId = event.pathParameters?.id;
+
     const body = JSON.parse(event.body || '{}');
+    
+    const parsed = updateNoteSchema.safeParse(body);
 
     if (!noteId) {
       return {
@@ -18,10 +22,13 @@ export const handler = async (
       };
     }
 
-    if (!body.content) {
+    if (!parsed.success) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ message: 'Content is required' }),
+        body: JSON.stringify({
+          message: 'Validation failed',
+          errors: parsed.error.flatten().fieldErrors,
+        }),
       };
     }
 
@@ -30,7 +37,7 @@ export const handler = async (
       Key: { id: noteId },
       UpdateExpression: 'set content = :content',
       ExpressionAttributeValues: {
-        ':content': body.content,
+        ':content': parsed.data.content,
       },
       ConditionExpression: 'attribute_exists(id)',
       ReturnValues: 'ALL_NEW',

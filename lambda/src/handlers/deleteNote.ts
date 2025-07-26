@@ -1,16 +1,29 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { DeleteCommand } from '@aws-sdk/lib-dynamodb';
 import { docClient } from '../utils/dynamoClient';
+import { deleteNoteSchema } from '../schemas/deleteNoteSchema';
 
 export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   const id = event.pathParameters?.id;
+  
+  const parsed = deleteNoteSchema.safeParse({ id });
 
   if (!id) {
     return {
       statusCode: 400,
       body: JSON.stringify({ message: 'Note ID is required' }),
+    };
+  }
+
+  if (!parsed.success) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify({
+        message: 'Validation failed',
+        errors: parsed.error.flatten().fieldErrors,
+      }),
     };
   }
 
