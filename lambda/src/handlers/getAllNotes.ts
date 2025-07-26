@@ -5,7 +5,9 @@ import { docClient } from '../utils/dynamoClient';
 
 export const handler: APIGatewayProxyHandler = async () => {
   try {
-    const result = await docClient.send(new ScanCommand({ TableName: process.env.NOTES_TABLE }));
+    const command = new ScanCommand({ TableName: process.env.NOTES_TABLE });
+
+    const result = await docClient.send(command);
 
     const notes = result.Items?.map((item) => ({
       id: item.id.S,
@@ -18,7 +20,6 @@ export const handler: APIGatewayProxyHandler = async () => {
       body: JSON.stringify({ notes }),
     };
   } catch (err) {
-    console.error('Error fetching notes:', err);
     return {
       statusCode: 500,
       body: JSON.stringify({ message: 'Internal Server Error' }),

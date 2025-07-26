@@ -4,16 +4,13 @@ import {
 } from '@aws-sdk/lib-dynamodb';
 import { docClient } from '../utils/dynamoClient';
 import { updateNoteSchema } from '../schemas/updateNoteSchema';
+import { validate, ValidationError } from '../utils/validate';
 
 export const handler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   try {
     const noteId = event.pathParameters?.id;
-
-    const body = JSON.parse(event.body || '{}');
-    
-    const parsed = updateNoteSchema.safeParse(body);
 
     if (!noteId) {
       return {
@@ -22,22 +19,16 @@ export const handler = async (
       };
     }
 
-    if (!parsed.success) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({
-          message: 'Validation failed',
-          errors: parsed.error.flatten().fieldErrors,
-        }),
-      };
-    }
+    const body = JSON.parse(event.body || '{}');
+
+    const { content } = validate(updateNoteSchema, body);
 
     const command = new UpdateCommand({
       TableName: process.env.NOTES_TABLE,
       Key: { id: noteId },
       UpdateExpression: 'set content = :content',
       ExpressionAttributeValues: {
-        ':content': parsed.data.content,
+        ':content': content,
       },
       ConditionExpression: 'attribute_exists(id)',
       ReturnValues: 'ALL_NEW',
@@ -50,6 +41,16 @@ export const handler = async (
       body: JSON.stringify({ message: 'Note updated', note: result.Attributes }),
     };
   } catch (error: any) {
+    if (error instanceof ValidationError) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          message: error.message,
+          errors: error.details.flatten().fieldErrors,
+        }),
+      };
+    }
+
     if (error.name === 'ConditionalCheckFailedException') {
       return {
         statusCode: 404,
@@ -59,7 +60,7 @@ export const handler = async (
 
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: 'Internal Server Error', error }),
+      body: JSON.stringify({ message: 'Internal Server Error' }),
     };
   }
 };
