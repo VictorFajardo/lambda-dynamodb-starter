@@ -1,5 +1,12 @@
+export const headers = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Methods': 'OPTIONS,GET,POST,PUT,DELETE',
+};
+
 export const response = (statusCode: number, data: object) => ({
   statusCode,
+  headers,
   body: JSON.stringify(data),
 });
 
