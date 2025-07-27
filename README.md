@@ -2,7 +2,7 @@
 
 A serverless starter template using AWS CDK, Lambda, API Gateway, and DynamoDB — written in TypeScript.
 
-[![codecov](https://codecov.io/gh/VictorFajardo/nestkit-backend/branch/main/graph/badge.svg)](https://codecov.io/gh/VictorFajardo/nestkit-backend)
+[![codecov](https://codecov.io/gh/VictorFajardo/lambda-dynamodb-starter/branch/main/graph/badge.svg)](https://codecov.io/gh/VictorFajardo/lambda-dynamodb-starter)
 
 ## 🚀 Features
 
