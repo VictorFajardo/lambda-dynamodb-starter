@@ -18,7 +18,8 @@ export const handler: APIGatewayProxyHandler = async () => {
       })) || [];
 
     return ok({ notes });
-  } catch (err) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error: unknown) {
     return internalError();
   }
 };
