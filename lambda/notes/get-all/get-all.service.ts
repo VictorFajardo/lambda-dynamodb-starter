@@ -14,5 +14,5 @@ export const getAllNotes = async () => {
       createdAt: item.createdAt.S,
     })) || [];
 
-  return notes || [];
+  return notes;
 };

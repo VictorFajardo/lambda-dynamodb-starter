@@ -1,3 +1,4 @@
+import { APIGatewayProxyEvent } from 'aws-lambda';
 import { handler } from '../create.handler';
 import * as service from '../create.service';
 
@@ -15,7 +16,7 @@ describe('createNote handler', () => {
 
         const event = {
             body: JSON.stringify({ content: 'test' }),
-        } as any;
+        } as unknown as APIGatewayProxyEvent;
 
         const response = await handler(event);
 
@@ -24,12 +25,27 @@ describe('createNote handler', () => {
     });
 
     it('should return 400 on validation error', async () => {
+        [JSON.stringify({}), undefined].map(async (body) => {
+            const event = {
+                body
+            } as unknown as APIGatewayProxyEvent;
+
+            const response = await handler(event);
+
+            expect(response.statusCode).toBe(400);
+        })
+    });
+
+    it('returns 500 when body is invalid JSON', async () => {
         const event = {
-            body: JSON.stringify({}),
-        } as any;
+            body: '{"invalidJson": true,', // malformed JSON
+        } as unknown as APIGatewayProxyEvent;
 
-        const response = await handler(event);
+        const result = await handler(event);
 
-        expect(response.statusCode).toBe(400);
+        expect(result.statusCode).toBe(500);
+        expect(JSON.parse(result.body)).toEqual({
+            message: 'Internal Server Error',
+        });
     });
 });
