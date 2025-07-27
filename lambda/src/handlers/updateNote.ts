@@ -5,6 +5,7 @@ import {
 import { docClient } from '../utils/dynamoClient';
 import { updateNoteSchema } from '../schemas/updateNoteSchema';
 import { validate, ValidationError } from '../utils/validate';
+import { badRequest, internalError, notFound, ok } from '../utils/response';
 
 export const handler = async (
   event: APIGatewayProxyEvent
@@ -13,10 +14,7 @@ export const handler = async (
     const noteId = event.pathParameters?.id;
 
     if (!noteId) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ message: 'Note ID is required' }),
-      };
+     return badRequest('Note ID is required');
     }
 
     const body = JSON.parse(event.body || '{}');
@@ -36,31 +34,16 @@ export const handler = async (
 
     const result = await docClient.send(command);
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ message: 'Note updated', note: result.Attributes }),
-    };
+    return ok({ message: 'Note updated', note: result.Attributes });
   } catch (error: any) {
     if (error instanceof ValidationError) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({
-          message: error.message,
-          errors: error.details.flatten().fieldErrors,
-        }),
-      };
+      return badRequest(error.message, error.details.flatten().fieldErrors);
     }
 
     if (error.name === 'ConditionalCheckFailedException') {
-      return {
-        statusCode: 404,
-        body: JSON.stringify({ message: 'Note not found' }),
-      };
+      return notFound();
     }
 
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: 'Internal Server Error' }),
-    };
+    return internalError();
   }
 };

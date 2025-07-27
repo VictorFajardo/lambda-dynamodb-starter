@@ -2,6 +2,7 @@ import { APIGatewayProxyHandler } from 'aws-lambda';
 import { ScanCommand } from '@aws-sdk/client-dynamodb';
 
 import { docClient } from '../utils/dynamoClient';
+import { internalError, ok } from '../utils/response';
 
 export const handler: APIGatewayProxyHandler = async () => {
   try {
@@ -15,14 +16,8 @@ export const handler: APIGatewayProxyHandler = async () => {
       createdAt: item.createdAt.S,
     })) || [];
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ notes }),
-    };
+    return ok({ notes });
   } catch (err) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: 'Internal Server Error' }),
-    };
+    return internalError();
   }
 };

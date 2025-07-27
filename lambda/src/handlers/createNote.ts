@@ -3,6 +3,7 @@ import { PutCommand } from '@aws-sdk/lib-dynamodb';
 import { docClient } from '../utils/dynamoClient';
 import { createNoteSchema } from '../schemas/createNoteSchema';
 import { validate, ValidationError } from '../utils/validate';
+import { badRequest, internalError, response } from '../utils/response';
 
 export const handler = async (
   event: APIGatewayProxyEvent
@@ -26,24 +27,12 @@ export const handler = async (
 
     await docClient.send(command);
 
-    return {
-      statusCode: 201,
-      body: JSON.stringify({ message: 'Note created', note }),
-    };
+    return response(201, { message: 'Note created', note });
   } catch (error) {
     if (error instanceof ValidationError) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({
-          message: error.message,
-          errors: error.details.flatten().fieldErrors,
-        }),
-      };
+      return badRequest(error.message, error.details.flatten().fieldErrors);
     }
 
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: 'Internal Server Error' }),
-    };
+    return internalError();
   }
 }

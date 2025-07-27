@@ -3,6 +3,7 @@ import { GetCommand } from '@aws-sdk/lib-dynamodb';
 import { docClient } from '../utils/dynamoClient';
 import { getNoteByIdSchema } from '../schemas/getNoteByIdSchema';
 import { validate, ValidationError } from '../utils/validate';
+import { badRequest, internalError, notFound, ok } from '../utils/response';
 
 export const handler = async (
   event: APIGatewayProxyEvent
@@ -10,10 +11,7 @@ export const handler = async (
   const id = event.pathParameters?.id;
 
   if (!id) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ message: 'Missing note ID in path' }),
-    };
+    return badRequest('Note ID is required');
   }
 
   try {
@@ -27,30 +25,15 @@ export const handler = async (
     const result = await docClient.send(command);
 
     if (!result.Item) {
-      return {
-        statusCode: 404,
-        body: JSON.stringify({ message: 'Note not found' }),
-      };
+      return notFound();
     }
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ note: result.Item }),
-    };
+    return ok({ note: result.Item });
   } catch (error) {
     if (error instanceof ValidationError) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({
-          message: error.message,
-          errors: error.details.flatten().fieldErrors,
-        }),
-      };
+      return badRequest(error.message, error.details.flatten().fieldErrors);
     }
 
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: 'Internal Server Error' }),
-    };
+    return internalError();
   }
 };
