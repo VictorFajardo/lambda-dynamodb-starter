@@ -1,6 +1,6 @@
 import { APIGatewayProxyResult } from 'aws-lambda';
 import { internalError, ok } from '../../utils/response';
-import { getAllNotes } from './service';
+import { getAllNotes } from './get-all.service';
 
 export const handler = async (): Promise<APIGatewayProxyResult> => {
   try {

@@ -1,4 +1,4 @@
-import { createNote } from '../service';
+import { createNote } from '../create.service';
 import { docClient } from '../../../utils/dynamoClient';
 
 jest.mock('../../../utils/dynamoClient', () => ({
