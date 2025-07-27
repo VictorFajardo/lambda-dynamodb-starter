@@ -13,9 +13,7 @@ export const createNote = async (data: { content: string }) => {
     Item: note,
   });
 
-  const result = await docClient.send(command);
-
-  console.log(`🚀 createNote -> ${result}`);
+  await docClient.send(command);
 
   return note;
 };

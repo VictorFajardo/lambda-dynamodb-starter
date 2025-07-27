@@ -8,9 +8,7 @@ export const deleteNote = async (id: string) => {
     ConditionExpression: 'attribute_exists(id)',
   });
 
-  const result = await docClient.send(command);
-
-  console.log(`🚀 deleteNote -> ${result}`);
+  await docClient.send(command);
 
   return { id };
 };

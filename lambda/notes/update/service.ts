@@ -15,7 +15,5 @@ export const updateNote = async (id: string, content: string) => {
 
   const result = await docClient.send(command);
 
-  console.log(`🚀 updateNote -> ${result}`);
-
   return result.Attributes;
 };

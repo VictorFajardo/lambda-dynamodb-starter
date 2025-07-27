@@ -7,8 +7,6 @@ export const getAllNotes = async () => {
 
   const result = await docClient.send(command);
 
-  console.log(`🚀 getAllNotes -> ${result}`);
-
   const notes =
     result.Items?.map((item) => ({
       id: item.id.S,

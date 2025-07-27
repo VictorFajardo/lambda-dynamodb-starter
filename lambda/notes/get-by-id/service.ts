@@ -9,7 +9,5 @@ export const getNoteById = async (id: string) => {
 
   const result = await docClient.send(command);
 
-  console.log(`🚀 getNoteById -> ${result}`);
-
   return result.Item;
 };
