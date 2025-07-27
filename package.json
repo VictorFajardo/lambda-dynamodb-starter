@@ -19,10 +19,11 @@
     "@typescript-eslint/eslint-plugin": "^8.38.0",
     "@typescript-eslint/parser": "^8.38.0",
     "aws-cdk-lib": "^2.102.0",
+    "codecov": "^3.8.2",
     "constructs": "^10.0.0",
-    "prettier": "^3.6.2",
     "eslint": "^9.32.0",
     "jest": "^30.0.5",
+    "prettier": "^3.6.2",
     "ts-jest": "^29.4.0",
     "typescript": "^5.8.3"
   },

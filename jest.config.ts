@@ -7,9 +7,9 @@ const config: Config = {
   moduleFileExtensions: ['ts', 'js'],
   rootDir: './',
 
-  collectCoverage: false,
+  collectCoverage: true,
   // coverageDirectory: 'coverage',
-  // coverageReporters: ['text', 'html', 'lcov'],
+  coverageReporters: ['text', 'lcov'],
 
   // coverageThreshold: {
   //   global: {
