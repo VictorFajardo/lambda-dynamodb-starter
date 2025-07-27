@@ -10,5 +10,5 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["lib/**/*.ts", "bin/**/*.ts", "lambda/**/*.ts"]
+  "include": ["lib/**/*.ts", "bin/**/*.ts", "lambda/**/*.ts", "jest.config.ts"]
 }

@@ -1,9 +1,8 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { DeleteCommand } from '@aws-sdk/lib-dynamodb';
-import { docClient } from '../utils/dynamoClient';
-import { deleteNoteSchema } from '../schemas/deleteNoteSchema';
-import { validate, ValidationError } from '../utils/validate';
-import { badRequest, internalError, notFound, ok } from '../utils/response';
+import { deleteNoteSchema } from './schema';
+import { validate, ValidationError } from '../../utils/validate';
+import { badRequest, internalError, notFound, ok } from '../../utils/response';
+import { deleteNote } from './service';
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const id = event.pathParameters?.id;
@@ -15,22 +14,16 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
   try {
     validate(deleteNoteSchema, { id });
 
-    const command = new DeleteCommand({
-      TableName: process.env.NOTES_TABLE,
-      Key: { id },
-      ConditionExpression: 'attribute_exists(id)',
-    });
+    const result = await deleteNote(id);
 
-    await docClient.send(command);
-
-    return ok({ message: `Note ${id} deleted` });
+    return ok({ message: `Note ${result.id} deleted` });
   } catch (error: unknown) {
     if (error instanceof ValidationError) {
       return badRequest(error.message, error.details.flatten().fieldErrors);
     }
 
     if (error instanceof Error && error.name === 'ConditionalCheckFailedException') {
-      return notFound();
+      return notFound(`Note with id "${id}" not found`);
     }
 
     return internalError();
