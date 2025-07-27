@@ -24,12 +24,12 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     await docClient.send(command);
 
     return ok({ message: `Note ${id} deleted` });
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof ValidationError) {
       return badRequest(error.message, error.details.flatten().fieldErrors);
     }
 
-    if (error.name === 'ConditionalCheckFailedException') {
+    if (error instanceof Error && error.name === 'ConditionalCheckFailedException') {
       return notFound();
     }
 

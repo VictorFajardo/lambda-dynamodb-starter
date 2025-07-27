@@ -31,12 +31,12 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     const result = await docClient.send(command);
 
     return ok({ message: 'Note updated', note: result.Attributes });
-  } catch (error: any) {
+  } catch (error: unknown) {
     if (error instanceof ValidationError) {
       return badRequest(error.message, error.details.flatten().fieldErrors);
     }
 
-    if (error.name === 'ConditionalCheckFailedException') {
+    if (error instanceof Error && error.name === 'ConditionalCheckFailedException') {
       return notFound();
     }
 
