@@ -5,13 +5,11 @@ import { deleteNoteSchema } from '../schemas/deleteNoteSchema';
 import { validate, ValidationError } from '../utils/validate';
 import { badRequest, internalError, notFound, ok } from '../utils/response';
 
-export const handler = async (
-  event: APIGatewayProxyEvent
-): Promise<APIGatewayProxyResult> => {
+export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const id = event.pathParameters?.id;
 
   if (!id) {
-     return badRequest('Note ID is required');
+    return badRequest('Note ID is required');
   }
 
   try {

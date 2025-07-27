@@ -10,9 +10,7 @@
       "name": "Create Note",
       "request": {
         "method": "POST",
-        "header": [
-          { "key": "Content-Type", "value": "application/json" }
-        ],
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
         "body": {
           "mode": "raw",
           "raw": "{\n  \"content\": \"My new note\"\n}"
@@ -20,13 +18,7 @@
         "url": {
           "raw": "https://<api-id>.execute-api.<region>.amazonaws.com/prod/notes",
           "protocol": "https",
-          "host": [
-            "<api-id>",
-            "execute-api",
-            "<region>",
-            "amazonaws",
-            "com"
-          ],
+          "host": ["<api-id>", "execute-api", "<region>", "amazonaws", "com"],
           "path": ["prod", "notes"]
         }
       },
@@ -40,13 +32,7 @@
         "url": {
           "raw": "https://<api-id>.execute-api.<region>.amazonaws.com/prod/notes",
           "protocol": "https",
-          "host": [
-            "<api-id>",
-            "execute-api",
-            "<region>",
-            "amazonaws",
-            "com"
-          ],
+          "host": ["<api-id>", "execute-api", "<region>", "amazonaws", "com"],
           "path": ["prod", "notes"]
         }
       },
@@ -60,13 +46,7 @@
         "url": {
           "raw": "https://<api-id>.execute-api.<region>.amazonaws.com/prod/notes/{{noteId}}",
           "protocol": "https",
-          "host": [
-            "<api-id>",
-            "execute-api",
-            "<region>",
-            "amazonaws",
-            "com"
-          ],
+          "host": ["<api-id>", "execute-api", "<region>", "amazonaws", "com"],
           "path": ["prod", "notes", "{{noteId}}"]
         }
       },
@@ -76,9 +56,7 @@
       "name": "Update Note",
       "request": {
         "method": "PUT",
-        "header": [
-          { "key": "Content-Type", "value": "application/json" }
-        ],
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
         "body": {
           "mode": "raw",
           "raw": "{\n  \"content\": \"Updated note content\"\n}"
@@ -86,13 +64,7 @@
         "url": {
           "raw": "https://<api-id>.execute-api.<region>.amazonaws.com/prod/notes/{{noteId}}",
           "protocol": "https",
-          "host": [
-            "<api-id>",
-            "execute-api",
-            "<region>",
-            "amazonaws",
-            "com"
-          ],
+          "host": ["<api-id>", "execute-api", "<region>", "amazonaws", "com"],
           "path": ["prod", "notes", "{{noteId}}"]
         }
       },
@@ -106,13 +78,7 @@
         "url": {
           "raw": "https://<api-id>.execute-api.<region>.amazonaws.com/prod/notes/{{noteId}}",
           "protocol": "https",
-          "host": [
-            "<api-id>",
-            "execute-api",
-            "<region>",
-            "amazonaws",
-            "com"
-          ],
+          "host": ["<api-id>", "execute-api", "<region>", "amazonaws", "com"],
           "path": ["prod", "notes", "{{noteId}}"]
         }
       },

@@ -5,9 +5,7 @@ import { getNoteByIdSchema } from '../schemas/getNoteByIdSchema';
 import { validate, ValidationError } from '../utils/validate';
 import { badRequest, internalError, notFound, ok } from '../utils/response';
 
-export const handler = async (
-  event: APIGatewayProxyEvent
-): Promise<APIGatewayProxyResult> => {
+export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const id = event.pathParameters?.id;
 
   if (!id) {

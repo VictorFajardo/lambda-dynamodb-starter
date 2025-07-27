@@ -5,10 +5,7 @@ import { createNoteSchema } from '../schemas/createNoteSchema';
 import { validate, ValidationError } from '../utils/validate';
 import { badRequest, internalError, response } from '../utils/response';
 
-export const handler = async (
-  event: APIGatewayProxyEvent
-): Promise<APIGatewayProxyResult> => {
-
+export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const body = JSON.parse(event.body || '{}');
 
   try {
@@ -35,4 +32,4 @@ export const handler = async (
 
     return internalError();
   }
-}
+};

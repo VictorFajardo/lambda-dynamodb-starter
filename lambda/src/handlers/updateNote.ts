@@ -1,20 +1,16 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import {
-  UpdateCommand,
-} from '@aws-sdk/lib-dynamodb';
+import { UpdateCommand } from '@aws-sdk/lib-dynamodb';
 import { docClient } from '../utils/dynamoClient';
 import { updateNoteSchema } from '../schemas/updateNoteSchema';
 import { validate, ValidationError } from '../utils/validate';
 import { badRequest, internalError, notFound, ok } from '../utils/response';
 
-export const handler = async (
-  event: APIGatewayProxyEvent
-): Promise<APIGatewayProxyResult> => {
+export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   try {
     const noteId = event.pathParameters?.id;
 
     if (!noteId) {
-     return badRequest('Note ID is required');
+      return badRequest('Note ID is required');
     }
 
     const body = JSON.parse(event.body || '{}');
