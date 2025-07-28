@@ -1,74 +1,78 @@
-# Lambda + DynamoDB CDK Starter (TypeScript)
+# Lambda-DynamoDB Starter
 
-A serverless starter template using AWS CDK, Lambda, API Gateway, and DynamoDB — written in TypeScript.
+A full-stack serverless note-taking API powered by AWS Lambda, DynamoDB, and API Gateway — with a simple React UI frontend.
 
 [![codecov](https://codecov.io/gh/VictorFajardo/lambda-dynamodb-starter/branch/main/graph/badge.svg)](https://codecov.io/gh/VictorFajardo/lambda-dynamodb-starter)
 
-## 🚀 Features
+---
 
-- AWS CDK infrastructure (TypeScript)
-- Lambda functions written in TypeScript
-- REST API to create notes
-- DynamoDB table integration
+## ✅ Features
 
-## 🧱 Stack Components
+### Core API Endpoints
+- `GET /notes` - Fetch all notes
+- `GET /notes/{id}` - Fetch a single note by ID
+- `POST /notes` - Create a new note
+- `PUT /notes/{id}` - Update an existing note
+- `DELETE /notes/{id}` - Delete a note
 
-- **API Gateway** – Exposes REST endpoint `/notes`
-- **Lambda Function** – `createNote`
-- **DynamoDB Table** – Stores notes with `id` as partition key
+### Infrastructure (Provisioned with AWS CDK)
+- AWS Lambda (Node.js) with esbuild bundling
+- Amazon DynamoDB (NoSQL storage)
+- API Gateway (REST interface)
+- IAM Permissions configured for secure access
+- Outputs API Gateway endpoint and resource ARNs
 
-## 🛠 Setup
+### Testing
+- Unit tests using **Jest**
+- API testing via **Postman Collection**
+
+### Request Validation
+- Input validation using **Zod**
+- Graceful error handling for all endpoints
+
+### Frontend
+- React-based UI hosted via GitHub Pages  
+  👉 [UI Simple Test — GitHub Pages](https://VictorFajardo.github.io/lambda-dynamodb-ui)
+
+### Security & Best Practices
+- Environment variables used securely
+- IAM policies scoped to least privilege
+- Validation on input payloads
+- CORS-ready (for frontend use)
+
+---
+
+## 📁 Repositories
+
+| Repository | Description |
+|-----------|-------------|
+| [`lambda-dynamodb-infra`](https://github.com/VictorFajardo/lambda-dynamodb-infra) | Core backend infrastructure |
+| [`lambda-dynamodb-ui`](https://github.com/VictorFajardo/lambda-dynamodb-ui) | Frontend React test UI |
+
+---
+
+## 🧪 Local Development
+
+- Use `cdk synth` and `cdk deploy` to bootstrap infrastructure.
+- Test locally using unit tests and Postman.
+- (Optional) You can enable `serverless-offline` or `AWS SAM` for local Lambda simulation.
+
+---
+
+## 🚀 CI/CD (Optional)
+
+You can add GitHub Actions for:
+- CDK synth/diff/deploy
+- Jest testing
+- Linting and formatting
+
+---
+
+## 🏁 Getting Started
 
 ```bash
-# Install dependencies
+git clone https://github.com/VictorFajardo/lambda-dynamodb-infra
+cd lambda-dynamodb-infra
 npm install
-
-# Compile TypeScript
-npm run build
-
-# Bootstrap AWS CDK
 cdk bootstrap
-
-# Deploy stack
-npm run deploy
-```
-
-## 📡 API Usage
-
-### POST /notes
-
-Creates a new note.
-
-#### Request Body
-
-```json
-{
-  "content": "My first note"
-}
-```
-
-#### Response
-
-```json
-{
-  "message": "Note created",
-  "note": {
-    "id": "<timestamp>",
-    "content": "My first note",
-    "createdAt": "<ISO timestamp>"
-  }
-}
-```
-
-## 🧼 Cleanup
-
-```bash
-npm run destroy
-```
-
-## 📘 Notes
-
-- Extend `app-stack.ts` to add more endpoints (GET, PUT, DELETE)
-- Add validation and logging
-- Use IAM roles and CDK best practices for production
-- Enable tests using `jest` or `vitest`
+cdk deploy
