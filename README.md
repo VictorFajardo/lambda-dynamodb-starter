@@ -1,4 +1,4 @@
-# Lambda-DynamoDB Starter
+# Lambda-DynamoDB Infra
 
 A full-stack serverless note-taking API powered by AWS Lambda, DynamoDB, and API Gateway — with a simple React UI frontend.
 
@@ -61,8 +61,6 @@ A full-stack serverless note-taking API powered by AWS Lambda, DynamoDB, and API
 
 ## 🚀 CI/CD (Optional)
 
-You can add GitHub Actions for:
-- CDK synth/diff/deploy
 - Jest testing
 - Linting and formatting
 
