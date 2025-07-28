@@ -1,6 +1,6 @@
 # Lambda-DynamoDB Infra
 
-A full-stack serverless note-taking API powered by AWS Lambda, DynamoDB, and API Gateway — with a simple React UI frontend.
+A full-stack serverless note-taking API powered by AWS Lambda, DynamoDB, and API Gateway!
 
 [![codecov](https://codecov.io/gh/VictorFajardo/lambda-dynamodb-starter/branch/main/graph/badge.svg)](https://codecov.io/gh/VictorFajardo/lambda-dynamodb-starter)
 
