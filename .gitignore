@@ -5,3 +5,4 @@ cdk.out/
 *.log
 .vscode
 coverage/
+cdk.context.json
