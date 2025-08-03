@@ -29,7 +29,7 @@ export class AppStack extends Stack {
     // === Lambda: Create Note ===
     const createNoteLambda = new NodejsFunction(this, 'CreateNoteFunction', {
       runtime: lambda.Runtime.NODEJS_20_X,
-      entry: path.join(__dirname, '..', 'lambda', 'notes', 'create', 'create.handler.ts'),
+      entry: path.join(__dirname, '..', 'lambda', 'notes', 'create', 'handler.ts'),
       handler: 'handler',
       environment: {
         NOTES_TABLE: table.tableName,
@@ -44,7 +44,7 @@ export class AppStack extends Stack {
     // === Lambda: Get All Notes ===
     const getAllNotesLambda = new NodejsFunction(this, 'GetAllNotesFunction', {
       runtime: lambda.Runtime.NODEJS_20_X,
-      entry: path.join(__dirname, '..', 'lambda', 'notes', 'get-all', 'get-all.handler.ts'),
+      entry: path.join(__dirname, '..', 'lambda', 'notes', 'get-all', 'handler.ts'),
       handler: 'handler',
       environment: {
         NOTES_TABLE: table.tableName,
@@ -58,7 +58,7 @@ export class AppStack extends Stack {
     // === Lambda: Get Note by ID ===
     const getNoteByIdLambda = new NodejsFunction(this, 'GetNoteByIdFunction', {
       runtime: lambda.Runtime.NODEJS_20_X,
-      entry: path.join(__dirname, '..', 'lambda', 'notes', 'get-by-id', 'get-by-id.handler.ts'),
+      entry: path.join(__dirname, '..', 'lambda', 'notes', 'get-by-id', 'handler.ts'),
       handler: 'handler',
       environment: {
         NOTES_TABLE: table.tableName,
@@ -72,7 +72,7 @@ export class AppStack extends Stack {
     // === Lambda: Put Note by ID ===
     const updateNoteLambda = new NodejsFunction(this, 'UpdateNoteFunction', {
       runtime: lambda.Runtime.NODEJS_20_X,
-      entry: path.join(__dirname, '..', 'lambda', 'notes', 'update', 'update.handler.ts'),
+      entry: path.join(__dirname, '..', 'lambda', 'notes', 'update', 'handler.ts'),
       handler: 'handler',
       environment: {
         NOTES_TABLE: table.tableName,
@@ -81,12 +81,12 @@ export class AppStack extends Stack {
 
     table.grantReadWriteData(updateNoteLambda);
 
-    // === Lambda: Delete Note by ID ===
     noteById.addMethod('PUT', new apigateway.LambdaIntegration(updateNoteLambda));
 
+    // === Lambda: Delete Note by ID ===
     const deleteNoteLambda = new NodejsFunction(this, 'DeleteNoteFunction', {
       runtime: lambda.Runtime.NODEJS_20_X,
-      entry: path.join(__dirname, '..', 'lambda', 'notes', 'delete', 'delete.handler.ts'),
+      entry: path.join(__dirname, '..', 'lambda', 'notes', 'delete', 'handler.ts'),
       handler: 'handler',
       environment: {
         NOTES_TABLE: table.tableName,

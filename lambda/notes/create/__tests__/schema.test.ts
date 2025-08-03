@@ -1,4 +1,4 @@
-import { createNoteSchema } from '../create.schema';
+import { createNoteSchema } from '../schema';
 import { z } from 'zod';
 
 describe('createNoteSchema', () => {

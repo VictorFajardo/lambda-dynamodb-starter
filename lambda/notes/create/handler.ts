@@ -1,8 +1,8 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { createNoteSchema } from './create.schema';
+import { createNoteSchema } from './schema';
 import { validate, ValidationError } from '../../utils/validate';
 import { badRequest, internalError, response } from '../../utils/response';
-import { createNote } from './create.service';
+import { createNote } from './service';
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   try {

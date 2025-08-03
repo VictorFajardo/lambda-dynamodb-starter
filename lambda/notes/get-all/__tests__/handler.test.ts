@@ -1,5 +1,5 @@
-import { handler } from '../get-all.handler';
-import * as service from '../get-all.service';
+import { handler } from '../handler';
+import * as service from '../service';
 
 describe('getAllNotes handler', () => {
   it('should return 200 with notes', async () => {

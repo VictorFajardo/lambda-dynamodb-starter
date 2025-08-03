@@ -1,5 +1,5 @@
-import { handler } from '../delete.handler';
-import * as service from '../delete.service';
+import { handler } from '../handler';
+import * as service from '../service';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 
 jest.mock('../delete.service');

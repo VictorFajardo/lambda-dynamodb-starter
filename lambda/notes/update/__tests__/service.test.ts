@@ -1,4 +1,4 @@
-import { updateNote } from '../update.service';
+import { updateNote } from '../service';
 import { docClient } from '../../../utils/dynamoClient';
 
 jest.mock('../../../utils/dynamoClient', () => ({

@@ -1,6 +1,6 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { handler } from '../update.handler';
-import * as service from '../update.service';
+import { handler } from '../handler';
+import * as service from '../service';
 
 jest.mock('../update.service');
 

@@ -1,4 +1,4 @@
-import { updateNoteSchema } from '../update.schema';
+import { updateNoteSchema } from '../schema';
 import { z } from 'zod';
 
 describe('updateNoteSchema', () => {

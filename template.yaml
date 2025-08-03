@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Local testing for Lambda function
+
+Resources:
+  NotesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: notes-local
+      Handler: lambda/notes/create/create.handler
+      Runtime: nodejs20.x
+      CodeUri: dist
+      MemorySize: 128
+      Timeout: 5
+      Environment:
+        Variables:
+          TABLE_NAME: NotesTable
+          REGION: us-east-1
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /notes
+            Method: post

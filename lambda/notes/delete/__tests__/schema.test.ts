@@ -1,4 +1,4 @@
-import { deleteNoteSchema } from '../delete.schema';
+import { deleteNoteSchema } from '../schema';
 import { z } from 'zod';
 
 describe('deleteNoteSchema', () => {

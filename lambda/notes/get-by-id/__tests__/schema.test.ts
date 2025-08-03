@@ -1,4 +1,4 @@
-import { getNoteByIdSchema } from '../get-by-id.schema';
+import { getNoteByIdSchema } from '../schema';
 import { z } from 'zod';
 
 describe('getNoteByIdSchema', () => {

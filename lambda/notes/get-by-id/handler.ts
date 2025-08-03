@@ -1,8 +1,8 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { getNoteByIdSchema } from './get-by-id.schema';
+import { getNoteByIdSchema } from './schema';
 import { validate, ValidationError } from '../../utils/validate';
 import { badRequest, internalError, notFound, ok } from '../../utils/response';
-import { getNoteById } from './get-by-id.service';
+import { getNoteById } from './service';
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const id = event.pathParameters?.id;

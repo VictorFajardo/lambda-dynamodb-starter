@@ -1,8 +1,8 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { updateNoteSchema } from './update.schema';
+import { deleteNoteSchema } from './schema';
 import { validate, ValidationError } from '../../utils/validate';
 import { badRequest, internalError, notFound, ok } from '../../utils/response';
-import { updateNote } from './update.service';
+import { deleteNote } from './service';
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const id = event.pathParameters?.id;
@@ -12,13 +12,11 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
   }
 
   try {
-    const body = JSON.parse(event.body || '{}');
+    validate(deleteNoteSchema, { id });
 
-    const { content } = validate(updateNoteSchema, body);
+    const result = await deleteNote(id);
 
-    const result = await updateNote(id, content);
-
-    return ok({ message: 'Note updated', note: result });
+    return ok({ message: `Note ${result.id} deleted` });
   } catch (error: unknown) {
     if (error instanceof ValidationError) {
       return badRequest(error.message, error.details.flatten().fieldErrors);
