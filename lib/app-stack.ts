@@ -5,13 +5,16 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import 'dotenv/config';
 
 export class AppStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
+    const tableName = process.env.TABLE_NAME!;
+
     // DynamoDB Table
-    const table = new dynamodb.Table(this, 'NotesTable', {
+    const table = new dynamodb.Table(this, tableName, {
       partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
       // billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
     });
