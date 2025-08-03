@@ -1,14 +1,14 @@
 import 'dotenv/config';
 
-const allowedOrigin = process.env.ALLOWED_ORIGIN || '*';
+export const headers = {
+  'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGIN ?? '*',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE',
+};
 
 export const response = (statusCode: number, data: object) => ({
   statusCode,
-  headers: {
-    'Access-Control-Allow-Origin': allowedOrigin,
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE',
-  },
+  headers,
   body: JSON.stringify(data),
 });
 

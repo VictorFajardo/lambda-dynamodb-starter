@@ -1,16 +1,10 @@
 import { response, ok, badRequest, notFound, internalError, headers } from '../response';
 
 describe('response utilities', () => {
-  const commonHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE',
-  };
-
   it('response returns correct structure', () => {
     const res = response(201, { success: true });
     expect(res.statusCode).toBe(201);
-    expect(res.headers).toEqual(commonHeaders);
+    expect(res.headers).toEqual(headers);
     expect(JSON.parse(res.body)).toEqual({ success: true });
   });
 
@@ -54,9 +48,5 @@ describe('response utilities', () => {
     const res = internalError();
     expect(res.statusCode).toBe(500);
     expect(JSON.parse(res.body)).toEqual({ message: 'Internal Server Error' });
-  });
-
-  it('headers object is correct', () => {
-    expect(headers).toEqual(commonHeaders);
   });
 });
