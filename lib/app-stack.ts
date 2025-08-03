@@ -11,10 +11,9 @@ export class AppStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const tableName = process.env.TABLE_NAME!;
-
     // DynamoDB Table
-    const table = new dynamodb.Table(this, tableName, {
+    const table = new dynamodb.Table(this, 'NotesTable', {
+      tableName: process.env.TABLE_NAME || 'NotesTable',
       partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
       // billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
     });
