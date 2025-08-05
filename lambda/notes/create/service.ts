@@ -9,7 +9,7 @@ export const createNote = async (data: { content: string }) => {
   };
 
   const command = new PutCommand({
-    TableName: process.env.NOTES_TABLE,
+    TableName: process.env.TABLE_NAME,
     Item: note,
   });
 

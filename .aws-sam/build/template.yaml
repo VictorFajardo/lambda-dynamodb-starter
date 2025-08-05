@@ -1,32 +1,31 @@
-AWSTemplateFormatVersion: "2010-09-09"
+AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Local testing for Lambda function
-
 Resources:
   NotesTable:
     Type: AWS::DynamoDB::Table
     Properties:
       TableName: NotesTable
       AttributeDefinitions:
-        - AttributeName: id
-          AttributeType: S
+      - AttributeName: id
+        AttributeType: S
       KeySchema:
-        - AttributeName: id
-          KeyType: HASH
+      - AttributeName: id
+        KeyType: HASH
       BillingMode: PAY_PER_REQUEST
-
   NotesCreateFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: notes-create-local
-      Handler: lambda/notes/create/handler.handler
+      Handler: handler.handler
       Runtime: nodejs20.x
-      CodeUri: .
+      CodeUri: NotesCreateFunction
       MemorySize: 128
       Timeout: 5
       Environment:
         Variables:
-          TABLE_NAME: !Ref NotesTable
+          TABLE_NAME:
+            Ref: NotesTable
           DYNAMO_ENDPOINT: http://host.docker.internal:8000
           REGION: us-east-1
       Events:
@@ -39,21 +38,22 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         EntryPoints:
-          - lambda/notes/create/handler.ts
+        - lambda/notes/create/handler.ts
         External: []
-
+      SamResourceId: NotesCreateFunction
   NotesGetAllFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: notes-get-all-local
-      Handler: lambda/notes/getAll/handler.handler
+      Handler: handler.handler
       Runtime: nodejs20.x
-      CodeUri: .
+      CodeUri: NotesGetAllFunction
       MemorySize: 128
       Timeout: 5
       Environment:
         Variables:
-          TABLE_NAME: !Ref NotesTable
+          TABLE_NAME:
+            Ref: NotesTable
           DYNAMO_ENDPOINT: http://host.docker.internal:8000
           REGION: us-east-1
       Events:
@@ -66,21 +66,22 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         EntryPoints:
-          - lambda/notes/get-all/handler.ts
+        - lambda/notes/get-all/handler.ts
         External: []
-
+      SamResourceId: NotesGetAllFunction
   NotesUpdateFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: notes-update-local
-      Handler: lambda/notes/update/handler.handler
+      Handler: handler.handler
       Runtime: nodejs20.x
-      CodeUri: .
+      CodeUri: NotesUpdateFunction
       MemorySize: 128
       Timeout: 5
       Environment:
         Variables:
-          TABLE_NAME: !Ref NotesTable
+          TABLE_NAME:
+            Ref: NotesTable
           DYNAMO_ENDPOINT: http://host.docker.internal:8000
           REGION: us-east-1
       Events:
@@ -93,21 +94,22 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         EntryPoints:
-          - lambda/notes/update/handler.ts
+        - lambda/notes/update/handler.ts
         External: []
-
+      SamResourceId: NotesUpdateFunction
   NotesDeleteFunction:
     Type: AWS::Serverless::Function
     Properties:
       FunctionName: notes-delete-local
-      Handler: lambda/notes/delete/handler.handler
+      Handler: handler.handler
       Runtime: nodejs20.x
-      CodeUri: .
+      CodeUri: NotesDeleteFunction
       MemorySize: 128
       Timeout: 5
       Environment:
         Variables:
-          TABLE_NAME: !Ref NotesTable
+          TABLE_NAME:
+            Ref: NotesTable
           DYNAMO_ENDPOINT: http://host.docker.internal:8000
           REGION: us-east-1
       Events:
@@ -120,5 +122,6 @@ Resources:
       BuildMethod: esbuild
       BuildProperties:
         EntryPoints:
-          - lambda/notes/delete/handler.ts
+        - lambda/notes/delete/handler.ts
         External: []
+      SamResourceId: NotesDeleteFunction

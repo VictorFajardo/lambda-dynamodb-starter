@@ -3,7 +3,7 @@ import { ScanCommand } from '@aws-sdk/client-dynamodb';
 import { docClient } from '../../utils/dynamoClient';
 
 export const getAllNotes = async () => {
-  const command = new ScanCommand({ TableName: process.env.NOTES_TABLE });
+  const command = new ScanCommand({ TableName: process.env.TABLE_NAME });
 
   const result = await docClient.send(command);
 

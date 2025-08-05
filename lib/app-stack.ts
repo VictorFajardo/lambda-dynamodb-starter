@@ -11,6 +11,8 @@ export class AppStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
+    const isLocal = process.env.STAGE === 'local';
+
     // DynamoDB Table
     const table = new dynamodb.Table(this, 'NotesTable', {
       tableName: process.env.TABLE_NAME || 'NotesTable',
@@ -33,6 +35,10 @@ export class AppStack extends Stack {
       handler: 'handler',
       environment: {
         NOTES_TABLE: table.tableName,
+        REGION: 'us-east-1',
+        ...(isLocal && {
+          DYNAMO_ENDPOINT: 'http://host.docker.internal:8000',
+        }),
       },
     });
 
@@ -48,6 +54,10 @@ export class AppStack extends Stack {
       handler: 'handler',
       environment: {
         NOTES_TABLE: table.tableName,
+        REGION: 'us-east-1',
+        ...(isLocal && {
+          DYNAMO_ENDPOINT: 'http://host.docker.internal:8000',
+        }),
       },
     });
 
@@ -62,6 +72,10 @@ export class AppStack extends Stack {
       handler: 'handler',
       environment: {
         NOTES_TABLE: table.tableName,
+        REGION: 'us-east-1',
+        ...(isLocal && {
+          DYNAMO_ENDPOINT: 'http://host.docker.internal:8000',
+        }),
       },
     });
 
@@ -76,6 +90,10 @@ export class AppStack extends Stack {
       handler: 'handler',
       environment: {
         NOTES_TABLE: table.tableName,
+        REGION: 'us-east-1',
+        ...(isLocal && {
+          DYNAMO_ENDPOINT: 'http://host.docker.internal:8000',
+        }),
       },
     });
 
@@ -90,6 +108,10 @@ export class AppStack extends Stack {
       handler: 'handler',
       environment: {
         NOTES_TABLE: table.tableName,
+        REGION: 'us-east-1',
+        ...(isLocal && {
+          DYNAMO_ENDPOINT: 'http://host.docker.internal:8000',
+        }),
       },
     });
 

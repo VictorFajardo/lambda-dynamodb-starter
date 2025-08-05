@@ -23,7 +23,7 @@ describe('deleteNote service', () => {
     const sentCommand = mockSend.mock.calls[0][0];
 
     // Check TableName and Key
-    expect(sentCommand.input.TableName).toBe(process.env.NOTES_TABLE);
+    expect(sentCommand.input.TableName).toBe(process.env.TABLE_NAME);
     expect(sentCommand.input.Key).toEqual({ id });
 
     // Check ConditionExpression presence
