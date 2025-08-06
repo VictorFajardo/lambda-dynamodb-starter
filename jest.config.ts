@@ -8,19 +8,19 @@ const config: Config = {
   rootDir: './',
 
   collectCoverage: true,
-  // coverageDirectory: 'coverage',
+  coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov'],
 
-  // coverageThreshold: {
-  //   global: {
-  //     branches: 80,
-  //     functions: 80,
-  //     lines: 85,
-  //     statements: 85,
-  //   },
-  // },
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 80,
+      lines: 85,
+      statements: 85,
+    },
+  },
 
-  // collectCoverageFrom: ['**/lambda/**/*.ts'],
+  collectCoverageFrom: ['**/lib/**/*.ts', '**/lambda/**/*.ts'],
 };
 
 export default config;
