@@ -2,7 +2,7 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import { handler } from '../handler';
 import * as service from '../service';
 
-jest.mock('../update.service');
+jest.mock('../service');
 
 describe('updateNote handler', () => {
   it('should return 200 on successful update', async () => {

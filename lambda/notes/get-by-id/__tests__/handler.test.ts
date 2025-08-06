@@ -2,7 +2,7 @@ import { APIGatewayProxyEvent } from 'aws-lambda';
 import { handler } from '../handler';
 import * as service from '../service';
 
-jest.mock('../get-by-id.service');
+jest.mock('../service');
 
 describe('getNoteById handler', () => {
   it('should return 200 with note if found', async () => {

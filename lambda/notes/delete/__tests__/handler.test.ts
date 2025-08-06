@@ -2,7 +2,7 @@ import { handler } from '../handler';
 import * as service from '../service';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 
-jest.mock('../delete.service');
+jest.mock('../service');
 
 describe('deleteNote handler', () => {
   it('should return 200 on successful delete', async () => {
