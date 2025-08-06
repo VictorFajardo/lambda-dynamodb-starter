@@ -13,6 +13,36 @@ Resources:
       - AttributeName: id
         KeyType: HASH
       BillingMode: PAY_PER_REQUEST
+  NotesOptionsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: notes-options-local
+      Handler: handler.handler
+      Runtime: nodejs20.x
+      CodeUri: NotesOptionsFunction
+      MemorySize: 128
+      Timeout: 3
+      Environment:
+        Variables:
+          ALLOWED_ORIGIN: http://localhost:5173
+      Events:
+        OptionsNotesRoot:
+          Type: Api
+          Properties:
+            Path: /notes
+            Method: options
+        OptionsNotesId:
+          Type: Api
+          Properties:
+            Path: /notes/{id}
+            Method: options
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+        - lambda/notes/options/handler.ts
+        External: []
+      SamResourceId: NotesOptionsFunction
   NotesCreateFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -24,6 +54,7 @@ Resources:
       Timeout: 5
       Environment:
         Variables:
+          ALLOWED_ORIGIN: http://localhost:5173
           TABLE_NAME:
             Ref: NotesTable
           DYNAMO_ENDPOINT: http://host.docker.internal:8000
@@ -52,6 +83,7 @@ Resources:
       Timeout: 5
       Environment:
         Variables:
+          ALLOWED_ORIGIN: http://localhost:5173
           TABLE_NAME:
             Ref: NotesTable
           DYNAMO_ENDPOINT: http://host.docker.internal:8000
@@ -80,6 +112,7 @@ Resources:
       Timeout: 5
       Environment:
         Variables:
+          ALLOWED_ORIGIN: http://localhost:5173
           TABLE_NAME:
             Ref: NotesTable
           DYNAMO_ENDPOINT: http://host.docker.internal:8000
@@ -108,6 +141,7 @@ Resources:
       Timeout: 5
       Environment:
         Variables:
+          ALLOWED_ORIGIN: http://localhost:5173
           TABLE_NAME:
             Ref: NotesTable
           DYNAMO_ENDPOINT: http://host.docker.internal:8000

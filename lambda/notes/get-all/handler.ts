@@ -1,27 +1,14 @@
-import { APIGatewayProxyHandler } from 'aws-lambda';
-import { ScanCommand } from '@aws-sdk/lib-dynamodb';
-import { docClient } from '../../utils/dynamoClient';
+import { APIGatewayProxyResult } from 'aws-lambda';
+import { internalError, ok } from '../../utils/response';
+import { getAllNotes } from './service';
 
-export const handler: APIGatewayProxyHandler = async (event) => {
-  console.log('🔍 GET /notes event:', JSON.stringify(event));
-
+export const handler = async (): Promise<APIGatewayProxyResult> => {
   try {
-    const result = await docClient.send(
-      new ScanCommand({ TableName: process.env.TABLE_NAME })
-    );
+    const notes = await getAllNotes();
 
-    console.log('✅ Scan result:', result.Items);
-
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ notes: result.Items || [] }),
-    };
-  } catch (error) {
-    console.error('❌ Error scanning table:', error);
-
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: 'Internal Server Error' }),
-    };
+    return ok({ notes });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error: unknown) {
+    return internalError();
   }
 };
