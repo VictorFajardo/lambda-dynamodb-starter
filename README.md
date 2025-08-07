@@ -2,7 +2,7 @@
 
 A full-stack serverless note-taking API powered by AWS Lambda, DynamoDB, and API Gateway!
 
-[![codecov](https://codecov.io/gh/VictorFajardo/lambda-dynamodb-starter/branch/main/graph/badge.svg)](https://codecov.io/gh/VictorFajardo/lambda-dynamodb-starter)
+[![codecov](https://codecov.io/gh/VictorFajardo/lambda-dynamodb-infra/branch/main/graph/badge.svg)](https://codecov.io/gh/VictorFajardo/lambda-dynamodb-infra)
 
 ---
 
