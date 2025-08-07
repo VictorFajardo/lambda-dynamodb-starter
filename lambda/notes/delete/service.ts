@@ -3,7 +3,7 @@ import { docClient } from '../../utils/dynamoClient';
 
 export const deleteNote = async (id: string) => {
   const command = new DeleteCommand({
-    TableName: process.env.NOTES_TABLE,
+    TableName: process.env.TABLE_NAME,
     Key: { id },
     ConditionExpression: 'attribute_exists(id)',
   });

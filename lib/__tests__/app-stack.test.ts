@@ -26,7 +26,7 @@ describe('AppStack', () => {
         template.hasResourceProperties('AWS::Lambda::Function', {
             Environment: {
                 Variables: Match.objectLike({
-                    NOTES_TABLE: Match.anyValue(),
+                    TABLE_NAME: Match.anyValue(),
                 }),
             },
         });

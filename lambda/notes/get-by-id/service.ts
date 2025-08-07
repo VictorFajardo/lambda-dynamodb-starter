@@ -3,7 +3,7 @@ import { docClient } from '../../utils/dynamoClient';
 
 export const getNoteById = async (id: string) => {
   const command = new GetCommand({
-    TableName: process.env.NOTES_TABLE,
+    TableName: process.env.TABLE_NAME,
     Key: { id },
   });
 

@@ -1,4 +1,3 @@
-import * as path from 'path';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
@@ -13,7 +12,7 @@ export class AppStack extends Stack {
 
     // DynamoDB Table
     const table = new dynamodb.Table(this, 'NotesTable', {
-      tableName: process.env.TABLE_NAME || 'NotesTable',
+      tableName: 'NotesTable',
       partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
       // billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
     });
@@ -23,32 +22,35 @@ export class AppStack extends Stack {
       restApiName: 'Notes Service',
     });
 
-    // Create /notes resource once and store it
+    // Create /notes and /notes/{id} resources once and store it
     const notesResource = api.root.getResource('notes') || api.root.addResource('notes');
+    const noteById = notesResource.addResource('{id}');
+
+    // Create enviroment for Lambda Functions
+    const environment = {
+      ALLOWED_ORIGIN: process.env.ALLOWED_ORIGIN || '*',
+      TABLE_NAME: table.tableName,
+      REGION: process.env.REGION || 'us-east-1',
+    };
 
     // === Lambda: Create Note ===
     const createNoteLambda = new NodejsFunction(this, 'CreateNoteFunction', {
       runtime: lambda.Runtime.NODEJS_20_X,
-      entry: path.join(__dirname, '..', 'lambda', 'notes', 'create', 'handler.ts'),
+      entry: 'lambda/notes/create/handler.ts',
       handler: 'handler',
-      environment: {
-        NOTES_TABLE: table.tableName,
-      },
+      environment: environment
     });
 
     table.grantWriteData(createNoteLambda);
 
     notesResource.addMethod('POST', new apigateway.LambdaIntegration(createNoteLambda));
-    const noteById = notesResource.addResource('{id}');
 
     // === Lambda: Get All Notes ===
     const getAllNotesLambda = new NodejsFunction(this, 'GetAllNotesFunction', {
       runtime: lambda.Runtime.NODEJS_20_X,
-      entry: path.join(__dirname, '..', 'lambda', 'notes', 'get-all', 'handler.ts'),
+      entry: 'lambda/notes/get-all/handler.ts',
       handler: 'handler',
-      environment: {
-        NOTES_TABLE: table.tableName,
-      },
+      environment: environment
     });
 
     table.grantReadData(getAllNotesLambda);
@@ -58,11 +60,9 @@ export class AppStack extends Stack {
     // === Lambda: Get Note by ID ===
     const getNoteByIdLambda = new NodejsFunction(this, 'GetNoteByIdFunction', {
       runtime: lambda.Runtime.NODEJS_20_X,
-      entry: path.join(__dirname, '..', 'lambda', 'notes', 'get-by-id', 'handler.ts'),
+      entry: 'lambda/notes/get-by-id/handler.ts',
       handler: 'handler',
-      environment: {
-        NOTES_TABLE: table.tableName,
-      },
+      environment: environment
     });
 
     table.grantReadData(getNoteByIdLambda);
@@ -72,11 +72,9 @@ export class AppStack extends Stack {
     // === Lambda: Put Note by ID ===
     const updateNoteLambda = new NodejsFunction(this, 'UpdateNoteFunction', {
       runtime: lambda.Runtime.NODEJS_20_X,
-      entry: path.join(__dirname, '..', 'lambda', 'notes', 'update', 'handler.ts'),
+      entry: 'lambda/notes/update/handler.ts',
       handler: 'handler',
-      environment: {
-        NOTES_TABLE: table.tableName,
-      },
+      environment: environment
     });
 
     table.grantReadWriteData(updateNoteLambda);
@@ -86,11 +84,9 @@ export class AppStack extends Stack {
     // === Lambda: Delete Note by ID ===
     const deleteNoteLambda = new NodejsFunction(this, 'DeleteNoteFunction', {
       runtime: lambda.Runtime.NODEJS_20_X,
-      entry: path.join(__dirname, '..', 'lambda', 'notes', 'delete', 'handler.ts'),
+      entry: 'lambda/notes/delete/handler.ts',
       handler: 'handler',
-      environment: {
-        NOTES_TABLE: table.tableName,
-      },
+      environment: environment
     });
 
     table.grantReadWriteData(deleteNoteLambda);

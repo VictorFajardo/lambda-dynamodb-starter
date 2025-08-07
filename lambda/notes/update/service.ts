@@ -3,7 +3,7 @@ import { docClient } from '../../utils/dynamoClient';
 
 export const updateNote = async (id: string, content: string) => {
   const command = new UpdateCommand({
-    TableName: process.env.NOTES_TABLE,
+    TableName: process.env.TABLE_NAME,
     Key: { id },
     UpdateExpression: 'set content = :content',
     ExpressionAttributeValues: {

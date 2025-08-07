@@ -42,7 +42,7 @@ describe('getAllNotes service', () => {
     ]);
 
     expect(mockSend).toHaveBeenCalledTimes(1);
-    expect(mockSend.mock.calls[0][0].input.TableName).toBe(process.env.NOTES_TABLE);
+    expect(mockSend.mock.calls[0][0].input.TableName).toBe(process.env.TABLE_NAME);
   });
 
   it('should return empty array if no Items', async () => {
