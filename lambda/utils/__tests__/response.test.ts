@@ -45,8 +45,15 @@ describe('response utilities', () => {
   });
 
   it('internalError returns 500 with generic message', () => {
+    const mockError = new Error('Database not found!');
+    const res = internalError(mockError);
+    expect(res.statusCode).toBe(500);
+    expect(JSON.parse(res.body)).toEqual({ message: 'Internal Server Error', error: "Database not found!" });
+  });
+
+  it('internalError returns 500 with unknow message', () => {
     const res = internalError();
     expect(res.statusCode).toBe(500);
-    expect(JSON.parse(res.body)).toEqual({ message: 'Internal Server Error' });
+    expect(JSON.parse(res.body)).toEqual({ message: 'Internal Server Error', error: "An unknown error occurred" });
   });
 });

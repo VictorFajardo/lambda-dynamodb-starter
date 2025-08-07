@@ -18,6 +18,6 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       return badRequest(error.message, error.details.flatten().fieldErrors);
     }
 
-    return internalError();
+    return internalError(error);
   }
 };

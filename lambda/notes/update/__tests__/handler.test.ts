@@ -68,6 +68,7 @@ describe('updateNote handler', () => {
     expect(result.statusCode).toBe(500);
     expect(JSON.parse(result.body)).toEqual({
       message: 'Internal Server Error',
+      error: "Expected double-quoted property name in JSON at position 21",
     });
   });
 });

@@ -9,6 +9,6 @@ export const handler = async (): Promise<APIGatewayProxyResult> => {
     return ok({ notes });
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error: unknown) {
-    return internalError();
+    return internalError(error);
   }
 };

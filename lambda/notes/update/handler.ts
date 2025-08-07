@@ -28,6 +28,6 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       return notFound(`Note with id "${id}" not found`);
     }
 
-    return internalError();
+    return internalError(error);
   }
 };

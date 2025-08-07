@@ -9,7 +9,6 @@ export const headers = {
 
 export const response = (statusCode: number, data: object) => {
   console.log('🚀', JSON.stringify(process.env));
-  console.log('🚀', process.env.ALLOWED_ORIGIN);
 
   return {
     statusCode,
@@ -25,4 +24,4 @@ export const badRequest = (message: string, errors?: Record<string, string[]>) =
 
 export const notFound = (message = 'Note not found') => response(404, { message });
 
-export const internalError = () => response(500, { message: 'Internal Server Error' });
+export const internalError = (error?: unknown) => response(500, { message: 'Internal Server Error', error: error instanceof Error ? error.message : 'An unknown error occurred' });
