@@ -11,8 +11,7 @@
     "lint": "eslint . --ext .ts",
     "format": "prettier --write .",
     "test": "jest",
-    "test:coverage": "jest --coverage",
-    "test:cov": "jest --config jest.config.ts --coverage",
+    "test:coverage": "jest --config jest.coverage.config.ts --coverage",
     "test:watch": "jest --watch"
   },
   "devDependencies": {
