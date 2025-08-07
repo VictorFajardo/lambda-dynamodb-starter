@@ -8,7 +8,7 @@ const config: Config = {
   rootDir: './',
 
   collectCoverage: true,
-  // coverageDirectory: 'coverage',
+  coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov'],
 
   coverageThreshold: {
@@ -20,7 +20,7 @@ const config: Config = {
     },
   },
 
-  // collectCoverageFrom: ['**/lib/**/*.ts', '**/lambda/**/*.ts'],
+  collectCoverageFrom: ['**/lib/**/*.ts', '**/lambda/**/*.ts'],
 };
 
 export default config;
