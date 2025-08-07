@@ -1,24 +1,158 @@
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: Local testing for Lambda function
 
 Resources:
-  NotesFunction:
+  NotesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: NotesTable
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+  NotesOptionsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: notes-local
-      Handler: lambda/notes/create/create.handler
+      FunctionName: notes-options-local
+      Handler: lambda/notes/options/handler.handler
       Runtime: nodejs20.x
-      CodeUri: dist
+      CodeUri: .
+      MemorySize: 128
+      Timeout: 3
+      Environment:
+        Variables:
+          ALLOWED_ORIGIN: http://localhost:5173
+      Events:
+        OptionsNotesRoot:
+          Type: Api
+          Properties:
+            Path: /notes
+            Method: options
+        OptionsNotesId:
+          Type: Api
+          Properties:
+            Path: /notes/{id}
+            Method: options
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - lambda/notes/options/handler.ts
+        External: []
+
+  NotesCreateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: notes-create-local
+      Handler: lambda/notes/create/handler.handler
+      Runtime: nodejs20.x
+      CodeUri: .
       MemorySize: 128
       Timeout: 5
       Environment:
         Variables:
-          TABLE_NAME: NotesTable
+          ALLOWED_ORIGIN: http://localhost:5173
+          TABLE_NAME: !Ref NotesTable
+          DYNAMO_ENDPOINT: http://host.docker.internal:8000
           REGION: us-east-1
       Events:
-        Api:
+        CreateNoteApi:
           Type: Api
           Properties:
             Path: /notes
             Method: post
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - lambda/notes/create/handler.ts
+        External: []
+
+  NotesGetAllFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: notes-get-all-local
+      Handler: lambda/notes/get-all/handler.handler
+      Runtime: nodejs20.x
+      CodeUri: .
+      MemorySize: 128
+      Timeout: 5
+      Environment:
+        Variables:
+          ALLOWED_ORIGIN: http://localhost:5173
+          TABLE_NAME: !Ref NotesTable
+          DYNAMO_ENDPOINT: http://host.docker.internal:8000
+          REGION: us-east-1
+      Events:
+        GetAllNotesApi:
+          Type: Api
+          Properties:
+            Path: /notes
+            Method: get
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - lambda/notes/get-all/handler.ts
+        External: []
+
+  NotesUpdateFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: notes-update-local
+      Handler: lambda/notes/update/handler.handler
+      Runtime: nodejs20.x
+      CodeUri: .
+      MemorySize: 128
+      Timeout: 5
+      Environment:
+        Variables:
+          ALLOWED_ORIGIN: http://localhost:5173
+          TABLE_NAME: !Ref NotesTable
+          DYNAMO_ENDPOINT: http://host.docker.internal:8000
+          REGION: us-east-1
+      Events:
+        UpdateNoteApi:
+          Type: Api
+          Properties:
+            Path: /notes/{id}
+            Method: put
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - lambda/notes/update/handler.ts
+        External: []
+
+  NotesDeleteFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: notes-delete-local
+      Handler: lambda/notes/delete/handler.handler
+      Runtime: nodejs20.x
+      CodeUri: .
+      MemorySize: 128
+      Timeout: 5
+      Environment:
+        Variables:
+          ALLOWED_ORIGIN: http://localhost:5173
+          TABLE_NAME: !Ref NotesTable
+          DYNAMO_ENDPOINT: http://host.docker.internal:8000
+          REGION: us-east-1
+      Events:
+        DeleteNoteApi:
+          Type: Api
+          Properties:
+            Path: /notes/{id}
+            Method: delete
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - lambda/notes/delete/handler.ts
+        External: []

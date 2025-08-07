@@ -6,3 +6,4 @@ cdk.out/
 .vscode
 coverage/
 cdk.context.json
+.aws-sam/

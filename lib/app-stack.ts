@@ -23,14 +23,14 @@ export class AppStack extends Stack {
     });
 
     // Create /notes and /notes/{id} resources once and store it
-    const notesResource = api.root.getResource('notes') || api.root.addResource('notes');
+    const notesResource = api.root.addResource('notes');
     const noteById = notesResource.addResource('{id}');
 
-    // Create enviroment for Lambda Functions
-    const environment = {
-      ALLOWED_ORIGIN: process.env.ALLOWED_ORIGIN || '*',
+    // Create environment for Lambda Functions
+    const environment: { [key: string]: string } = {
+      ALLOWED_ORIGIN: process.env.ALLOWED_ORIGIN ?? '*',
       TABLE_NAME: table.tableName,
-      REGION: process.env.REGION || 'us-east-1',
+      REGION: process.env.REGION ?? 'us-east-1',
     };
 
     // === Lambda: Create Note ===
