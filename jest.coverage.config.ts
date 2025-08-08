@@ -1,6 +1,7 @@
+import type { Config } from 'jest';
 import baseConfig from './jest.config';
 
-const config = {
+const config: Config = {
   ...baseConfig,
   collectCoverage: true,
   coverageDirectory: 'coverage',
