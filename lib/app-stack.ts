@@ -1,4 +1,5 @@
 import { Stack, StackProps } from 'aws-cdk-lib';
+import * as path from 'path';
 import { Construct } from 'constructs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
@@ -26,68 +27,76 @@ export class AppStack extends Stack {
     const notesResource = api.root.addResource('notes');
     const noteById = notesResource.addResource('{id}');
 
-    // Create environment for Lambda Functions
-    const environment: { [key: string]: string } = {
-      ALLOWED_ORIGIN: process.env.ALLOWED_ORIGIN ?? '*',
-      TABLE_NAME: table.tableName,
-      REGION: process.env.REGION ?? 'us-east-1',
+    // Add CORS
+    notesResource.addCorsPreflight({
+      allowOrigins: [process.env.ALLOWED_ORIGIN ?? '*'],
+      allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
+    });
+
+    // Create helper for Lambda Functions
+    const createLambdaFunction = (scope: Construct, id: string, entryPath: string) => {
+      return new NodejsFunction(scope, id, {
+        runtime: lambda.Runtime.NODEJS_20_X,
+        entry: path.join(__dirname, '..', entryPath),
+        handler: 'handler',
+        environment: {
+          ALLOWED_ORIGIN: process.env.ALLOWED_ORIGIN ?? '*',
+          TABLE_NAME: table.tableName,
+          REGION: process.env.REGION ?? 'us-east-1',
+        },
+      });
     };
 
     // === Lambda: Create Note ===
-    const createNoteLambda = new NodejsFunction(this, 'CreateNoteFunction', {
-      runtime: lambda.Runtime.NODEJS_20_X,
-      entry: 'lambda/notes/create/handler.ts',
-      handler: 'handler',
-      environment: environment,
-    });
+    const createNoteLambda = createLambdaFunction(
+      this,
+      'CreateNoteFunction',
+      'lambda/notes/create/handler.ts'
+    );
 
     table.grantWriteData(createNoteLambda);
 
     notesResource.addMethod('POST', new apigateway.LambdaIntegration(createNoteLambda));
 
     // === Lambda: Get All Notes ===
-    const getAllNotesLambda = new NodejsFunction(this, 'GetAllNotesFunction', {
-      runtime: lambda.Runtime.NODEJS_20_X,
-      entry: 'lambda/notes/get-all/handler.ts',
-      handler: 'handler',
-      environment: environment,
-    });
+    const getAllNotesLambda = createLambdaFunction(
+      this,
+      'GetAllNotesFunction',
+      'lambda/notes/get-all/handler.ts'
+    );
 
     table.grantReadData(getAllNotesLambda);
 
     notesResource.addMethod('GET', new apigateway.LambdaIntegration(getAllNotesLambda));
 
     // === Lambda: Get Note by ID ===
-    const getNoteByIdLambda = new NodejsFunction(this, 'GetNoteByIdFunction', {
-      runtime: lambda.Runtime.NODEJS_20_X,
-      entry: 'lambda/notes/get-by-id/handler.ts',
-      handler: 'handler',
-      environment: environment,
-    });
+    const getNoteByIdLambda = createLambdaFunction(
+      this,
+      'GetNoteByIdFunction',
+      'lambda/notes/get-by-id/handler.ts'
+    );
 
     table.grantReadData(getNoteByIdLambda);
 
     noteById.addMethod('GET', new apigateway.LambdaIntegration(getNoteByIdLambda));
 
     // === Lambda: Put Note by ID ===
-    const updateNoteLambda = new NodejsFunction(this, 'UpdateNoteFunction', {
-      runtime: lambda.Runtime.NODEJS_20_X,
-      entry: 'lambda/notes/update/handler.ts',
-      handler: 'handler',
-      environment: environment,
-    });
+    const updateNoteLambda = createLambdaFunction(
+      this,
+      'UpdateNoteFunction',
+      'lambda/notes/update/handler.ts'
+    );
 
     table.grantReadWriteData(updateNoteLambda);
 
     noteById.addMethod('PUT', new apigateway.LambdaIntegration(updateNoteLambda));
 
     // === Lambda: Delete Note by ID ===
-    const deleteNoteLambda = new NodejsFunction(this, 'DeleteNoteFunction', {
-      runtime: lambda.Runtime.NODEJS_20_X,
-      entry: 'lambda/notes/delete/handler.ts',
-      handler: 'handler',
-      environment: environment,
-    });
+    const deleteNoteLambda = createLambdaFunction(
+      this,
+      'DeleteNoteFunction',
+      'lambda/notes/delete/handler.ts'
+    );
 
     table.grantReadWriteData(deleteNoteLambda);
 
