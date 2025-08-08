@@ -7,7 +7,6 @@ export const handler = async (): Promise<APIGatewayProxyResult> => {
     const notes = await getAllNotes();
 
     return ok({ notes });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error: unknown) {
     return internalError(error);
   }

@@ -38,7 +38,7 @@ export class AppStack extends Stack {
       runtime: lambda.Runtime.NODEJS_20_X,
       entry: 'lambda/notes/create/handler.ts',
       handler: 'handler',
-      environment: environment
+      environment: environment,
     });
 
     table.grantWriteData(createNoteLambda);
@@ -50,7 +50,7 @@ export class AppStack extends Stack {
       runtime: lambda.Runtime.NODEJS_20_X,
       entry: 'lambda/notes/get-all/handler.ts',
       handler: 'handler',
-      environment: environment
+      environment: environment,
     });
 
     table.grantReadData(getAllNotesLambda);
@@ -62,7 +62,7 @@ export class AppStack extends Stack {
       runtime: lambda.Runtime.NODEJS_20_X,
       entry: 'lambda/notes/get-by-id/handler.ts',
       handler: 'handler',
-      environment: environment
+      environment: environment,
     });
 
     table.grantReadData(getNoteByIdLambda);
@@ -74,7 +74,7 @@ export class AppStack extends Stack {
       runtime: lambda.Runtime.NODEJS_20_X,
       entry: 'lambda/notes/update/handler.ts',
       handler: 'handler',
-      environment: environment
+      environment: environment,
     });
 
     table.grantReadWriteData(updateNoteLambda);
@@ -86,7 +86,7 @@ export class AppStack extends Stack {
       runtime: lambda.Runtime.NODEJS_20_X,
       entry: 'lambda/notes/delete/handler.ts',
       handler: 'handler',
-      environment: environment
+      environment: environment,
     });
 
     table.grantReadWriteData(deleteNoteLambda);

@@ -14,7 +14,7 @@ export const response = (statusCode: number, data: object) => {
     statusCode,
     headers,
     body: JSON.stringify(data),
-  }
+  };
 };
 
 export const ok = (data: object) => response(200, data);
@@ -24,4 +24,8 @@ export const badRequest = (message: string, errors?: Record<string, string[]>) =
 
 export const notFound = (message = 'Note not found') => response(404, { message });
 
-export const internalError = (error?: unknown) => response(500, { message: 'Internal Server Error', error: error instanceof Error ? error.message : 'An unknown error occurred' });
+export const internalError = (error?: unknown) =>
+  response(500, {
+    message: 'Internal Server Error',
+    error: error instanceof Error ? error.message : 'An unknown error occurred',
+  });
