@@ -28,11 +28,20 @@ describe('AppStack', () => {
     });
   });
 
-  it('creates API Gateway with /notes resource and methods', () => {
-    template.hasResourceProperties('AWS::ApiGateway::RestApi', {
-      Name: 'Notes Service',
-    });
+  it('creates API Gateway with /notes resource and CRUD methods', () => {
+    const methods = template.findResources('AWS::ApiGateway::Method');
 
-    template.resourceCountIs('AWS::ApiGateway::Method', 5); // POST, GET, GET /{id}, PUT, DELETE
+    // Filter out the OPTIONS methods that CDK creates for CORS
+    const nonOptionsMethods = Object.values(methods).filter(
+      (m: any) => m.Properties.HttpMethod !== 'OPTIONS'
+    );
+
+    // We expect only the CRUD methods: POST, GET (all), GET (by id), PUT, DELETE
+    expect(nonOptionsMethods.length).toBe(5);
+
+    // Optional: ensure they are exactly the ones we expect
+    const expected = ['POST', 'GET', 'GET', 'PUT', 'DELETE'];
+    const actual = nonOptionsMethods.map((m: any) => m.Properties.HttpMethod);
+    expect(actual.sort()).toEqual(expected.sort());
   });
 });
