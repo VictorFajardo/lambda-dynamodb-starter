@@ -32,6 +32,10 @@ export class AppStack extends Stack {
       allowOrigins: [process.env.ALLOWED_ORIGIN ?? '*'],
       allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
     });
+    noteById.addCorsPreflight({
+      allowOrigins: [process.env.ALLOWED_ORIGIN ?? '*'],
+      allowMethods: ['GET', 'PUT', 'DELETE'],
+    });
 
     // Create helper for Lambda Functions
     const createLambdaFunction = (scope: Construct, id: string, entryPath: string) => {
