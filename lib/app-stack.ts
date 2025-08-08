@@ -43,6 +43,12 @@ export class AppStack extends Stack {
         runtime: lambda.Runtime.NODEJS_20_X,
         entry: path.join(__dirname, '..', entryPath),
         handler: 'handler',
+        bundling: {
+          minify: true,
+          target: 'es2020',
+          sourceMap: true,
+          externalModules: ['aws-sdk'],
+        },
         environment: {
           ALLOWED_ORIGIN: process.env.ALLOWED_ORIGIN ?? '*',
           TABLE_NAME: table.tableName,
