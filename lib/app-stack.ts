@@ -1,4 +1,4 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
 import * as path from 'path';
 import { Construct } from 'constructs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
@@ -71,53 +71,71 @@ export class AppStack extends Stack {
     };
 
     // === Lambda: Create Note ===
-    const createNoteLambda = createLambdaFunction(
+    const createNoteAlias = createLambdaFunction(
       this,
       'CreateNoteFunction',
       'lambda/notes/create/handler.ts'
     );
 
-    table.grantWriteData(createNoteLambda);
-    notesResource.addMethod('POST', new apigateway.LambdaIntegration(createNoteLambda));
+    table.grantWriteData(createNoteAlias.lambda);
+    notesResource.addMethod('POST', new apigateway.LambdaIntegration(createNoteAlias));
 
     // === Lambda: Get All Notes ===
-    const getAllNotesLambda = createLambdaFunction(
+    const getAllNotesAlias = createLambdaFunction(
       this,
       'GetAllNotesFunction',
       'lambda/notes/get-all/handler.ts'
     );
 
-    table.grantReadData(getAllNotesLambda);
-    notesResource.addMethod('GET', new apigateway.LambdaIntegration(getAllNotesLambda));
+    table.grantReadData(getAllNotesAlias.lambda);
+    notesResource.addMethod('GET', new apigateway.LambdaIntegration(getAllNotesAlias));
 
     // === Lambda: Get Note by ID ===
-    const getNoteByIdLambda = createLambdaFunction(
+    const getNoteByIdAlias = createLambdaFunction(
       this,
       'GetNoteByIdFunction',
       'lambda/notes/get-by-id/handler.ts'
     );
 
-    table.grantReadData(getNoteByIdLambda);
-    noteById.addMethod('GET', new apigateway.LambdaIntegration(getNoteByIdLambda));
+    table.grantReadData(getNoteByIdAlias.lambda);
+    noteById.addMethod('GET', new apigateway.LambdaIntegration(getNoteByIdAlias));
 
     // === Lambda: Put Note by ID ===
-    const updateNoteLambda = createLambdaFunction(
+    const updateNoteAlias = createLambdaFunction(
       this,
       'UpdateNoteFunction',
       'lambda/notes/update/handler.ts'
     );
 
-    table.grantReadWriteData(updateNoteLambda);
-    noteById.addMethod('PUT', new apigateway.LambdaIntegration(updateNoteLambda));
+    table.grantReadWriteData(updateNoteAlias.lambda);
+    noteById.addMethod('PUT', new apigateway.LambdaIntegration(updateNoteAlias));
 
     // === Lambda: Delete Note by ID ===
-    const deleteNoteLambda = createLambdaFunction(
+    const deleteNoteAlias = createLambdaFunction(
       this,
       'DeleteNoteFunction',
       'lambda/notes/delete/handler.ts'
     );
 
-    table.grantReadWriteData(deleteNoteLambda);
-    noteById.addMethod('DELETE', new apigateway.LambdaIntegration(deleteNoteLambda));
+    table.grantReadWriteData(deleteNoteAlias.lambda);
+    noteById.addMethod('DELETE', new apigateway.LambdaIntegration(deleteNoteAlias));
+
+    // === Outputs ===
+    new CfnOutput(this, 'ApiUrl', {
+      value: api.url,
+      description: 'Base URL for the Notes API',
+      exportName: 'NotesApiUrl',
+    });
+
+    new CfnOutput(this, 'TableName', {
+      value: table.tableName,
+      description: 'Name of the DynamoDB table',
+      exportName: 'NotesTableName',
+    });
+
+    new CfnOutput(this, 'CreateNoteLambdaArn', {
+      value: createNoteAlias.lambda.functionArn,
+      description: 'ARN of the CreateNote Lambda function',
+    });
   }
 }
