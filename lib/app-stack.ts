@@ -38,8 +38,12 @@ export class AppStack extends Stack {
     });
 
     // Create helper for Lambda Functions
-    const createLambdaFunction = (scope: Construct, id: string, entryPath: string) => {
-      return new NodejsFunction(scope, id, {
+    const createLambdaFunction = (
+      scope: Construct,
+      id: string,
+      entryPath: string
+    ): lambda.Alias => {
+      const fn = new NodejsFunction(scope, id, {
         runtime: lambda.Runtime.NODEJS_20_X,
         entry: path.join(__dirname, '..', entryPath),
         handler: 'handler',
@@ -55,6 +59,15 @@ export class AppStack extends Stack {
           REGION: process.env.REGION ?? 'us-east-1',
         },
       });
+
+      // Publish a new version when code changes
+      const version = fn.currentVersion;
+
+      // Create 'prod' alias pointing to the current version
+      return new lambda.Alias(scope, `${id}ProdAlias`, {
+        aliasName: 'prod',
+        version,
+      });
     };
 
     // === Lambda: Create Note ===
@@ -65,7 +78,6 @@ export class AppStack extends Stack {
     );
 
     table.grantWriteData(createNoteLambda);
-
     notesResource.addMethod('POST', new apigateway.LambdaIntegration(createNoteLambda));
 
     // === Lambda: Get All Notes ===
@@ -76,7 +88,6 @@ export class AppStack extends Stack {
     );
 
     table.grantReadData(getAllNotesLambda);
-
     notesResource.addMethod('GET', new apigateway.LambdaIntegration(getAllNotesLambda));
 
     // === Lambda: Get Note by ID ===
@@ -87,7 +98,6 @@ export class AppStack extends Stack {
     );
 
     table.grantReadData(getNoteByIdLambda);
-
     noteById.addMethod('GET', new apigateway.LambdaIntegration(getNoteByIdLambda));
 
     // === Lambda: Put Note by ID ===
@@ -98,7 +108,6 @@ export class AppStack extends Stack {
     );
 
     table.grantReadWriteData(updateNoteLambda);
-
     noteById.addMethod('PUT', new apigateway.LambdaIntegration(updateNoteLambda));
 
     // === Lambda: Delete Note by ID ===
@@ -109,7 +118,6 @@ export class AppStack extends Stack {
     );
 
     table.grantReadWriteData(deleteNoteLambda);
-
     noteById.addMethod('DELETE', new apigateway.LambdaIntegration(deleteNoteLambda));
   }
 }
