@@ -15,9 +15,10 @@ interface CreateLambdaFunctionProps {
     resource: apigateway.IResource;
     httpMethod: string;
     grantType: 'read' | 'write' | 'readWrite';
+    isProd: boolean;
 }
 
-const isProd = process.env.STAGE === 'prod';
+
 
 export function createLambdaFunction({
     scope,
@@ -27,6 +28,7 @@ export function createLambdaFunction({
     resource,
     httpMethod,
     grantType,
+    isProd,
 }: CreateLambdaFunctionProps): LambdaOrAlias {
     const fn = new NodejsFunction(scope, id, {
         runtime: lambda.Runtime.NODEJS_20_X,

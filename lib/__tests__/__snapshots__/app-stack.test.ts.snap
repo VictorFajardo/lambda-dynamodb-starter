@@ -1,0 +1,1456 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`AppStack matches snapshot 1`] = `
+{
+  "Outputs": {
+    "ApiUrl": {
+      "Description": "Base URL for the Notes API",
+      "Export": {
+        "Name": "NotesApiUrl",
+      },
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "NotesApi2FFCBC92",
+            },
+            ".execute-api.",
+            {
+              "Ref": "AWS::Region",
+            },
+            ".",
+            {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            {
+              "Ref": "NotesApiDeploymentStageprod3F5FAD3A",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+    "CreateNoteLambdaArn": {
+      "Description": "ARN of the CreateNote Lambda function",
+      "Value": {
+        "Fn::GetAtt": [
+          "CreateNoteFunctionC1EC69E3",
+          "Arn",
+        ],
+      },
+    },
+    "NotesApiEndpoint602C11C3": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "NotesApi2FFCBC92",
+            },
+            ".execute-api.",
+            {
+              "Ref": "AWS::Region",
+            },
+            ".",
+            {
+              "Ref": "AWS::URLSuffix",
+            },
+            "/",
+            {
+              "Ref": "NotesApiDeploymentStageprod3F5FAD3A",
+            },
+            "/",
+          ],
+        ],
+      },
+    },
+    "TableName": {
+      "Description": "Name of the DynamoDB table",
+      "Export": {
+        "Name": "NotesTableName",
+      },
+      "Value": {
+        "Ref": "NotesTableD0D0D2F1",
+      },
+    },
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "CreateNoteFunctionC1EC69E3": {
+      "DependsOn": [
+        "CreateNoteFunctionServiceRoleDefaultPolicy5F7B63FA",
+        "CreateNoteFunctionServiceRole9C3BB915",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "76f646bb256b79d719afe29e964c38995b3f5f45781e0d480372b2930147a767.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "ALLOWED_ORIGIN": "https://victorfajardo.github.io",
+            "REGION": "us-east-1",
+            "TABLE_NAME": {
+              "Ref": "NotesTableD0D0D2F1",
+            },
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "CreateNoteFunctionServiceRole9C3BB915",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "CreateNoteFunctionServiceRole9C3BB915": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "CreateNoteFunctionServiceRoleDefaultPolicy5F7B63FA": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "NotesTableD0D0D2F1",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Ref": "AWS::NoValue",
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "CreateNoteFunctionServiceRoleDefaultPolicy5F7B63FA",
+        "Roles": [
+          {
+            "Ref": "CreateNoteFunctionServiceRole9C3BB915",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DeleteNoteFunctionCB51FD8A": {
+      "DependsOn": [
+        "DeleteNoteFunctionServiceRoleDefaultPolicy9835A5CB",
+        "DeleteNoteFunctionServiceRoleF6C5C9BE",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "043c7d3a39f3f3e6386561ca9b0224ab4caef5c4cc6149aa73abb32e74048fed.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "ALLOWED_ORIGIN": "https://victorfajardo.github.io",
+            "REGION": "us-east-1",
+            "TABLE_NAME": {
+              "Ref": "NotesTableD0D0D2F1",
+            },
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "DeleteNoteFunctionServiceRoleF6C5C9BE",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "DeleteNoteFunctionServiceRoleDefaultPolicy9835A5CB": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "NotesTableD0D0D2F1",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Ref": "AWS::NoValue",
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DeleteNoteFunctionServiceRoleDefaultPolicy9835A5CB",
+        "Roles": [
+          {
+            "Ref": "DeleteNoteFunctionServiceRoleF6C5C9BE",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "DeleteNoteFunctionServiceRoleF6C5C9BE": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "GetAllNotesFunction67B1BBB1": {
+      "DependsOn": [
+        "GetAllNotesFunctionServiceRoleDefaultPolicyCAA24DB2",
+        "GetAllNotesFunctionServiceRole77987CC1",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "07495a31196042d94e887433aa8a5317dc3f31d8b1912d27fc04ed2f5942e634.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "ALLOWED_ORIGIN": "https://victorfajardo.github.io",
+            "REGION": "us-east-1",
+            "TABLE_NAME": {
+              "Ref": "NotesTableD0D0D2F1",
+            },
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "GetAllNotesFunctionServiceRole77987CC1",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "GetAllNotesFunctionServiceRole77987CC1": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "GetAllNotesFunctionServiceRoleDefaultPolicyCAA24DB2": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:DescribeTable",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "NotesTableD0D0D2F1",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Ref": "AWS::NoValue",
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "GetAllNotesFunctionServiceRoleDefaultPolicyCAA24DB2",
+        "Roles": [
+          {
+            "Ref": "GetAllNotesFunctionServiceRole77987CC1",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "GetNoteByIdFunction0CA9D5E9": {
+      "DependsOn": [
+        "GetNoteByIdFunctionServiceRoleDefaultPolicy490AAA48",
+        "GetNoteByIdFunctionServiceRole94798426",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "478e7de33a0698eb515cbd5e34f9e43cabcb178dc228ab0ac5ff4a1fa1a936bf.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "ALLOWED_ORIGIN": "https://victorfajardo.github.io",
+            "REGION": "us-east-1",
+            "TABLE_NAME": {
+              "Ref": "NotesTableD0D0D2F1",
+            },
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "GetNoteByIdFunctionServiceRole94798426",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "GetNoteByIdFunctionServiceRole94798426": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "GetNoteByIdFunctionServiceRoleDefaultPolicy490AAA48": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:DescribeTable",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "NotesTableD0D0D2F1",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Ref": "AWS::NoValue",
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "GetNoteByIdFunctionServiceRoleDefaultPolicy490AAA48",
+        "Roles": [
+          {
+            "Ref": "GetNoteByIdFunctionServiceRole94798426",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "NotesApi2FFCBC92": {
+      "Properties": {
+        "Name": "Notes Service",
+      },
+      "Type": "AWS::ApiGateway::RestApi",
+    },
+    "NotesApiAccount868808F8": {
+      "DeletionPolicy": "Retain",
+      "DependsOn": [
+        "NotesApi2FFCBC92",
+      ],
+      "Properties": {
+        "CloudWatchRoleArn": {
+          "Fn::GetAtt": [
+            "NotesApiCloudWatchRoleB85AD1BE",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "AWS::ApiGateway::Account",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "NotesApiCloudWatchRoleB85AD1BE": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "apigateway.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "NotesApiDeploymentE5BDBE479137c096d539c8d462224ac63a09ffd1": {
+      "DependsOn": [
+        "NotesApinotesidDELETE24275C9B",
+        "NotesApinotesidGET8453D020",
+        "NotesApinotesidOPTIONS52F3D75D",
+        "NotesApinotesidPUT13E9226C",
+        "NotesApinotesidFFCD9C7D",
+        "NotesApinotesGET86839B50",
+        "NotesApinotesOPTIONS58AEEB93",
+        "NotesApinotesPOST6F739821",
+        "NotesApinotes5F6484F8",
+      ],
+      "Metadata": {
+        "aws:cdk:do-not-refactor": true,
+      },
+      "Properties": {
+        "Description": "Automatically created by the RestApi construct",
+        "RestApiId": {
+          "Ref": "NotesApi2FFCBC92",
+        },
+      },
+      "Type": "AWS::ApiGateway::Deployment",
+    },
+    "NotesApiDeploymentStageprod3F5FAD3A": {
+      "DependsOn": [
+        "NotesApiAccount868808F8",
+      ],
+      "Properties": {
+        "DeploymentId": {
+          "Ref": "NotesApiDeploymentE5BDBE479137c096d539c8d462224ac63a09ffd1",
+        },
+        "RestApiId": {
+          "Ref": "NotesApi2FFCBC92",
+        },
+        "StageName": "prod",
+      },
+      "Type": "AWS::ApiGateway::Stage",
+    },
+    "NotesApinotes5F6484F8": {
+      "Properties": {
+        "ParentId": {
+          "Fn::GetAtt": [
+            "NotesApi2FFCBC92",
+            "RootResourceId",
+          ],
+        },
+        "PathPart": "notes",
+        "RestApiId": {
+          "Ref": "NotesApi2FFCBC92",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "NotesApinotesGET86839B50": {
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "GET",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "GetAllNotesFunction67B1BBB1",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": {
+          "Ref": "NotesApinotes5F6484F8",
+        },
+        "RestApiId": {
+          "Ref": "NotesApi2FFCBC92",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "NotesApinotesGETApiPermissionTestStackNotesApiBE93DD0CGETnotes64BA24B2": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "GetAllNotesFunction67B1BBB1",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "NotesApi2FFCBC92",
+              },
+              "/",
+              {
+                "Ref": "NotesApiDeploymentStageprod3F5FAD3A",
+              },
+              "/GET/notes",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "NotesApinotesGETApiPermissionTestTestStackNotesApiBE93DD0CGETnotes121A7009": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "GetAllNotesFunction67B1BBB1",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "NotesApi2FFCBC92",
+              },
+              "/test-invoke-stage/GET/notes",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "NotesApinotesOPTIONS58AEEB93": {
+      "Properties": {
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "Integration": {
+          "IntegrationResponses": [
+            {
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE'",
+                "method.response.header.Access-Control-Allow-Origin": "'https://victorfajardo.github.io'",
+                "method.response.header.Vary": "'Origin'",
+              },
+              "StatusCode": "204",
+            },
+          ],
+          "RequestTemplates": {
+            "application/json": "{ statusCode: 200 }",
+          },
+          "Type": "MOCK",
+        },
+        "MethodResponses": [
+          {
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Vary": true,
+            },
+            "StatusCode": "204",
+          },
+        ],
+        "ResourceId": {
+          "Ref": "NotesApinotes5F6484F8",
+        },
+        "RestApiId": {
+          "Ref": "NotesApi2FFCBC92",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "NotesApinotesPOST6F739821": {
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "POST",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "CreateNoteFunctionC1EC69E3",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": {
+          "Ref": "NotesApinotes5F6484F8",
+        },
+        "RestApiId": {
+          "Ref": "NotesApi2FFCBC92",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "NotesApinotesPOSTApiPermissionTestStackNotesApiBE93DD0CPOSTnotes6980F55A": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "CreateNoteFunctionC1EC69E3",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "NotesApi2FFCBC92",
+              },
+              "/",
+              {
+                "Ref": "NotesApiDeploymentStageprod3F5FAD3A",
+              },
+              "/POST/notes",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "NotesApinotesPOSTApiPermissionTestTestStackNotesApiBE93DD0CPOSTnotesB1E13CB5": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "CreateNoteFunctionC1EC69E3",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "NotesApi2FFCBC92",
+              },
+              "/test-invoke-stage/POST/notes",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "NotesApinotesidDELETE24275C9B": {
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "DELETE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "DeleteNoteFunctionCB51FD8A",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": {
+          "Ref": "NotesApinotesidFFCD9C7D",
+        },
+        "RestApiId": {
+          "Ref": "NotesApi2FFCBC92",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "NotesApinotesidDELETEApiPermissionTestStackNotesApiBE93DD0CDELETEnotesid313F297F": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "DeleteNoteFunctionCB51FD8A",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "NotesApi2FFCBC92",
+              },
+              "/",
+              {
+                "Ref": "NotesApiDeploymentStageprod3F5FAD3A",
+              },
+              "/DELETE/notes/*",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "NotesApinotesidDELETEApiPermissionTestTestStackNotesApiBE93DD0CDELETEnotesid28B5BD62": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "DeleteNoteFunctionCB51FD8A",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "NotesApi2FFCBC92",
+              },
+              "/test-invoke-stage/DELETE/notes/*",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "NotesApinotesidFFCD9C7D": {
+      "Properties": {
+        "ParentId": {
+          "Ref": "NotesApinotes5F6484F8",
+        },
+        "PathPart": "{id}",
+        "RestApiId": {
+          "Ref": "NotesApi2FFCBC92",
+        },
+      },
+      "Type": "AWS::ApiGateway::Resource",
+    },
+    "NotesApinotesidGET8453D020": {
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "GET",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "GetNoteByIdFunction0CA9D5E9",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": {
+          "Ref": "NotesApinotesidFFCD9C7D",
+        },
+        "RestApiId": {
+          "Ref": "NotesApi2FFCBC92",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "NotesApinotesidGETApiPermissionTestStackNotesApiBE93DD0CGETnotesidF951334D": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "GetNoteByIdFunction0CA9D5E9",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "NotesApi2FFCBC92",
+              },
+              "/",
+              {
+                "Ref": "NotesApiDeploymentStageprod3F5FAD3A",
+              },
+              "/GET/notes/*",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "NotesApinotesidGETApiPermissionTestTestStackNotesApiBE93DD0CGETnotesid8CC471A7": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "GetNoteByIdFunction0CA9D5E9",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "NotesApi2FFCBC92",
+              },
+              "/test-invoke-stage/GET/notes/*",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "NotesApinotesidOPTIONS52F3D75D": {
+      "Properties": {
+        "ApiKeyRequired": false,
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "Integration": {
+          "IntegrationResponses": [
+            {
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                "method.response.header.Access-Control-Allow-Methods": "'GET,PUT,DELETE'",
+                "method.response.header.Access-Control-Allow-Origin": "'https://victorfajardo.github.io'",
+                "method.response.header.Vary": "'Origin'",
+              },
+              "StatusCode": "204",
+            },
+          ],
+          "RequestTemplates": {
+            "application/json": "{ statusCode: 200 }",
+          },
+          "Type": "MOCK",
+        },
+        "MethodResponses": [
+          {
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Vary": true,
+            },
+            "StatusCode": "204",
+          },
+        ],
+        "ResourceId": {
+          "Ref": "NotesApinotesidFFCD9C7D",
+        },
+        "RestApiId": {
+          "Ref": "NotesApi2FFCBC92",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "NotesApinotesidPUT13E9226C": {
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "PUT",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":apigateway:",
+                {
+                  "Ref": "AWS::Region",
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "UpdateNoteFunctionF36A8BA2",
+                    "Arn",
+                  ],
+                },
+                "/invocations",
+              ],
+            ],
+          },
+        },
+        "ResourceId": {
+          "Ref": "NotesApinotesidFFCD9C7D",
+        },
+        "RestApiId": {
+          "Ref": "NotesApi2FFCBC92",
+        },
+      },
+      "Type": "AWS::ApiGateway::Method",
+    },
+    "NotesApinotesidPUTApiPermissionTestStackNotesApiBE93DD0CPUTnotesid13F76661": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "UpdateNoteFunctionF36A8BA2",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "NotesApi2FFCBC92",
+              },
+              "/",
+              {
+                "Ref": "NotesApiDeploymentStageprod3F5FAD3A",
+              },
+              "/PUT/notes/*",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "NotesApinotesidPUTApiPermissionTestTestStackNotesApiBE93DD0CPUTnotesidDFE7C38C": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "UpdateNoteFunctionF36A8BA2",
+            "Arn",
+          ],
+        },
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:",
+              {
+                "Ref": "AWS::Partition",
+              },
+              ":execute-api:",
+              {
+                "Ref": "AWS::Region",
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId",
+              },
+              ":",
+              {
+                "Ref": "NotesApi2FFCBC92",
+              },
+              "/test-invoke-stage/PUT/notes/*",
+            ],
+          ],
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "NotesTableD0D0D2F1": {
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "id",
+            "AttributeType": "S",
+          },
+        ],
+        "KeySchema": [
+          {
+            "AttributeName": "id",
+            "KeyType": "HASH",
+          },
+        ],
+        "ProvisionedThroughput": {
+          "ReadCapacityUnits": 5,
+          "WriteCapacityUnits": 5,
+        },
+        "TableName": "NotesTable",
+      },
+      "Type": "AWS::DynamoDB::Table",
+      "UpdateReplacePolicy": "Retain",
+    },
+    "UpdateNoteFunctionF36A8BA2": {
+      "DependsOn": [
+        "UpdateNoteFunctionServiceRoleDefaultPolicy21C54764",
+        "UpdateNoteFunctionServiceRole2D7A5094",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "c2636eee93f8240890e6092dc61519ebc8e89685980326c8815386a8855686f3.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "ALLOWED_ORIGIN": "https://victorfajardo.github.io",
+            "REGION": "us-east-1",
+            "TABLE_NAME": {
+              "Ref": "NotesTableD0D0D2F1",
+            },
+          },
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "UpdateNoteFunctionServiceRole2D7A5094",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs20.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "UpdateNoteFunctionServiceRole2D7A5094": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "UpdateNoteFunctionServiceRoleDefaultPolicy21C54764": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:Query",
+                "dynamodb:GetItem",
+                "dynamodb:Scan",
+                "dynamodb:ConditionCheckItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:DescribeTable",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "NotesTableD0D0D2F1",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Ref": "AWS::NoValue",
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "UpdateNoteFunctionServiceRoleDefaultPolicy21C54764",
+        "Roles": [
+          {
+            "Ref": "UpdateNoteFunctionServiceRole2D7A5094",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}
+`;

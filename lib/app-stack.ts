@@ -8,12 +8,11 @@ import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import 'dotenv/config';
 import { createLambdaFunction } from './helpers/lambdaFunctionFactory';
 
-
-type LambdaOrAlias = lambda.Function | lambda.Alias;
-
 export class AppStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
+
+    const isProd = process.env.STAGE === 'prod';
 
     // DynamoDB Table
     const table = new dynamodb.Table(this, 'NotesTable', {
@@ -49,7 +48,8 @@ export class AppStack extends Stack {
       table,
       resource: notesResource,
       httpMethod: 'POST',
-      grantType: 'write'
+      grantType: 'write',
+      isProd,
     }
     );
 
@@ -62,6 +62,7 @@ export class AppStack extends Stack {
       resource: notesResource,
       httpMethod: 'GET',
       grantType: 'read',
+      isProd,
     }
     );
 
@@ -74,6 +75,7 @@ export class AppStack extends Stack {
       resource: noteById,
       httpMethod: 'GET',
       grantType: 'read',
+      isProd,
     }
     );
 
@@ -86,6 +88,7 @@ export class AppStack extends Stack {
       resource: noteById,
       httpMethod: 'PUT',
       grantType: 'readWrite',
+      isProd,
     }
     );
 
@@ -98,6 +101,7 @@ export class AppStack extends Stack {
       resource: noteById,
       httpMethod: 'DELETE',
       grantType: 'readWrite',
+      isProd,
     }
     );
 
