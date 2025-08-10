@@ -24,8 +24,12 @@ jobs:
       - name: Run tests with coverage
         run: npm run test:coverage
 
+      - name: Verify coverage folder
+        run: ls -R ./coverage
+
       - name: Upload test results to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage/lcov.info
+          fail_ci_if_error: true
