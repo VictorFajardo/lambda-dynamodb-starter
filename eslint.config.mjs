@@ -3,6 +3,9 @@ import parserTs from '@typescript-eslint/parser';
 
 export default [
   {
+    ignores: ['**/coverage/**', '**/*.js'],
+  },
+  {
     files: ['**/*.ts'],
     languageOptions: {
       parser: parserTs,
@@ -17,6 +20,5 @@ export default [
     rules: {
       ...eslintPluginTs.configs.recommended.rules,
     },
-    ignores: ['**/coverage/'],
   },
 ];

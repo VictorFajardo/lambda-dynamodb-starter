@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { App } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { AppStack } from '../app-stack'; // adjust path as needed
+
 
 describe('AppStack - Dev', () => {
   let app: App;

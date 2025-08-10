@@ -8,7 +8,7 @@
     "synth": "cdk synth",
     "deploy": "cdk deploy",
     "destroy": "cdk destroy",
-    "lint": "eslint . --ext .ts",
+    "lint": "eslint .",
     "format": "prettier --write .",
     "test": "jest",
     "test:coverage": "jest --config jest.coverage.config.ts --coverage -u",

@@ -1,8 +1,5 @@
 import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
-import * as path from 'path';
 import { Construct } from 'constructs';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import 'dotenv/config';
