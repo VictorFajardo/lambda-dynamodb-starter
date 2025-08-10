@@ -8,65 +8,63 @@ import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 type LambdaOrAlias = lambda.Function | lambda.Alias;
 
 interface CreateLambdaFunctionProps {
-    scope: Construct;
-    id: string;
-    entryPath: string;
-    table: dynamodb.Table;
-    resource: apigateway.IResource;
-    httpMethod: string;
-    grantType: 'read' | 'write' | 'readWrite';
-    isProd: boolean;
+  scope: Construct;
+  id: string;
+  entryPath: string;
+  table: dynamodb.Table;
+  resource: apigateway.IResource;
+  httpMethod: string;
+  grantType: 'read' | 'write' | 'readWrite';
+  isProd: boolean;
 }
 
-
-
 export function createLambdaFunction({
-    scope,
-    id,
-    entryPath,
-    table,
-    resource,
-    httpMethod,
-    grantType,
-    isProd,
+  scope,
+  id,
+  entryPath,
+  table,
+  resource,
+  httpMethod,
+  grantType,
+  isProd,
 }: CreateLambdaFunctionProps): LambdaOrAlias {
-    const fn = new NodejsFunction(scope, id, {
-        runtime: lambda.Runtime.NODEJS_20_X,
-        entry: path.join(__dirname, '../../', entryPath),
-        handler: 'handler',
-        bundling: {
-            minify: true,
-            target: 'es2020',
-            sourceMap: true,
-            externalModules: ['aws-sdk'],
-        },
-        environment: {
-            ALLOWED_ORIGIN: process.env.ALLOWED_ORIGIN ?? '*',
-            TABLE_NAME: table.tableName,
-            REGION: process.env.REGION ?? 'us-east-1',
-        },
-    });
+  const fn = new NodejsFunction(scope, id, {
+    runtime: lambda.Runtime.NODEJS_20_X,
+    entry: path.join(__dirname, '../../', entryPath),
+    handler: 'handler',
+    bundling: {
+      minify: true,
+      target: 'es2020',
+      sourceMap: true,
+      externalModules: ['aws-sdk'],
+    },
+    environment: {
+      ALLOWED_ORIGIN: process.env.ALLOWED_ORIGIN ?? '*',
+      TABLE_NAME: table.tableName,
+      REGION: process.env.REGION ?? 'us-east-1',
+    },
+  });
 
-    const lambdaResource = isProd
-        ? new lambda.Alias(scope, `${id}ProdAlias`, {
-            aliasName: 'prod',
-            version: fn.currentVersion,
-        })
-        : fn;
+  const lambdaResource = isProd
+    ? new lambda.Alias(scope, `${id}ProdAlias`, {
+        aliasName: 'prod',
+        version: fn.currentVersion,
+      })
+    : fn;
 
-    switch (grantType) {
-        case 'read':
-            table.grantReadData(lambdaResource);
-            break;
-        case 'write':
-            table.grantWriteData(lambdaResource);
-            break;
-        case 'readWrite':
-            table.grantReadWriteData(lambdaResource);
-            break;
-    }
+  switch (grantType) {
+    case 'read':
+      table.grantReadData(lambdaResource);
+      break;
+    case 'write':
+      table.grantWriteData(lambdaResource);
+      break;
+    case 'readWrite':
+      table.grantReadWriteData(lambdaResource);
+      break;
+  }
 
-    resource.addMethod(httpMethod, new apigateway.LambdaIntegration(lambdaResource));
+  resource.addMethod(httpMethod, new apigateway.LambdaIntegration(lambdaResource));
 
-    return lambdaResource;
+  return lambdaResource;
 }

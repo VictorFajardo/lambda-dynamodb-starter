@@ -50,8 +50,7 @@ export class AppStack extends Stack {
       httpMethod: 'POST',
       grantType: 'write',
       isProd,
-    }
-    );
+    });
 
     // === Lambda: Get All Notes ===
     createLambdaFunction({
@@ -63,8 +62,7 @@ export class AppStack extends Stack {
       httpMethod: 'GET',
       grantType: 'read',
       isProd,
-    }
-    );
+    });
 
     // === Lambda: Get Note by ID ===
     createLambdaFunction({
@@ -76,8 +74,7 @@ export class AppStack extends Stack {
       httpMethod: 'GET',
       grantType: 'read',
       isProd,
-    }
-    );
+    });
 
     // === Lambda: Put Note by ID ===
     createLambdaFunction({
@@ -89,8 +86,7 @@ export class AppStack extends Stack {
       httpMethod: 'PUT',
       grantType: 'readWrite',
       isProd,
-    }
-    );
+    });
 
     // === Lambda: Delete Note by ID ===
     createLambdaFunction({
@@ -102,8 +98,7 @@ export class AppStack extends Stack {
       httpMethod: 'DELETE',
       grantType: 'readWrite',
       isProd,
-    }
-    );
+    });
 
     // === Outputs ===
     new CfnOutput(this, 'ApiUrl', {
