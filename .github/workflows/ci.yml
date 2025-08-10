@@ -23,7 +23,7 @@ jobs:
 
       - name: Run tests with coverage
         run: npm run test:coverage
-      
+
       - name: Verify coverage folder
         run: ls -R ./coverage
 
