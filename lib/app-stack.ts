@@ -7,9 +7,13 @@ import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import 'dotenv/config';
 
+type LambdaOrAlias = lambda.Function | lambda.Alias;
+
 export class AppStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
+
+    const isProd = process.env.STAGE === 'prod';
 
     // DynamoDB Table
     const table = new dynamodb.Table(this, 'NotesTable', {
@@ -42,7 +46,7 @@ export class AppStack extends Stack {
       scope: Construct,
       id: string,
       entryPath: string
-    ): lambda.Alias => {
+    ): LambdaOrAlias => {
       const fn = new NodejsFunction(scope, id, {
         runtime: lambda.Runtime.NODEJS_20_X,
         entry: path.join(__dirname, '..', entryPath),
@@ -60,14 +64,15 @@ export class AppStack extends Stack {
         },
       });
 
-      // Publish a new version when code changes
-      const version = fn.currentVersion;
-
-      // Create 'prod' alias pointing to the current version
-      return new lambda.Alias(scope, `${id}ProdAlias`, {
-        aliasName: 'prod',
-        version,
-      });
+      if (isProd) {
+        const version = fn.currentVersion;
+        return new lambda.Alias(scope, `${id}ProdAlias`, {
+          aliasName: 'prod',
+          version,
+        });
+      } else {
+        return fn; // just return the function for dev
+      }
     };
 
     // === Lambda: Create Note ===
