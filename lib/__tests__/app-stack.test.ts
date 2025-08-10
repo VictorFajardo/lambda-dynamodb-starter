@@ -77,11 +77,24 @@ describe('AppStack - Prod', () => {
         STAGE: 'prod',
       },
     });
-    stack = new AppStack(app, 'TestStack');
+    stack = new AppStack(app, 'TestStackProd');
     template = Template.fromStack(stack);
   });
 
   it('matches snapshot', () => {
     expect(template.toJSON()).toMatchSnapshot();
+  });
+
+  it('uses prod-specific settings', () => {
+    // Example: check if table has provisioned throughput in prod
+    // (Adjust this based on actual prod config differences)
+    template.hasResourceProperties('AWS::DynamoDB::Table', {
+      BillingMode: 'PROVISIONED',
+    });
+  });
+
+  it('exports API URL and DynamoDB table name as outputs', () => {
+    template.hasOutput('ApiUrl', {});
+    template.hasOutput('TableName', {});
   });
 });
