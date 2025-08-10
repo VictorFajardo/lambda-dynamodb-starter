@@ -12,7 +12,8 @@
     "format": "prettier --write .",
     "test": "jest",
     "test:coverage": "jest --config jest.coverage.config.ts --coverage -u",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.152",
@@ -24,7 +25,9 @@
     "constructs": "^10.0.0",
     "esbuild": "^0.25.8",
     "eslint": "^9.32.0",
+    "husky": "^9.1.7",
     "jest": "^30.0.5",
+    "lint-staged": "^16.1.5",
     "prettier": "^3.6.2",
     "ts-jest": "^29.4.0",
     "ts-node": "^10.9.2",
@@ -36,5 +39,12 @@
     "@aws-sdk/lib-dynamodb": "^3.850.0",
     "dotenv": "^17.2.1",
     "zod": "^4.0.10"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "npm run format",
+      "npm run lint",
+      "npm test -- --findRelatedTests"
+    ]
   }
 }
