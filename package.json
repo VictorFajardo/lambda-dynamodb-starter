@@ -1,7 +1,6 @@
 {
   "name": "lambda-dynamodb-starter",
   "version": "1.0.0",
-  "type": "module",
   "scripts": {
     "build": "tsc",
     "cdk": "cdk",

@@ -97,7 +97,7 @@ export class AppStack extends Stack {
       table,
       resource: noteById,
       httpMethod: 'DELETE',
-      grantType: 'write',
+      grantType: 'readWrite',
     }
     );
 
