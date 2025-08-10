@@ -2,7 +2,7 @@ import { App } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { AppStack } from '../app-stack'; // adjust path as needed
 
-describe('AppStack', () => {
+describe('AppStack - Dev', () => {
   let app: App;
   let stack: AppStack;
   let template: Template;
@@ -63,5 +63,25 @@ describe('AppStack', () => {
   it('exports API URL and DynamoDB table name as outputs', () => {
     template.hasOutput('ApiUrl', {});
     template.hasOutput('TableName', {});
+  });
+});
+
+describe('AppStack - Prod', () => {
+  let app: App;
+  let stack: AppStack;
+  let template: Template;
+
+  beforeEach(() => {
+    app = new App({
+      context: {
+        STAGE: 'prod',
+      },
+    });
+    stack = new AppStack(app, 'TestStack');
+    template = Template.fromStack(stack);
+  });
+
+  it('matches snapshot', () => {
+    expect(template.toJSON()).toMatchSnapshot();
   });
 });
