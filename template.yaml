@@ -15,35 +15,35 @@ Resources:
           KeyType: HASH
       BillingMode: PAY_PER_REQUEST
 
-  # NotesOptionsFunction:
-  #   Type: AWS::Serverless::Function
-  #   Properties:
-  #     FunctionName: notes-options-local
-  #     Handler: lambda/notes/options/handler.handler
-  #     Runtime: nodejs20.x
-  #     CodeUri: .
-  #     MemorySize: 128
-  #     Timeout: 3
-  #     Environment:
-  #       Variables:
-  #         ALLOWED_ORIGIN: http://localhost:5173
-  #     Events:
-  #       OptionsNotesRoot:
-  #         Type: Api
-  #         Properties:
-  #           Path: /notes
-  #           Method: options
-  #       OptionsNotesId:
-  #         Type: Api
-  #         Properties:
-  #           Path: /notes/{id}
-  #           Method: options
-  #   Metadata:
-  #     BuildMethod: esbuild
-  #     BuildProperties:
-  #       EntryPoints:
-  #         - lambda/notes/options/handler.ts
-  #       External: []
+  NotesOptionsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: notes-options-local
+      Handler: lambda/notes/options/handler.handler
+      Runtime: nodejs20.x
+      CodeUri: .
+      MemorySize: 128
+      Timeout: 3
+      Environment:
+        Variables:
+          ALLOWED_ORIGIN: http://localhost:5173
+      Events:
+        OptionsNotesRoot:
+          Type: Api
+          Properties:
+            Path: /notes
+            Method: options
+        OptionsNotesId:
+          Type: Api
+          Properties:
+            Path: /notes/{id}
+            Method: options
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - lambda/notes/options/handler.ts
+        External: []
 
   NotesCreateFunction:
     Type: AWS::Serverless::Function

@@ -13,7 +13,7 @@
     "test": "jest",
     "test:coverage": "jest --config jest.coverage.config.ts --coverage -u",
     "test:watch": "jest --watch",
-    "prepare": "husky"
+    "prepare": "node -e \"const fs=require('fs'); const isCI = !!process.env.CI || !!process.env.GITHUB_ACTIONS; if (!fs.existsSync('.git') || isCI) process.exit(0); try { require('husky').install(); } catch(e) {}\""
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.152",
@@ -26,6 +26,7 @@
     "esbuild": "^0.25.8",
     "eslint": "^9.32.0",
     "husky": "^9.1.7",
+    "is-ci": "^4.1.0",
     "jest": "^30.0.5",
     "lint-staged": "^16.1.5",
     "prettier": "^3.6.2",
