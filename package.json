@@ -13,6 +13,10 @@
     "test": "jest",
     "test:coverage": "jest --config jest.coverage.config.ts --coverage -u",
     "test:watch": "jest --watch",
+    "seed-table": "npx ts-node scripts/seed",
+    "db:up": "docker compose up -d",
+    "db:create": "npx ts-node scripts/createNotesTable.ts",
+    "db:seed": "npx ts-node scripts/seedNotesItems.ts",
     "prepare": "node -e \"const fs=require('fs'); const isCI = !!process.env.CI || !!process.env.GITHUB_ACTIONS; if (!fs.existsSync('.git') || isCI) process.exit(0); try { require('husky').install(); } catch(e) {}\""
   },
   "devDependencies": {
