@@ -1,9 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { DynamoDBClient, CreateTableCommand, DescribeTableCommand } from '@aws-sdk/client-dynamodb';
 import 'dotenv/config';
-import {
-  DynamoDBClient,
-  CreateTableCommand,
-  DescribeTableCommand,
-} from '@aws-sdk/client-dynamodb';
 
 const tableName = 'NotesTable';
 const useProd = process.env.STAGE === 'prod';
@@ -14,9 +11,9 @@ const client = new DynamoDBClient({
   credentials: useProd
     ? undefined
     : {
-      accessKeyId: 'fakeMyKeyId',
-      secretAccessKey: 'fakeSecretAccessKey',
-    },
+        accessKeyId: 'fakeMyKeyId',
+        secretAccessKey: 'fakeSecretAccessKey',
+      },
 });
 
 async function createTable() {
@@ -30,9 +27,7 @@ async function createTable() {
       await client.send(
         new CreateTableCommand({
           TableName: tableName,
-          AttributeDefinitions: [
-            { AttributeName: 'id', AttributeType: 'S' },
-          ],
+          AttributeDefinitions: [{ AttributeName: 'id', AttributeType: 'S' }],
           KeySchema: [{ AttributeName: 'id', KeyType: 'HASH' }],
           BillingMode: 'PAY_PER_REQUEST',
         })
