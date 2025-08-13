@@ -47,7 +47,7 @@
   },
   "lint-staged": {
     "*.ts": [
-      "npm test -- --findRelatedTests"
+      "npm test -- --passWithNoTests --findRelatedTests"
     ]
   }
 }

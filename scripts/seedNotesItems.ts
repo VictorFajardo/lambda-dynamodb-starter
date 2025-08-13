@@ -11,15 +11,15 @@ const client = new DynamoDBClient({
   credentials: useProd
     ? undefined
     : {
-      accessKeyId: 'fakeMyKeyId',
-      secretAccessKey: 'fakeSecretAccessKey',
-    },
+        accessKeyId: 'fakeMyKeyId',
+        secretAccessKey: 'fakeSecretAccessKey',
+      },
 });
 
 const items = [
   {
     id: 1,
-    content: "My first note!",
+    content: 'My first note!',
   },
   {
     id: 2,
@@ -27,15 +27,15 @@ const items = [
   },
   {
     id: 3,
-    content: "A note with emojis 👀😁✨",
+    content: 'A note with emojis 👀😁✨',
   },
   {
     id: 4,
-    content: "⚙ Edit me!",
+    content: '⚙ Edit me!',
   },
   {
     id: 5,
-    content: "🧨 Delete me!",
+    content: '🧨 Delete me!',
   },
 ];
 

@@ -96,11 +96,11 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "c2c1e0fac75599054884e91cda95dd54013622bfffac5181b317f0218ffe98f0.zip",
+          "S3Key": "63b0c692f0e84470b7e7ea5921137aa9ee1e4adb4614e9a4a5339a7246bfc0ad.zip",
         },
         "Environment": {
           "Variables": {
-            "ALLOWED_ORIGIN": "*",
+            "ALLOWED_ORIGIN": "https://victorfajardo.github.io",
             "REGION": "us-east-1",
             "TABLE_NAME": {
               "Ref": "NotesTableD0D0D2F1",
@@ -196,11 +196,11 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "04b9a90f4a4ecdce9cc7806109b2c29ce4565325373abc0eff9e3beac506795d.zip",
+          "S3Key": "43857fa0a2e59f6a2245824d50b3562e81ac341fe3b4e5fc60b171295ba1a7cd.zip",
         },
         "Environment": {
           "Variables": {
-            "ALLOWED_ORIGIN": "*",
+            "ALLOWED_ORIGIN": "https://victorfajardo.github.io",
             "REGION": "us-east-1",
             "TABLE_NAME": {
               "Ref": "NotesTableD0D0D2F1",
@@ -303,11 +303,11 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "2951cdbc8bf708fc0152fb9c015e4d16d6a9bac44206969eea2cad14e7f4f58e.zip",
+          "S3Key": "67c5b5cd9081c6cd757a1da0bf60ece082a1998b91bb2f21ad607b1fc9811ce8.zip",
         },
         "Environment": {
           "Variables": {
-            "ALLOWED_ORIGIN": "*",
+            "ALLOWED_ORIGIN": "https://victorfajardo.github.io",
             "REGION": "us-east-1",
             "TABLE_NAME": {
               "Ref": "NotesTableD0D0D2F1",
@@ -406,11 +406,11 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "d9ec438f8515247f0303ef2afdfa67dd03839c0d9cc75338ae4b83edd91de2a3.zip",
+          "S3Key": "1effbc1f3c9860153779f6609abf371c7c5bda353ee78f222a0033fb0884c24e.zip",
         },
         "Environment": {
           "Variables": {
-            "ALLOWED_ORIGIN": "*",
+            "ALLOWED_ORIGIN": "https://victorfajardo.github.io",
             "REGION": "us-east-1",
             "TABLE_NAME": {
               "Ref": "NotesTableD0D0D2F1",
@@ -554,7 +554,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::IAM::Role",
       "UpdateReplacePolicy": "Retain",
     },
-    "NotesApiDeploymentE5BDBE476f1a5252c22266da4a5d4d5e38cf8409": {
+    "NotesApiDeploymentE5BDBE479137c096d539c8d462224ac63a09ffd1": {
       "DependsOn": [
         "NotesApinotesidDELETE24275C9B",
         "NotesApinotesidGET8453D020",
@@ -583,7 +583,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       ],
       "Properties": {
         "DeploymentId": {
-          "Ref": "NotesApiDeploymentE5BDBE476f1a5252c22266da4a5d4d5e38cf8409",
+          "Ref": "NotesApiDeploymentE5BDBE479137c096d539c8d462224ac63a09ffd1",
         },
         "RestApiId": {
           "Ref": "NotesApi2FFCBC92",
@@ -736,7 +736,8 @@ exports[`AppStack - Dev matches snapshot 1`] = `
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
                 "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE'",
-                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Origin": "'https://victorfajardo.github.io'",
+                "method.response.header.Vary": "'Origin'",
               },
               "StatusCode": "204",
             },
@@ -752,6 +753,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
               "method.response.header.Access-Control-Allow-Headers": true,
               "method.response.header.Access-Control-Allow-Methods": true,
               "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Vary": true,
             },
             "StatusCode": "204",
           },
@@ -1142,7 +1144,8 @@ exports[`AppStack - Dev matches snapshot 1`] = `
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
                 "method.response.header.Access-Control-Allow-Methods": "'GET,PUT,DELETE'",
-                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Origin": "'https://victorfajardo.github.io'",
+                "method.response.header.Vary": "'Origin'",
               },
               "StatusCode": "204",
             },
@@ -1158,6 +1161,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
               "method.response.header.Access-Control-Allow-Headers": true,
               "method.response.header.Access-Control-Allow-Methods": true,
               "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Vary": true,
             },
             "StatusCode": "204",
           },
@@ -1323,11 +1327,11 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "71fc97b2245323785107fc501526f9d3a34195c282bdf0ff7a346128d649b003.zip",
+          "S3Key": "b3ec7058035f1fd3dc8f59f08f27a9b24cc033838427dabb8f741f3237163e0b.zip",
         },
         "Environment": {
           "Variables": {
-            "ALLOWED_ORIGIN": "*",
+            "ALLOWED_ORIGIN": "https://victorfajardo.github.io",
             "REGION": "us-east-1",
             "TABLE_NAME": {
               "Ref": "NotesTableD0D0D2F1",
@@ -1547,11 +1551,11 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "c2c1e0fac75599054884e91cda95dd54013622bfffac5181b317f0218ffe98f0.zip",
+          "S3Key": "63b0c692f0e84470b7e7ea5921137aa9ee1e4adb4614e9a4a5339a7246bfc0ad.zip",
         },
         "Environment": {
           "Variables": {
-            "ALLOWED_ORIGIN": "*",
+            "ALLOWED_ORIGIN": "https://victorfajardo.github.io",
             "REGION": "us-east-1",
             "TABLE_NAME": {
               "Ref": "NotesTableD0D0D2F1",
@@ -1647,11 +1651,11 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "04b9a90f4a4ecdce9cc7806109b2c29ce4565325373abc0eff9e3beac506795d.zip",
+          "S3Key": "43857fa0a2e59f6a2245824d50b3562e81ac341fe3b4e5fc60b171295ba1a7cd.zip",
         },
         "Environment": {
           "Variables": {
-            "ALLOWED_ORIGIN": "*",
+            "ALLOWED_ORIGIN": "https://victorfajardo.github.io",
             "REGION": "us-east-1",
             "TABLE_NAME": {
               "Ref": "NotesTableD0D0D2F1",
@@ -1754,11 +1758,11 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "2951cdbc8bf708fc0152fb9c015e4d16d6a9bac44206969eea2cad14e7f4f58e.zip",
+          "S3Key": "67c5b5cd9081c6cd757a1da0bf60ece082a1998b91bb2f21ad607b1fc9811ce8.zip",
         },
         "Environment": {
           "Variables": {
-            "ALLOWED_ORIGIN": "*",
+            "ALLOWED_ORIGIN": "https://victorfajardo.github.io",
             "REGION": "us-east-1",
             "TABLE_NAME": {
               "Ref": "NotesTableD0D0D2F1",
@@ -1857,11 +1861,11 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "d9ec438f8515247f0303ef2afdfa67dd03839c0d9cc75338ae4b83edd91de2a3.zip",
+          "S3Key": "1effbc1f3c9860153779f6609abf371c7c5bda353ee78f222a0033fb0884c24e.zip",
         },
         "Environment": {
           "Variables": {
-            "ALLOWED_ORIGIN": "*",
+            "ALLOWED_ORIGIN": "https://victorfajardo.github.io",
             "REGION": "us-east-1",
             "TABLE_NAME": {
               "Ref": "NotesTableD0D0D2F1",
@@ -2005,7 +2009,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::IAM::Role",
       "UpdateReplacePolicy": "Retain",
     },
-    "NotesApiDeploymentE5BDBE476f1a5252c22266da4a5d4d5e38cf8409": {
+    "NotesApiDeploymentE5BDBE479137c096d539c8d462224ac63a09ffd1": {
       "DependsOn": [
         "NotesApinotesidDELETE24275C9B",
         "NotesApinotesidGET8453D020",
@@ -2034,7 +2038,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       ],
       "Properties": {
         "DeploymentId": {
-          "Ref": "NotesApiDeploymentE5BDBE476f1a5252c22266da4a5d4d5e38cf8409",
+          "Ref": "NotesApiDeploymentE5BDBE479137c096d539c8d462224ac63a09ffd1",
         },
         "RestApiId": {
           "Ref": "NotesApi2FFCBC92",
@@ -2187,7 +2191,8 @@ exports[`AppStack - Prod matches snapshot 1`] = `
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
                 "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE'",
-                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Origin": "'https://victorfajardo.github.io'",
+                "method.response.header.Vary": "'Origin'",
               },
               "StatusCode": "204",
             },
@@ -2203,6 +2208,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
               "method.response.header.Access-Control-Allow-Headers": true,
               "method.response.header.Access-Control-Allow-Methods": true,
               "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Vary": true,
             },
             "StatusCode": "204",
           },
@@ -2593,7 +2599,8 @@ exports[`AppStack - Prod matches snapshot 1`] = `
               "ResponseParameters": {
                 "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
                 "method.response.header.Access-Control-Allow-Methods": "'GET,PUT,DELETE'",
-                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Origin": "'https://victorfajardo.github.io'",
+                "method.response.header.Vary": "'Origin'",
               },
               "StatusCode": "204",
             },
@@ -2609,6 +2616,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
               "method.response.header.Access-Control-Allow-Headers": true,
               "method.response.header.Access-Control-Allow-Methods": true,
               "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Vary": true,
             },
             "StatusCode": "204",
           },
@@ -2774,11 +2782,11 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "71fc97b2245323785107fc501526f9d3a34195c282bdf0ff7a346128d649b003.zip",
+          "S3Key": "b3ec7058035f1fd3dc8f59f08f27a9b24cc033838427dabb8f741f3237163e0b.zip",
         },
         "Environment": {
           "Variables": {
-            "ALLOWED_ORIGIN": "*",
+            "ALLOWED_ORIGIN": "https://victorfajardo.github.io",
             "REGION": "us-east-1",
             "TABLE_NAME": {
               "Ref": "NotesTableD0D0D2F1",
