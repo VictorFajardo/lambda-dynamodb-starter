@@ -46,7 +46,7 @@
     "@aws-sdk/client-dynamodb": "^3.848.0",
     "@aws-sdk/lib-dynamodb": "^3.864.0",
     "dotenv": "^17.2.1",
-    "zod": "^4.0.10"
+    "zod": "^4.0.17"
   },
   "lint-staged": {
     "*.ts": [
