@@ -1,6 +1,5 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
-import 'dotenv/config';
 
 const isOffline = process.env.AWS_SAM_LOCAL === 'true' || process.env.IS_OFFLINE === 'true';
 
