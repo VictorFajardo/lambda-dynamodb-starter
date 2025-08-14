@@ -13,10 +13,12 @@
     "test": "jest",
     "test:coverage": "jest --config jest.coverage.config.ts --coverage -u",
     "test:watch": "jest --watch",
-    "seed-table": "npx ts-node scripts/seed",
     "db:up": "docker compose up -d",
     "db:create": "npx ts-node scripts/createNotesTable.ts",
     "db:seed": "npx ts-node scripts/seedNotesItems.ts",
+    "local-prepare": "cross-env NODE_ENV=local cdk synth --output cdk.out",
+    "gen-env": "ts-node scripts/generateEnvLocal.ts",
+    "local-api": "npm run gen-env && cross-env NODE_ENV=local sam local start-api -t cdk.out/AppStack.template.json --env-vars env.local.json",
     "prepare": "node -e \"const fs=require('fs'); const isCI = !!process.env.CI || !!process.env.GITHUB_ACTIONS; if (!fs.existsSync('.git') || isCI) process.exit(0); try { require('husky').install(); } catch(e) {}\""
   },
   "devDependencies": {
@@ -27,6 +29,7 @@
     "aws-cdk-lib": "^2.102.0",
     "codecov": "^3.8.2",
     "constructs": "^10.0.0",
+    "cross-env": "^10.0.0",
     "esbuild": "^0.25.8",
     "eslint": "^9.32.0",
     "husky": "^9.1.7",

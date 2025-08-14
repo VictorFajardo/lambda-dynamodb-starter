@@ -1,11 +1,17 @@
+import { createLambdaFunction } from './helpers/lambdaFunctionFactory';
 import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
-import 'dotenv/config';
-import { createLambdaFunction } from './helpers/lambdaFunctionFactory';
+
+interface LambdaEnv {
+  id: string;
+  env: Record<string, string>;
+}
 
 export class AppStack extends Stack {
+  public readonly functions: LambdaEnv[] = [];
+
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
@@ -37,8 +43,23 @@ export class AppStack extends Stack {
       allowMethods: ['GET', 'PUT', 'DELETE'],
     });
 
+    const addLambda = (props: Parameters<typeof createLambdaFunction>[0]) => {
+      const lambdaFn = createLambdaFunction(props);
+
+      // Track env separately for SAM local
+      this.functions.push({
+        id: lambdaFn.node.id,
+        env: {
+          TABLE_NAME: 'NotesTable',
+          DYNAMO_ENDPOINT: process.env.DYNAMO_ENDPOINT ?? 'http://host.docker.internal:8000',
+        },
+      });
+
+      return lambdaFn;
+    };
+
     // === Lambda: Create Note ===
-    const createNoteAlias = createLambdaFunction({
+    addLambda({
       scope: this,
       id: 'CreateNoteFunction',
       entryPath: 'lambda/notes/create/handler.ts',
@@ -50,7 +71,7 @@ export class AppStack extends Stack {
     });
 
     // === Lambda: Get All Notes ===
-    createLambdaFunction({
+    addLambda({
       scope: this,
       id: 'GetAllNotesFunction',
       entryPath: 'lambda/notes/get-all/handler.ts',
@@ -62,7 +83,7 @@ export class AppStack extends Stack {
     });
 
     // === Lambda: Get Note by ID ===
-    createLambdaFunction({
+    addLambda({
       scope: this,
       id: 'GetNoteByIdFunction',
       entryPath: 'lambda/notes/get-by-id/handler.ts',
@@ -74,7 +95,7 @@ export class AppStack extends Stack {
     });
 
     // === Lambda: Put Note by ID ===
-    createLambdaFunction({
+    addLambda({
       scope: this,
       id: 'UpdateNoteFunction',
       entryPath: 'lambda/notes/update/handler.ts',
@@ -86,7 +107,7 @@ export class AppStack extends Stack {
     });
 
     // === Lambda: Delete Note by ID ===
-    createLambdaFunction({
+    addLambda({
       scope: this,
       id: 'DeleteNoteFunction',
       entryPath: 'lambda/notes/delete/handler.ts',
@@ -110,9 +131,9 @@ export class AppStack extends Stack {
       exportName: 'NotesTableName',
     });
 
-    new CfnOutput(this, 'CreateNoteLambdaArn', {
-      value: createNoteAlias.functionArn,
-      description: 'ARN of the CreateNote Lambda function',
-    });
+    // new CfnOutput(this, 'CreateNoteLambdaArn', {
+    //   value: createNoteAlias.functionArn,
+    //   description: 'ARN of the CreateNote Lambda function',
+    // });
   }
 }

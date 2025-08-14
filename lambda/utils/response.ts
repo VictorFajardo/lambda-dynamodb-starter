@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 export const headers = {
   'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGIN || '*',
   'Access-Control-Allow-Credentials': true,
@@ -8,8 +6,6 @@ export const headers = {
 };
 
 export const response = (statusCode: number, data: object) => {
-  console.log('🚀', JSON.stringify(process.env));
-
   return {
     statusCode,
     headers,
