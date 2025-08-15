@@ -11,11 +11,13 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": [
+    "__mocks__/**/*.ts",
     "scripts/**/*.ts",
     "lib/**/*.ts",
     "bin/**/*.ts",
     "lambda/**/*.ts",
     "jest.config.ts",
-    "jest.coverage.config.ts"
+    "jest.coverage.config.ts",
+    "jest.setup.ts"
   ]
 }
