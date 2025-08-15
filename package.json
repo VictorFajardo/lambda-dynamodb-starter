@@ -19,7 +19,8 @@
     "local-prepare": "cross-env NODE_ENV=local cdk synth --output cdk.out",
     "gen-env": "ts-node scripts/generateEnvLocal.ts",
     "local-api": "npm run gen-env && cross-env NODE_ENV=local sam local start-api -t cdk.out/AppStack.template.json --env-vars env.local.json",
-    "prepare": "node -e \"const fs=require('fs'); const isCI = !!process.env.CI || !!process.env.GITHUB_ACTIONS; if (!fs.existsSync('.git') || isCI) process.exit(0); try { require('husky').install(); } catch(e) {}\""
+    "prepare": "node -e \"const fs=require('fs'); const isCI = !!process.env.CI || !!process.env.GITHUB_ACTIONS; if (!fs.existsSync('.git') || isCI) process.exit(0); try { require('husky').install(); } catch(e) {}\"",
+    "clean": "rm -rf node_modules package-lock.json"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.152",
@@ -45,6 +46,7 @@
     "@aws-cdk/aws-lambda-nodejs": "^1.203.0",
     "@aws-sdk/client-dynamodb": "^3.848.0",
     "@aws-sdk/lib-dynamodb": "^3.864.0",
+    "aws-xray-sdk-core": "^3.10.3",
     "dotenv": "^17.2.1",
     "zod": "^4.0.17"
   },
