@@ -3,6 +3,7 @@ import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import * as cognito from 'aws-cdk-lib/aws-cognito';
 
 interface LambdaEnv {
   id: string;
@@ -32,6 +33,40 @@ export class AppStack extends Stack {
     // Create /notes and /notes/{id} resources once and store it
     const notesResource = api.root.addResource('notes');
     const noteById = notesResource.addResource('{id}');
+
+    // Create user pool
+    const userPool = new cognito.UserPool(this, 'NotesUserPool', {
+      userPoolName: 'NotesUserPool',
+      selfSignUpEnabled: true,
+      signInAliases: { email: true },
+      standardAttributes: { email: { required: true, mutable: true } },
+      passwordPolicy: {
+        minLength: 8,
+        requireLowercase: true,
+        requireUppercase: true,
+        requireDigits: true,
+      },
+      accountRecovery: cognito.AccountRecovery.EMAIL_ONLY,
+    });
+
+    // Create user pool client
+    const userPoolClient = new cognito.UserPoolClient(this, 'NotesUserPoolClient', {
+      userPool,
+      userPoolClientName: 'notes-web-client',
+      generateSecret: false,
+      authFlows: { userPassword: true, userSrp: true },
+      oAuth: {
+        flows: { implicitCodeGrant: true },
+        callbackUrls: [process.env.ALLOWED_ORIGIN ?? 'http://localhost:5173'],
+        logoutUrls: [process.env.ALLOWED_ORIGIN ?? 'http://localhost:5173'],
+        scopes: [cognito.OAuthScope.OPENID, cognito.OAuthScope.EMAIL, cognito.OAuthScope.PROFILE],
+      },
+    });
+
+    // API Gateway Cognito Authorizer
+    const authorizer = new apigateway.CognitoUserPoolsAuthorizer(this, 'NotesAuthorizer', {
+      cognitoUserPools: [userPool],
+    });
 
     // Add CORS
     notesResource.addCorsPreflight({
