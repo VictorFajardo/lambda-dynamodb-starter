@@ -1,0 +1,6 @@
+aws cognito-idp admin-create-user \
+  --user-pool-id NotesUserPool \
+  --username testuser@example.com \
+  --temporary-password "TempPass123!" \
+  --user-attributes Name=email,Value=testuser@example.com \
+  --region us-east-1

@@ -62,8 +62,12 @@ export class AppStack extends Stack {
       },
     });
 
+    const accountSuffix = this.account
+      .slice(-6)
+      .toLowerCase()
+      .replace(/[^a-z0-9-]/g, '');
     const domain = userPool.addDomain('NotesUserPoolDomain', {
-      cognitoDomain: { domainPrefix: `notes-demo-${this.account.slice(-6)}` },
+      cognitoDomain: { domainPrefix: `notes-demo-${accountSuffix}` },
     });
 
     // === API Gateway Authorizer ===
