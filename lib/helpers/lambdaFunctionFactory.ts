@@ -34,6 +34,7 @@ export function createLambdaFunction({
     runtime: lambda.Runtime.NODEJS_20_X,
     entry: path.join(__dirname, '../../', entryPath),
     handler: 'handler',
+    tracing: lambda.Tracing.ACTIVE,
     bundling: {
       minify: true,
       target: 'es2020',
