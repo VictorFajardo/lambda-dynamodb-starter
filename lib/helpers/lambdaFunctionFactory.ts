@@ -16,6 +16,7 @@ interface CreateLambdaFunctionProps {
   httpMethod: string;
   grantType: 'read' | 'write' | 'readWrite';
   isProd: boolean;
+  authorizer?: apigateway.CognitoUserPoolsAuthorizer;
 }
 
 export function createLambdaFunction({
@@ -27,6 +28,7 @@ export function createLambdaFunction({
   httpMethod,
   grantType,
   isProd,
+  authorizer,
 }: CreateLambdaFunctionProps): LambdaOrAlias {
   const fn = new NodejsFunction(scope, id, {
     runtime: lambda.Runtime.NODEJS_20_X,
@@ -64,7 +66,18 @@ export function createLambdaFunction({
       break;
   }
 
-  resource.addMethod(httpMethod, new apigateway.LambdaIntegration(lambdaResource));
+  const methodId = `${id}${httpMethod}Method`;
+
+  if (!resource.node.tryFindChild(methodId)) {
+    resource
+      .addMethod(httpMethod, new apigateway.LambdaIntegration(lambdaResource), {
+        authorizer,
+        authorizationType: authorizer
+          ? apigateway.AuthorizationType.COGNITO
+          : apigateway.AuthorizationType.NONE,
+      })
+      .node.addDependency(lambdaResource); // ensures deployment ordering
+  }
 
   return lambdaResource;
 }

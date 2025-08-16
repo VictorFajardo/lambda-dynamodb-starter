@@ -25,16 +25,16 @@ export class AppStack extends Stack {
       // billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
     });
 
-    // API Gateway
+    // === API Gateway ===
     const api = new apigateway.RestApi(this, 'NotesApi', {
       restApiName: 'Notes Service',
     });
 
-    // Create /notes and /notes/{id} resources once and store it
+    // === Resources ===
     const notesResource = api.root.addResource('notes');
     const noteById = notesResource.addResource('{id}');
 
-    // Create user pool
+    // === Cognito User Pool ===
     const userPool = new cognito.UserPool(this, 'NotesUserPool', {
       userPoolName: 'NotesUserPool',
       selfSignUpEnabled: true,
@@ -49,7 +49,6 @@ export class AppStack extends Stack {
       accountRecovery: cognito.AccountRecovery.EMAIL_ONLY,
     });
 
-    // Create user pool client
     const userPoolClient = new cognito.UserPoolClient(this, 'NotesUserPoolClient', {
       userPool,
       userPoolClientName: 'notes-web-client',
@@ -63,21 +62,16 @@ export class AppStack extends Stack {
       },
     });
 
-    // API Gateway Cognito Authorizer
+    const domain = userPool.addDomain('NotesUserPoolDomain', {
+      cognitoDomain: { domainPrefix: `notes-demo-${this.account.slice(-6)}` },
+    });
+
+    // === API Gateway Authorizer ===
     const authorizer = new apigateway.CognitoUserPoolsAuthorizer(this, 'NotesAuthorizer', {
       cognitoUserPools: [userPool],
     });
 
-    // Add CORS
-    notesResource.addCorsPreflight({
-      allowOrigins: [process.env.ALLOWED_ORIGIN ?? '*'],
-      allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
-    });
-    noteById.addCorsPreflight({
-      allowOrigins: [process.env.ALLOWED_ORIGIN ?? '*'],
-      allowMethods: ['GET', 'PUT', 'DELETE'],
-    });
-
+    // === Helper to create Lambda + method with Cognito Auth ===
     const addLambda = (props: Parameters<typeof createLambdaFunction>[0]) => {
       const lambdaFn = createLambdaFunction(props);
 
@@ -85,7 +79,7 @@ export class AppStack extends Stack {
       this.functions.push({
         id: lambdaFn.node.id,
         env: {
-          TABLE_NAME: 'NotesTable',
+          TABLE_NAME: table.tableName,
           DYNAMO_ENDPOINT: process.env.DYNAMO_ENDPOINT ?? 'http://host.docker.internal:8000',
         },
       });
@@ -103,6 +97,7 @@ export class AppStack extends Stack {
       httpMethod: 'POST',
       grantType: 'write',
       isProd,
+      authorizer,
     });
 
     // === Lambda: Get All Notes ===
@@ -115,6 +110,7 @@ export class AppStack extends Stack {
       httpMethod: 'GET',
       grantType: 'read',
       isProd,
+      authorizer,
     });
 
     // === Lambda: Get Note by ID ===
@@ -127,6 +123,7 @@ export class AppStack extends Stack {
       httpMethod: 'GET',
       grantType: 'read',
       isProd,
+      authorizer,
     });
 
     // === Lambda: Put Note by ID ===
@@ -139,6 +136,7 @@ export class AppStack extends Stack {
       httpMethod: 'PUT',
       grantType: 'readWrite',
       isProd,
+      authorizer,
     });
 
     // === Lambda: Delete Note by ID ===
@@ -151,6 +149,19 @@ export class AppStack extends Stack {
       httpMethod: 'DELETE',
       grantType: 'readWrite',
       isProd,
+      authorizer,
+    });
+
+    // === CORS ===
+    notesResource.addCorsPreflight({
+      allowOrigins: [process.env.ALLOWED_ORIGIN ?? '*'],
+      allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
+      allowHeaders: ['Content-Type', 'Authorization'],
+    });
+    noteById.addCorsPreflight({
+      allowOrigins: [process.env.ALLOWED_ORIGIN ?? '*'],
+      allowMethods: ['GET', 'PUT', 'DELETE'],
+      allowHeaders: ['Content-Type', 'Authorization'],
     });
 
     // === Outputs ===
@@ -166,9 +177,16 @@ export class AppStack extends Stack {
       exportName: 'NotesTableName',
     });
 
-    // new CfnOutput(this, 'CreateNoteLambdaArn', {
-    //   value: createNoteAlias.functionArn,
-    //   description: 'ARN of the CreateNote Lambda function',
-    // });
+    new CfnOutput(this, 'CognitoDomain', {
+      value: `https://${domain.domainName}.auth.${this.region}.amazoncognito.com`,
+    });
+
+    new CfnOutput(this, 'UserPoolId', {
+      value: userPool.userPoolId,
+    });
+
+    new CfnOutput(this, 'UserPoolClientId', {
+      value: userPoolClient.userPoolClientId,
+    });
   }
 }
