@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { deleteNoteSchema } from './schema';
 import { validate } from '../../utils/validate';
-import { badRequest, ok } from '../../utils/response';
+import { badRequest, noContent } from '../../utils/response';
 import { deleteNote } from './service';
 import { withSubsegment } from '../../utils/xray';
 import { handleError } from '../../utils/errorManager';
@@ -20,9 +20,9 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       sub?.addAnnotation('operation', 'deleteNote');
       sub?.addMetadata('input', id);
 
-      const result = await deleteNote(id);
+      await deleteNote(id);
 
-      return ok({ message: `Note ${result.id} deleted` });
+      return noContent();
     });
   } catch (error: unknown) {
     return handleError(error, { id });
