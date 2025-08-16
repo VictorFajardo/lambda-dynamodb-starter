@@ -8,3 +8,4 @@ coverage/
 cdk.context.json
 .aws-sam/
 dynamodb-data/
+env.local.json
