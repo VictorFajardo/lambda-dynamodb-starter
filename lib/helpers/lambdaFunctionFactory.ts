@@ -30,6 +30,7 @@ export function createLambdaFunction({
   isProd,
   authorizer,
 }: CreateLambdaFunctionProps): LambdaOrAlias {
+  // === Lambda Function ===
   const fn = new NodejsFunction(scope, id, {
     runtime: lambda.Runtime.NODEJS_20_X,
     entry: path.join(__dirname, '../../', entryPath),
@@ -48,6 +49,7 @@ export function createLambdaFunction({
     },
   });
 
+  // === Alias for Prod ===
   const lambdaResource = isProd
     ? new lambda.Alias(scope, `${id}ProdAlias`, {
         aliasName: 'prod',
@@ -55,6 +57,7 @@ export function createLambdaFunction({
       })
     : fn;
 
+  // === DynamoDB Permissions ===
   switch (grantType) {
     case 'read':
       table.grantReadData(lambdaResource);
@@ -67,6 +70,7 @@ export function createLambdaFunction({
       break;
   }
 
+  // === API Gateway Integration ===
   const methodId = `${id}${httpMethod}Method`;
 
   if (!resource.node.tryFindChild(methodId)) {

@@ -1,7 +1,8 @@
 import { APIGatewayProxyResult } from 'aws-lambda';
-import { internalError, ok } from '../../utils/response';
+import { ok } from '../../utils/response';
 import { getAllNotes } from './service';
 import { withSubsegment } from '../../utils/xray';
+import { handleError } from '../../utils/errorManager';
 
 export const handler = async (): Promise<APIGatewayProxyResult> => {
   try {
@@ -13,6 +14,6 @@ export const handler = async (): Promise<APIGatewayProxyResult> => {
       return ok({ notes });
     });
   } catch (error: unknown) {
-    return internalError(error);
+    return handleError(error);
   }
 };
