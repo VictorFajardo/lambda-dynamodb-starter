@@ -1,9 +1,10 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { createNote } from './service';
 import { createNoteSchema } from './schema';
-import { validate, ValidationError } from '../../utils/validate';
-import { badRequest, internalError, response } from '../../utils/response';
+import { validate } from '../../utils/validate';
+import { created } from '../../utils/response';
 import { withSubsegment } from '../../utils/xray';
+import { handleError } from '../../utils/errorManager';
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   try {
@@ -17,13 +18,9 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 
       const note = await createNote(data);
 
-      return response(201, { message: 'Note created', note });
+      return created({ message: 'Note created', note });
     });
   } catch (error: unknown) {
-    if (error instanceof ValidationError) {
-      return badRequest(error.message, error.details.flatten().fieldErrors);
-    }
-
-    return internalError(error);
+    return handleError(error);
   }
 };

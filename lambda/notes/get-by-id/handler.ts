@@ -1,9 +1,10 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import { getNoteByIdSchema } from './schema';
-import { validate, ValidationError } from '../../utils/validate';
-import { badRequest, internalError, notFound, ok } from '../../utils/response';
+import { validate } from '../../utils/validate';
+import { badRequest, notFound, ok } from '../../utils/response';
 import { getNoteById } from './service';
 import { withSubsegment } from '../../utils/xray';
+import { handleError } from '../../utils/errorManager';
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const id = event.pathParameters?.id;
@@ -28,10 +29,6 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       return ok({ note });
     });
   } catch (error) {
-    if (error instanceof ValidationError) {
-      return badRequest(error.message, error.details.flatten().fieldErrors);
-    }
-
-    return internalError(error);
+    return handleError(error, { id });
   }
 };
