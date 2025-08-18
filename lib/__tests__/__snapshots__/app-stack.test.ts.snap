@@ -33,6 +33,24 @@ exports[`AppStack - Dev matches snapshot 1`] = `
         ],
       },
     },
+    "CognitoDomain": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "NotesUserPoolNotesUserPoolDomain7B9BE38F",
+            },
+            ".auth.",
+            {
+              "Ref": "AWS::Region",
+            },
+            ".amazoncognito.com",
+          ],
+        ],
+      },
+    },
     "NotesApiEndpoint602C11C3": {
       "Value": {
         "Fn::Join": [
@@ -68,6 +86,16 @@ exports[`AppStack - Dev matches snapshot 1`] = `
         "Ref": "NotesTableD0D0D2F1",
       },
     },
+    "UserPoolClientId": {
+      "Value": {
+        "Ref": "NotesUserPoolClient5D6339A3",
+      },
+    },
+    "UserPoolId": {
+      "Value": {
+        "Ref": "NotesUserPoolC2397827",
+      },
+    },
   },
   "Parameters": {
     "BootstrapVersion": {
@@ -87,7 +115,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "f7f33791752f8704edff0591891e7644c2a38610f14084451886b7eaac103b29.zip",
+          "S3Key": "7d44e18b8e0f39f6e9e90c507e9f48b57860ad8260a146b30920a00fd15e6d18.zip",
         },
         "Environment": {
           "Variables": {
@@ -106,6 +134,9 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           ],
         },
         "Runtime": "nodejs20.x",
+        "TracingConfig": {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -144,6 +175,14 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Properties": {
         "PolicyDocument": {
           "Statement": [
+            {
+              "Action": [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             {
               "Action": [
                 "dynamodb:BatchWriteItem",
@@ -187,7 +226,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "f289b5978293d70942ca81bf9d1f7051141841b5d3859a41d5feb98cb057cd5d.zip",
+          "S3Key": "2d8ebe931aed194f3fcb272502afb348a8923dce5d1c15a98a14ea4734f99df1.zip",
         },
         "Environment": {
           "Variables": {
@@ -206,6 +245,9 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           ],
         },
         "Runtime": "nodejs20.x",
+        "TracingConfig": {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -213,6 +255,14 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Properties": {
         "PolicyDocument": {
           "Statement": [
+            {
+              "Action": [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             {
               "Action": [
                 "dynamodb:BatchGetItem",
@@ -294,7 +344,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "7874bfe6e3f8447d7cf6667e578c6e5f1b2f179ca88ce35cd29d099a8aac4759.zip",
+          "S3Key": "3ad0dbe43b3f18dbbcbfd69e4445291a4943e91e236ffac3196fbf88604a5e51.zip",
         },
         "Environment": {
           "Variables": {
@@ -313,6 +363,9 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           ],
         },
         "Runtime": "nodejs20.x",
+        "TracingConfig": {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -351,6 +404,14 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Properties": {
         "PolicyDocument": {
           "Statement": [
+            {
+              "Action": [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             {
               "Action": [
                 "dynamodb:BatchGetItem",
@@ -397,7 +458,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "a0213d69972f789444b6c2e30e80edece329ad64db0b280890102610a8ba61d1.zip",
+          "S3Key": "7c0f96bdc6412224b097bdb3c289e85114a34ffb7ee4c1bad8e1215732883194.zip",
         },
         "Environment": {
           "Variables": {
@@ -416,6 +477,9 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           ],
         },
         "Runtime": "nodejs20.x",
+        "TracingConfig": {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -454,6 +518,14 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Properties": {
         "PolicyDocument": {
           "Statement": [
+            {
+              "Action": [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             {
               "Action": [
                 "dynamodb:BatchGetItem",
@@ -545,7 +617,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::IAM::Role",
       "UpdateReplacePolicy": "Retain",
     },
-    "NotesApiDeploymentE5BDBE476f1a5252c22266da4a5d4d5e38cf8409": {
+    "NotesApiDeploymentE5BDBE475a8597d952d7f9041a70deb596f4630b": {
       "DependsOn": [
         "NotesApinotesidDELETE24275C9B",
         "NotesApinotesidGET8453D020",
@@ -574,7 +646,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       ],
       "Properties": {
         "DeploymentId": {
-          "Ref": "NotesApiDeploymentE5BDBE476f1a5252c22266da4a5d4d5e38cf8409",
+          "Ref": "NotesApiDeploymentE5BDBE475a8597d952d7f9041a70deb596f4630b",
         },
         "RestApiId": {
           "Ref": "NotesApi2FFCBC92",
@@ -599,8 +671,16 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Resource",
     },
     "NotesApinotesGET86839B50": {
+      "DependsOn": [
+        "GetAllNotesFunction67B1BBB1",
+        "GetAllNotesFunctionServiceRoleDefaultPolicyCAA24DB2",
+        "GetAllNotesFunctionServiceRole77987CC1",
+      ],
       "Properties": {
-        "AuthorizationType": "NONE",
+        "AuthorizationType": "COGNITO_USER_POOLS",
+        "AuthorizerId": {
+          "Ref": "NotesAuthorizerE65DF30F",
+        },
         "HttpMethod": "GET",
         "Integration": {
           "IntegrationHttpMethod": "POST",
@@ -639,6 +719,11 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Method",
     },
     "NotesApinotesGETApiPermissionTestStackNotesApiBE93DD0CGETnotes64BA24B2": {
+      "DependsOn": [
+        "GetAllNotesFunction67B1BBB1",
+        "GetAllNotesFunctionServiceRoleDefaultPolicyCAA24DB2",
+        "GetAllNotesFunctionServiceRole77987CC1",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -680,6 +765,11 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::Lambda::Permission",
     },
     "NotesApinotesGETApiPermissionTestTestStackNotesApiBE93DD0CGETnotes121A7009": {
+      "DependsOn": [
+        "GetAllNotesFunction67B1BBB1",
+        "GetAllNotesFunctionServiceRoleDefaultPolicyCAA24DB2",
+        "GetAllNotesFunctionServiceRole77987CC1",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -725,7 +815,8 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           "IntegrationResponses": [
             {
               "ResponseParameters": {
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
                 "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE'",
                 "method.response.header.Access-Control-Allow-Origin": "'*'",
               },
@@ -740,6 +831,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
         "MethodResponses": [
           {
             "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Credentials": true,
               "method.response.header.Access-Control-Allow-Headers": true,
               "method.response.header.Access-Control-Allow-Methods": true,
               "method.response.header.Access-Control-Allow-Origin": true,
@@ -757,8 +849,16 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Method",
     },
     "NotesApinotesPOST6F739821": {
+      "DependsOn": [
+        "CreateNoteFunctionC1EC69E3",
+        "CreateNoteFunctionServiceRoleDefaultPolicy5F7B63FA",
+        "CreateNoteFunctionServiceRole9C3BB915",
+      ],
       "Properties": {
-        "AuthorizationType": "NONE",
+        "AuthorizationType": "COGNITO_USER_POOLS",
+        "AuthorizerId": {
+          "Ref": "NotesAuthorizerE65DF30F",
+        },
         "HttpMethod": "POST",
         "Integration": {
           "IntegrationHttpMethod": "POST",
@@ -797,6 +897,11 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Method",
     },
     "NotesApinotesPOSTApiPermissionTestStackNotesApiBE93DD0CPOSTnotes6980F55A": {
+      "DependsOn": [
+        "CreateNoteFunctionC1EC69E3",
+        "CreateNoteFunctionServiceRoleDefaultPolicy5F7B63FA",
+        "CreateNoteFunctionServiceRole9C3BB915",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -838,6 +943,11 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::Lambda::Permission",
     },
     "NotesApinotesPOSTApiPermissionTestTestStackNotesApiBE93DD0CPOSTnotesB1E13CB5": {
+      "DependsOn": [
+        "CreateNoteFunctionC1EC69E3",
+        "CreateNoteFunctionServiceRoleDefaultPolicy5F7B63FA",
+        "CreateNoteFunctionServiceRole9C3BB915",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -875,8 +985,16 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::Lambda::Permission",
     },
     "NotesApinotesidDELETE24275C9B": {
+      "DependsOn": [
+        "DeleteNoteFunctionCB51FD8A",
+        "DeleteNoteFunctionServiceRoleDefaultPolicy9835A5CB",
+        "DeleteNoteFunctionServiceRoleF6C5C9BE",
+      ],
       "Properties": {
-        "AuthorizationType": "NONE",
+        "AuthorizationType": "COGNITO_USER_POOLS",
+        "AuthorizerId": {
+          "Ref": "NotesAuthorizerE65DF30F",
+        },
         "HttpMethod": "DELETE",
         "Integration": {
           "IntegrationHttpMethod": "POST",
@@ -915,6 +1033,11 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Method",
     },
     "NotesApinotesidDELETEApiPermissionTestStackNotesApiBE93DD0CDELETEnotesid313F297F": {
+      "DependsOn": [
+        "DeleteNoteFunctionCB51FD8A",
+        "DeleteNoteFunctionServiceRoleDefaultPolicy9835A5CB",
+        "DeleteNoteFunctionServiceRoleF6C5C9BE",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -956,6 +1079,11 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::Lambda::Permission",
     },
     "NotesApinotesidDELETEApiPermissionTestTestStackNotesApiBE93DD0CDELETEnotesid28B5BD62": {
+      "DependsOn": [
+        "DeleteNoteFunctionCB51FD8A",
+        "DeleteNoteFunctionServiceRoleDefaultPolicy9835A5CB",
+        "DeleteNoteFunctionServiceRoleF6C5C9BE",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -1005,8 +1133,16 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Resource",
     },
     "NotesApinotesidGET8453D020": {
+      "DependsOn": [
+        "GetNoteByIdFunction0CA9D5E9",
+        "GetNoteByIdFunctionServiceRoleDefaultPolicy490AAA48",
+        "GetNoteByIdFunctionServiceRole94798426",
+      ],
       "Properties": {
-        "AuthorizationType": "NONE",
+        "AuthorizationType": "COGNITO_USER_POOLS",
+        "AuthorizerId": {
+          "Ref": "NotesAuthorizerE65DF30F",
+        },
         "HttpMethod": "GET",
         "Integration": {
           "IntegrationHttpMethod": "POST",
@@ -1045,6 +1181,11 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Method",
     },
     "NotesApinotesidGETApiPermissionTestStackNotesApiBE93DD0CGETnotesidF951334D": {
+      "DependsOn": [
+        "GetNoteByIdFunction0CA9D5E9",
+        "GetNoteByIdFunctionServiceRoleDefaultPolicy490AAA48",
+        "GetNoteByIdFunctionServiceRole94798426",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -1086,6 +1227,11 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::Lambda::Permission",
     },
     "NotesApinotesidGETApiPermissionTestTestStackNotesApiBE93DD0CGETnotesid8CC471A7": {
+      "DependsOn": [
+        "GetNoteByIdFunction0CA9D5E9",
+        "GetNoteByIdFunctionServiceRoleDefaultPolicy490AAA48",
+        "GetNoteByIdFunctionServiceRole94798426",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -1131,7 +1277,8 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           "IntegrationResponses": [
             {
               "ResponseParameters": {
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
                 "method.response.header.Access-Control-Allow-Methods": "'GET,PUT,DELETE'",
                 "method.response.header.Access-Control-Allow-Origin": "'*'",
               },
@@ -1146,6 +1293,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
         "MethodResponses": [
           {
             "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Credentials": true,
               "method.response.header.Access-Control-Allow-Headers": true,
               "method.response.header.Access-Control-Allow-Methods": true,
               "method.response.header.Access-Control-Allow-Origin": true,
@@ -1163,8 +1311,16 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Method",
     },
     "NotesApinotesidPUT13E9226C": {
+      "DependsOn": [
+        "UpdateNoteFunctionF36A8BA2",
+        "UpdateNoteFunctionServiceRoleDefaultPolicy21C54764",
+        "UpdateNoteFunctionServiceRole2D7A5094",
+      ],
       "Properties": {
-        "AuthorizationType": "NONE",
+        "AuthorizationType": "COGNITO_USER_POOLS",
+        "AuthorizerId": {
+          "Ref": "NotesAuthorizerE65DF30F",
+        },
         "HttpMethod": "PUT",
         "Integration": {
           "IntegrationHttpMethod": "POST",
@@ -1203,6 +1359,11 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Method",
     },
     "NotesApinotesidPUTApiPermissionTestStackNotesApiBE93DD0CPUTnotesid13F76661": {
+      "DependsOn": [
+        "UpdateNoteFunctionF36A8BA2",
+        "UpdateNoteFunctionServiceRoleDefaultPolicy21C54764",
+        "UpdateNoteFunctionServiceRole2D7A5094",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -1244,6 +1405,11 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::Lambda::Permission",
     },
     "NotesApinotesidPUTApiPermissionTestTestStackNotesApiBE93DD0CPUTnotesidDFE7C38C": {
+      "DependsOn": [
+        "UpdateNoteFunctionF36A8BA2",
+        "UpdateNoteFunctionServiceRoleDefaultPolicy21C54764",
+        "UpdateNoteFunctionServiceRole2D7A5094",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -1280,6 +1446,25 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       },
       "Type": "AWS::Lambda::Permission",
     },
+    "NotesAuthorizerE65DF30F": {
+      "Properties": {
+        "IdentitySource": "method.request.header.Authorization",
+        "Name": "TestStackNotesAuthorizerC4125F9D",
+        "ProviderARNs": [
+          {
+            "Fn::GetAtt": [
+              "NotesUserPoolC2397827",
+              "Arn",
+            ],
+          },
+        ],
+        "RestApiId": {
+          "Ref": "NotesApi2FFCBC92",
+        },
+        "Type": "COGNITO_USER_POOLS",
+      },
+      "Type": "AWS::ApiGateway::Authorizer",
+    },
     "NotesTableD0D0D2F1": {
       "DeletionPolicy": "Retain",
       "Properties": {
@@ -1304,6 +1489,84 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Type": "AWS::DynamoDB::Table",
       "UpdateReplacePolicy": "Retain",
     },
+    "NotesUserPoolC2397827": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "AccountRecoverySetting": {
+          "RecoveryMechanisms": [
+            {
+              "Name": "verified_phone_number",
+              "Priority": 1,
+            },
+            {
+              "Name": "verified_email",
+              "Priority": 2,
+            },
+          ],
+        },
+        "AdminCreateUserConfig": {
+          "AllowAdminCreateUserOnly": false,
+        },
+        "AutoVerifiedAttributes": [
+          "email",
+        ],
+        "EmailVerificationMessage": "The verification code to your new account is {####}",
+        "EmailVerificationSubject": "Verify your new account",
+        "SmsVerificationMessage": "The verification code to your new account is {####}",
+        "UsernameAttributes": [
+          "email",
+        ],
+        "VerificationMessageTemplate": {
+          "DefaultEmailOption": "CONFIRM_WITH_CODE",
+          "EmailMessage": "The verification code to your new account is {####}",
+          "EmailSubject": "Verify your new account",
+          "SmsMessage": "The verification code to your new account is {####}",
+        },
+      },
+      "Type": "AWS::Cognito::UserPool",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "NotesUserPoolClient5D6339A3": {
+      "Properties": {
+        "AllowedOAuthFlows": [
+          "implicit",
+          "code",
+        ],
+        "AllowedOAuthFlowsUserPoolClient": true,
+        "AllowedOAuthScopes": [
+          "profile",
+          "phone",
+          "email",
+          "openid",
+          "aws.cognito.signin.user.admin",
+        ],
+        "CallbackURLs": [
+          "https://example.com",
+        ],
+        "ExplicitAuthFlows": [
+          "ALLOW_USER_PASSWORD_AUTH",
+          "ALLOW_REFRESH_TOKEN_AUTH",
+        ],
+        "GenerateSecret": false,
+        "PreventUserExistenceErrors": "ENABLED",
+        "SupportedIdentityProviders": [
+          "COGNITO",
+        ],
+        "UserPoolId": {
+          "Ref": "NotesUserPoolC2397827",
+        },
+      },
+      "Type": "AWS::Cognito::UserPoolClient",
+    },
+    "NotesUserPoolNotesUserPoolDomain7B9BE38F": {
+      "Properties": {
+        "Domain": "notes-demo-id1",
+        "UserPoolId": {
+          "Ref": "NotesUserPoolC2397827",
+        },
+      },
+      "Type": "AWS::Cognito::UserPoolDomain",
+    },
     "UpdateNoteFunctionF36A8BA2": {
       "DependsOn": [
         "UpdateNoteFunctionServiceRoleDefaultPolicy21C54764",
@@ -1314,7 +1577,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "e4397a0d4faeb3210a0ad29fd4371dc899a8e9600c137d9c6ffc7d3a42ce556a.zip",
+          "S3Key": "f06b9e23fab733a421401d6ef142e84281282dab7ff712c7c83f7b24effed9a2.zip",
         },
         "Environment": {
           "Variables": {
@@ -1333,6 +1596,9 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           ],
         },
         "Runtime": "nodejs20.x",
+        "TracingConfig": {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -1371,6 +1637,14 @@ exports[`AppStack - Dev matches snapshot 1`] = `
       "Properties": {
         "PolicyDocument": {
           "Statement": [
+            {
+              "Action": [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             {
               "Action": [
                 "dynamodb:BatchGetItem",
@@ -1475,6 +1749,24 @@ exports[`AppStack - Prod matches snapshot 1`] = `
         ],
       },
     },
+    "CognitoDomain": {
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            "https://",
+            {
+              "Ref": "NotesUserPoolNotesUserPoolDomain7B9BE38F",
+            },
+            ".auth.",
+            {
+              "Ref": "AWS::Region",
+            },
+            ".amazoncognito.com",
+          ],
+        ],
+      },
+    },
     "NotesApiEndpoint602C11C3": {
       "Value": {
         "Fn::Join": [
@@ -1510,6 +1802,16 @@ exports[`AppStack - Prod matches snapshot 1`] = `
         "Ref": "NotesTableD0D0D2F1",
       },
     },
+    "UserPoolClientId": {
+      "Value": {
+        "Ref": "NotesUserPoolClient5D6339A3",
+      },
+    },
+    "UserPoolId": {
+      "Value": {
+        "Ref": "NotesUserPoolC2397827",
+      },
+    },
   },
   "Parameters": {
     "BootstrapVersion": {
@@ -1529,7 +1831,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "f7f33791752f8704edff0591891e7644c2a38610f14084451886b7eaac103b29.zip",
+          "S3Key": "7d44e18b8e0f39f6e9e90c507e9f48b57860ad8260a146b30920a00fd15e6d18.zip",
         },
         "Environment": {
           "Variables": {
@@ -1548,6 +1850,9 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           ],
         },
         "Runtime": "nodejs20.x",
+        "TracingConfig": {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -1586,6 +1891,14 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Properties": {
         "PolicyDocument": {
           "Statement": [
+            {
+              "Action": [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             {
               "Action": [
                 "dynamodb:BatchWriteItem",
@@ -1629,7 +1942,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "f289b5978293d70942ca81bf9d1f7051141841b5d3859a41d5feb98cb057cd5d.zip",
+          "S3Key": "2d8ebe931aed194f3fcb272502afb348a8923dce5d1c15a98a14ea4734f99df1.zip",
         },
         "Environment": {
           "Variables": {
@@ -1648,6 +1961,9 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           ],
         },
         "Runtime": "nodejs20.x",
+        "TracingConfig": {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -1655,6 +1971,14 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Properties": {
         "PolicyDocument": {
           "Statement": [
+            {
+              "Action": [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             {
               "Action": [
                 "dynamodb:BatchGetItem",
@@ -1736,7 +2060,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "7874bfe6e3f8447d7cf6667e578c6e5f1b2f179ca88ce35cd29d099a8aac4759.zip",
+          "S3Key": "3ad0dbe43b3f18dbbcbfd69e4445291a4943e91e236ffac3196fbf88604a5e51.zip",
         },
         "Environment": {
           "Variables": {
@@ -1755,6 +2079,9 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           ],
         },
         "Runtime": "nodejs20.x",
+        "TracingConfig": {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -1793,6 +2120,14 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Properties": {
         "PolicyDocument": {
           "Statement": [
+            {
+              "Action": [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             {
               "Action": [
                 "dynamodb:BatchGetItem",
@@ -1839,7 +2174,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "a0213d69972f789444b6c2e30e80edece329ad64db0b280890102610a8ba61d1.zip",
+          "S3Key": "7c0f96bdc6412224b097bdb3c289e85114a34ffb7ee4c1bad8e1215732883194.zip",
         },
         "Environment": {
           "Variables": {
@@ -1858,6 +2193,9 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           ],
         },
         "Runtime": "nodejs20.x",
+        "TracingConfig": {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -1896,6 +2234,14 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Properties": {
         "PolicyDocument": {
           "Statement": [
+            {
+              "Action": [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             {
               "Action": [
                 "dynamodb:BatchGetItem",
@@ -1987,7 +2333,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::IAM::Role",
       "UpdateReplacePolicy": "Retain",
     },
-    "NotesApiDeploymentE5BDBE476f1a5252c22266da4a5d4d5e38cf8409": {
+    "NotesApiDeploymentE5BDBE475a8597d952d7f9041a70deb596f4630b": {
       "DependsOn": [
         "NotesApinotesidDELETE24275C9B",
         "NotesApinotesidGET8453D020",
@@ -2016,7 +2362,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       ],
       "Properties": {
         "DeploymentId": {
-          "Ref": "NotesApiDeploymentE5BDBE476f1a5252c22266da4a5d4d5e38cf8409",
+          "Ref": "NotesApiDeploymentE5BDBE475a8597d952d7f9041a70deb596f4630b",
         },
         "RestApiId": {
           "Ref": "NotesApi2FFCBC92",
@@ -2041,8 +2387,16 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Resource",
     },
     "NotesApinotesGET86839B50": {
+      "DependsOn": [
+        "GetAllNotesFunction67B1BBB1",
+        "GetAllNotesFunctionServiceRoleDefaultPolicyCAA24DB2",
+        "GetAllNotesFunctionServiceRole77987CC1",
+      ],
       "Properties": {
-        "AuthorizationType": "NONE",
+        "AuthorizationType": "COGNITO_USER_POOLS",
+        "AuthorizerId": {
+          "Ref": "NotesAuthorizerE65DF30F",
+        },
         "HttpMethod": "GET",
         "Integration": {
           "IntegrationHttpMethod": "POST",
@@ -2081,6 +2435,11 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Method",
     },
     "NotesApinotesGETApiPermissionTestStackProdNotesApi6DB4DAADGETnotes290751C9": {
+      "DependsOn": [
+        "GetAllNotesFunction67B1BBB1",
+        "GetAllNotesFunctionServiceRoleDefaultPolicyCAA24DB2",
+        "GetAllNotesFunctionServiceRole77987CC1",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -2122,6 +2481,11 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::Lambda::Permission",
     },
     "NotesApinotesGETApiPermissionTestTestStackProdNotesApi6DB4DAADGETnotes7FC56F96": {
+      "DependsOn": [
+        "GetAllNotesFunction67B1BBB1",
+        "GetAllNotesFunctionServiceRoleDefaultPolicyCAA24DB2",
+        "GetAllNotesFunctionServiceRole77987CC1",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -2167,7 +2531,8 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           "IntegrationResponses": [
             {
               "ResponseParameters": {
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
                 "method.response.header.Access-Control-Allow-Methods": "'GET,POST,PUT,DELETE'",
                 "method.response.header.Access-Control-Allow-Origin": "'*'",
               },
@@ -2182,6 +2547,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
         "MethodResponses": [
           {
             "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Credentials": true,
               "method.response.header.Access-Control-Allow-Headers": true,
               "method.response.header.Access-Control-Allow-Methods": true,
               "method.response.header.Access-Control-Allow-Origin": true,
@@ -2199,8 +2565,16 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Method",
     },
     "NotesApinotesPOST6F739821": {
+      "DependsOn": [
+        "CreateNoteFunctionC1EC69E3",
+        "CreateNoteFunctionServiceRoleDefaultPolicy5F7B63FA",
+        "CreateNoteFunctionServiceRole9C3BB915",
+      ],
       "Properties": {
-        "AuthorizationType": "NONE",
+        "AuthorizationType": "COGNITO_USER_POOLS",
+        "AuthorizerId": {
+          "Ref": "NotesAuthorizerE65DF30F",
+        },
         "HttpMethod": "POST",
         "Integration": {
           "IntegrationHttpMethod": "POST",
@@ -2239,6 +2613,11 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Method",
     },
     "NotesApinotesPOSTApiPermissionTestStackProdNotesApi6DB4DAADPOSTnotes6ECDD34C": {
+      "DependsOn": [
+        "CreateNoteFunctionC1EC69E3",
+        "CreateNoteFunctionServiceRoleDefaultPolicy5F7B63FA",
+        "CreateNoteFunctionServiceRole9C3BB915",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -2280,6 +2659,11 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::Lambda::Permission",
     },
     "NotesApinotesPOSTApiPermissionTestTestStackProdNotesApi6DB4DAADPOSTnotes2EF41A84": {
+      "DependsOn": [
+        "CreateNoteFunctionC1EC69E3",
+        "CreateNoteFunctionServiceRoleDefaultPolicy5F7B63FA",
+        "CreateNoteFunctionServiceRole9C3BB915",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -2317,8 +2701,16 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::Lambda::Permission",
     },
     "NotesApinotesidDELETE24275C9B": {
+      "DependsOn": [
+        "DeleteNoteFunctionCB51FD8A",
+        "DeleteNoteFunctionServiceRoleDefaultPolicy9835A5CB",
+        "DeleteNoteFunctionServiceRoleF6C5C9BE",
+      ],
       "Properties": {
-        "AuthorizationType": "NONE",
+        "AuthorizationType": "COGNITO_USER_POOLS",
+        "AuthorizerId": {
+          "Ref": "NotesAuthorizerE65DF30F",
+        },
         "HttpMethod": "DELETE",
         "Integration": {
           "IntegrationHttpMethod": "POST",
@@ -2357,6 +2749,11 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Method",
     },
     "NotesApinotesidDELETEApiPermissionTestStackProdNotesApi6DB4DAADDELETEnotesidBD250280": {
+      "DependsOn": [
+        "DeleteNoteFunctionCB51FD8A",
+        "DeleteNoteFunctionServiceRoleDefaultPolicy9835A5CB",
+        "DeleteNoteFunctionServiceRoleF6C5C9BE",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -2398,6 +2795,11 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::Lambda::Permission",
     },
     "NotesApinotesidDELETEApiPermissionTestTestStackProdNotesApi6DB4DAADDELETEnotesidBB75F952": {
+      "DependsOn": [
+        "DeleteNoteFunctionCB51FD8A",
+        "DeleteNoteFunctionServiceRoleDefaultPolicy9835A5CB",
+        "DeleteNoteFunctionServiceRoleF6C5C9BE",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -2447,8 +2849,16 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Resource",
     },
     "NotesApinotesidGET8453D020": {
+      "DependsOn": [
+        "GetNoteByIdFunction0CA9D5E9",
+        "GetNoteByIdFunctionServiceRoleDefaultPolicy490AAA48",
+        "GetNoteByIdFunctionServiceRole94798426",
+      ],
       "Properties": {
-        "AuthorizationType": "NONE",
+        "AuthorizationType": "COGNITO_USER_POOLS",
+        "AuthorizerId": {
+          "Ref": "NotesAuthorizerE65DF30F",
+        },
         "HttpMethod": "GET",
         "Integration": {
           "IntegrationHttpMethod": "POST",
@@ -2487,6 +2897,11 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Method",
     },
     "NotesApinotesidGETApiPermissionTestStackProdNotesApi6DB4DAADGETnotesidC9251DFA": {
+      "DependsOn": [
+        "GetNoteByIdFunction0CA9D5E9",
+        "GetNoteByIdFunctionServiceRoleDefaultPolicy490AAA48",
+        "GetNoteByIdFunctionServiceRole94798426",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -2528,6 +2943,11 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::Lambda::Permission",
     },
     "NotesApinotesidGETApiPermissionTestTestStackProdNotesApi6DB4DAADGETnotesidED388BF9": {
+      "DependsOn": [
+        "GetNoteByIdFunction0CA9D5E9",
+        "GetNoteByIdFunctionServiceRoleDefaultPolicy490AAA48",
+        "GetNoteByIdFunctionServiceRole94798426",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -2573,7 +2993,8 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           "IntegrationResponses": [
             {
               "ResponseParameters": {
-                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                "method.response.header.Access-Control-Allow-Credentials": "'true'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization'",
                 "method.response.header.Access-Control-Allow-Methods": "'GET,PUT,DELETE'",
                 "method.response.header.Access-Control-Allow-Origin": "'*'",
               },
@@ -2588,6 +3009,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
         "MethodResponses": [
           {
             "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Credentials": true,
               "method.response.header.Access-Control-Allow-Headers": true,
               "method.response.header.Access-Control-Allow-Methods": true,
               "method.response.header.Access-Control-Allow-Origin": true,
@@ -2605,8 +3027,16 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Method",
     },
     "NotesApinotesidPUT13E9226C": {
+      "DependsOn": [
+        "UpdateNoteFunctionF36A8BA2",
+        "UpdateNoteFunctionServiceRoleDefaultPolicy21C54764",
+        "UpdateNoteFunctionServiceRole2D7A5094",
+      ],
       "Properties": {
-        "AuthorizationType": "NONE",
+        "AuthorizationType": "COGNITO_USER_POOLS",
+        "AuthorizerId": {
+          "Ref": "NotesAuthorizerE65DF30F",
+        },
         "HttpMethod": "PUT",
         "Integration": {
           "IntegrationHttpMethod": "POST",
@@ -2645,6 +3075,11 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::ApiGateway::Method",
     },
     "NotesApinotesidPUTApiPermissionTestStackProdNotesApi6DB4DAADPUTnotesid54744190": {
+      "DependsOn": [
+        "UpdateNoteFunctionF36A8BA2",
+        "UpdateNoteFunctionServiceRoleDefaultPolicy21C54764",
+        "UpdateNoteFunctionServiceRole2D7A5094",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -2686,6 +3121,11 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::Lambda::Permission",
     },
     "NotesApinotesidPUTApiPermissionTestTestStackProdNotesApi6DB4DAADPUTnotesid479B8947": {
+      "DependsOn": [
+        "UpdateNoteFunctionF36A8BA2",
+        "UpdateNoteFunctionServiceRoleDefaultPolicy21C54764",
+        "UpdateNoteFunctionServiceRole2D7A5094",
+      ],
       "Properties": {
         "Action": "lambda:InvokeFunction",
         "FunctionName": {
@@ -2722,6 +3162,25 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       },
       "Type": "AWS::Lambda::Permission",
     },
+    "NotesAuthorizerE65DF30F": {
+      "Properties": {
+        "IdentitySource": "method.request.header.Authorization",
+        "Name": "TestStackProdNotesAuthorizer2434F10F",
+        "ProviderARNs": [
+          {
+            "Fn::GetAtt": [
+              "NotesUserPoolC2397827",
+              "Arn",
+            ],
+          },
+        ],
+        "RestApiId": {
+          "Ref": "NotesApi2FFCBC92",
+        },
+        "Type": "COGNITO_USER_POOLS",
+      },
+      "Type": "AWS::ApiGateway::Authorizer",
+    },
     "NotesTableD0D0D2F1": {
       "DeletionPolicy": "Retain",
       "Properties": {
@@ -2746,6 +3205,84 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Type": "AWS::DynamoDB::Table",
       "UpdateReplacePolicy": "Retain",
     },
+    "NotesUserPoolC2397827": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "AccountRecoverySetting": {
+          "RecoveryMechanisms": [
+            {
+              "Name": "verified_phone_number",
+              "Priority": 1,
+            },
+            {
+              "Name": "verified_email",
+              "Priority": 2,
+            },
+          ],
+        },
+        "AdminCreateUserConfig": {
+          "AllowAdminCreateUserOnly": false,
+        },
+        "AutoVerifiedAttributes": [
+          "email",
+        ],
+        "EmailVerificationMessage": "The verification code to your new account is {####}",
+        "EmailVerificationSubject": "Verify your new account",
+        "SmsVerificationMessage": "The verification code to your new account is {####}",
+        "UsernameAttributes": [
+          "email",
+        ],
+        "VerificationMessageTemplate": {
+          "DefaultEmailOption": "CONFIRM_WITH_CODE",
+          "EmailMessage": "The verification code to your new account is {####}",
+          "EmailSubject": "Verify your new account",
+          "SmsMessage": "The verification code to your new account is {####}",
+        },
+      },
+      "Type": "AWS::Cognito::UserPool",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "NotesUserPoolClient5D6339A3": {
+      "Properties": {
+        "AllowedOAuthFlows": [
+          "implicit",
+          "code",
+        ],
+        "AllowedOAuthFlowsUserPoolClient": true,
+        "AllowedOAuthScopes": [
+          "profile",
+          "phone",
+          "email",
+          "openid",
+          "aws.cognito.signin.user.admin",
+        ],
+        "CallbackURLs": [
+          "https://example.com",
+        ],
+        "ExplicitAuthFlows": [
+          "ALLOW_USER_PASSWORD_AUTH",
+          "ALLOW_REFRESH_TOKEN_AUTH",
+        ],
+        "GenerateSecret": false,
+        "PreventUserExistenceErrors": "ENABLED",
+        "SupportedIdentityProviders": [
+          "COGNITO",
+        ],
+        "UserPoolId": {
+          "Ref": "NotesUserPoolC2397827",
+        },
+      },
+      "Type": "AWS::Cognito::UserPoolClient",
+    },
+    "NotesUserPoolNotesUserPoolDomain7B9BE38F": {
+      "Properties": {
+        "Domain": "notes-demo-id1",
+        "UserPoolId": {
+          "Ref": "NotesUserPoolC2397827",
+        },
+      },
+      "Type": "AWS::Cognito::UserPoolDomain",
+    },
     "UpdateNoteFunctionF36A8BA2": {
       "DependsOn": [
         "UpdateNoteFunctionServiceRoleDefaultPolicy21C54764",
@@ -2756,7 +3293,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "e4397a0d4faeb3210a0ad29fd4371dc899a8e9600c137d9c6ffc7d3a42ce556a.zip",
+          "S3Key": "f06b9e23fab733a421401d6ef142e84281282dab7ff712c7c83f7b24effed9a2.zip",
         },
         "Environment": {
           "Variables": {
@@ -2775,6 +3312,9 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           ],
         },
         "Runtime": "nodejs20.x",
+        "TracingConfig": {
+          "Mode": "Active",
+        },
       },
       "Type": "AWS::Lambda::Function",
     },
@@ -2813,6 +3353,14 @@ exports[`AppStack - Prod matches snapshot 1`] = `
       "Properties": {
         "PolicyDocument": {
           "Statement": [
+            {
+              "Action": [
+                "xray:PutTraceSegments",
+                "xray:PutTelemetryRecords",
+              ],
+              "Effect": "Allow",
+              "Resource": "*",
+            },
             {
               "Action": [
                 "dynamodb:BatchGetItem",
