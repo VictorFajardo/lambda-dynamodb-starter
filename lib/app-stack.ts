@@ -1,8 +1,10 @@
-import { createLambdaFunction } from './helpers/lambdaFunctionFactory';
 import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import * as cdk from 'aws-cdk-lib';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import * as cognito from 'aws-cdk-lib/aws-cognito';
+import { createLambdaFunction } from './helpers/lambdaFunctionFactory';
 
 interface LambdaEnv {
   id: string;
@@ -17,36 +19,54 @@ export class AppStack extends Stack {
 
     const isProd = process.env.STAGE === 'prod';
 
-    // DynamoDB Table
+    // === DynamoDB ===
     const table = new dynamodb.Table(this, 'NotesTable', {
       tableName: 'NotesTable',
       partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
       // billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
     });
 
-    // API Gateway
+    // === API Gateway ===
     const api = new apigateway.RestApi(this, 'NotesApi', {
       restApiName: 'Notes Service',
     });
 
-    // Create /notes and /notes/{id} resources once and store it
+    // API Resources
     const notesResource = api.root.addResource('notes');
     const noteById = notesResource.addResource('{id}');
 
-    // Add CORS
-    notesResource.addCorsPreflight({
-      allowOrigins: [process.env.ALLOWED_ORIGIN ?? '*'],
-      allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
-    });
-    noteById.addCorsPreflight({
-      allowOrigins: [process.env.ALLOWED_ORIGIN ?? '*'],
-      allowMethods: ['GET', 'PUT', 'DELETE'],
+    // === Cognito ===
+    const userPool = new cognito.UserPool(this, 'NotesUserPool', {
+      selfSignUpEnabled: true,
+      signInAliases: { email: true },
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
+    const userPoolClient = new cognito.UserPoolClient(this, 'NotesUserPoolClient', {
+      userPool,
+      authFlows: { userPassword: true },
+      preventUserExistenceErrors: true,
+      generateSecret: false,
+    });
+
+    const accountSuffix = this.account
+      .slice(-6)
+      .toLowerCase()
+      .replace(/[^a-z0-9-]/g, '');
+
+    const domain = userPool.addDomain('NotesUserPoolDomain', {
+      cognitoDomain: { domainPrefix: `notes-demo-${accountSuffix}` },
+    });
+
+    const authorizer = new apigateway.CognitoUserPoolsAuthorizer(this, 'NotesAuthorizer', {
+      cognitoUserPools: [userPool],
+    });
+
+    // === Helper to create Lambdas ===
     const addLambda = (props: Parameters<typeof createLambdaFunction>[0]) => {
       const lambdaFn = createLambdaFunction(props);
 
-      // Track env separately for SAM local
+      // Track env separately for SAM/local
       this.functions.push({
         id: lambdaFn.node.id,
         env: {
@@ -58,7 +78,7 @@ export class AppStack extends Stack {
       return lambdaFn;
     };
 
-    // === Lambda: Create Note ===
+    // === Lambda Definitions ===
     addLambda({
       scope: this,
       id: 'CreateNoteFunction',
@@ -68,9 +88,9 @@ export class AppStack extends Stack {
       httpMethod: 'POST',
       grantType: 'write',
       isProd,
+      authorizer,
     });
 
-    // === Lambda: Get All Notes ===
     addLambda({
       scope: this,
       id: 'GetAllNotesFunction',
@@ -80,9 +100,9 @@ export class AppStack extends Stack {
       httpMethod: 'GET',
       grantType: 'read',
       isProd,
+      authorizer,
     });
 
-    // === Lambda: Get Note by ID ===
     addLambda({
       scope: this,
       id: 'GetNoteByIdFunction',
@@ -92,9 +112,9 @@ export class AppStack extends Stack {
       httpMethod: 'GET',
       grantType: 'read',
       isProd,
+      authorizer,
     });
 
-    // === Lambda: Put Note by ID ===
     addLambda({
       scope: this,
       id: 'UpdateNoteFunction',
@@ -104,9 +124,9 @@ export class AppStack extends Stack {
       httpMethod: 'PUT',
       grantType: 'readWrite',
       isProd,
+      authorizer,
     });
 
-    // === Lambda: Delete Note by ID ===
     addLambda({
       scope: this,
       id: 'DeleteNoteFunction',
@@ -116,6 +136,24 @@ export class AppStack extends Stack {
       httpMethod: 'DELETE',
       grantType: 'readWrite',
       isProd,
+      authorizer,
+    });
+
+    // === CORS ===
+    const allowedOrigin = process.env.ALLOWED_ORIGIN ?? '*';
+
+    notesResource.addCorsPreflight({
+      allowOrigins: [allowedOrigin],
+      allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
+      allowHeaders: ['Content-Type', 'Authorization'],
+      allowCredentials: true,
+    });
+
+    noteById.addCorsPreflight({
+      allowOrigins: [allowedOrigin],
+      allowMethods: ['GET', 'PUT', 'DELETE'],
+      allowHeaders: ['Content-Type', 'Authorization'],
+      allowCredentials: true,
     });
 
     // === Outputs ===
@@ -131,9 +169,16 @@ export class AppStack extends Stack {
       exportName: 'NotesTableName',
     });
 
-    // new CfnOutput(this, 'CreateNoteLambdaArn', {
-    //   value: createNoteAlias.functionArn,
-    //   description: 'ARN of the CreateNote Lambda function',
-    // });
+    new CfnOutput(this, 'CognitoDomain', {
+      value: `https://${domain.domainName}.auth.${this.region}.amazoncognito.com`,
+    });
+
+    new CfnOutput(this, 'UserPoolId', {
+      value: userPool.userPoolId,
+    });
+
+    new CfnOutput(this, 'UserPoolClientId', {
+      value: userPoolClient.userPoolClientId,
+    });
   }
 }
