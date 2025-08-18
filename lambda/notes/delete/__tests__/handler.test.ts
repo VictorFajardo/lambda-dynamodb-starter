@@ -14,8 +14,8 @@ describe('deleteNote handler', () => {
 
     const response = await handler(event);
 
-    expect(response.statusCode).toBe(200);
-    expect(response.body).toContain('Note 123 deleted');
+    expect(response.statusCode).toBe(204);
+    expect(response.body).not.toBeTruthy();
   });
 
   it('should return 400 if id missing', async () => {
@@ -49,7 +49,7 @@ describe('deleteNote handler', () => {
     const result = await handler(event);
 
     expect(result.statusCode).toBe(404);
-    expect(JSON.parse(result.body).message).toMatch('Note with id "does-not-exist" not found');
+    expect(JSON.parse(result.body).message).toMatch('Resource with id "does-not-exist" not found');
   });
 
   it('returns 500 on unexpected error', async () => {

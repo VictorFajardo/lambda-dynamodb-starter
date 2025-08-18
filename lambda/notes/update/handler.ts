@@ -24,7 +24,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 
       const note = await updateNote(id, content);
 
-      return created({ message: 'Note created', note });
+      return created({ message: 'Note updated', note });
     });
   } catch (error: unknown) {
     return handleError(error, { id });
