@@ -1,5 +1,6 @@
 import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import * as cdk from 'aws-cdk-lib';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
@@ -38,17 +39,21 @@ export class AppStack extends Stack {
     const userPool = new cognito.UserPool(this, 'NotesUserPool', {
       selfSignUpEnabled: true,
       signInAliases: { email: true },
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
     const userPoolClient = new cognito.UserPoolClient(this, 'NotesUserPoolClient', {
       userPool,
       authFlows: { userPassword: true },
+      preventUserExistenceErrors: true,
+      generateSecret: false,
     });
 
     const accountSuffix = this.account
       .slice(-6)
       .toLowerCase()
       .replace(/[^a-z0-9-]/g, '');
+
     const domain = userPool.addDomain('NotesUserPoolDomain', {
       cognitoDomain: { domainPrefix: `notes-demo-${accountSuffix}` },
     });
@@ -141,12 +146,14 @@ export class AppStack extends Stack {
       allowOrigins: [allowedOrigin],
       allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
       allowHeaders: ['Content-Type', 'Authorization'],
+      allowCredentials: true,
     });
 
     noteById.addCorsPreflight({
       allowOrigins: [allowedOrigin],
       allowMethods: ['GET', 'PUT', 'DELETE'],
       allowHeaders: ['Content-Type', 'Authorization'],
+      allowCredentials: true,
     });
 
     // === Outputs ===
