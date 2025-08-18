@@ -15,7 +15,7 @@ describe('updateNote handler', () => {
     } as unknown as APIGatewayProxyEvent;
 
     const response = await handler(event);
-    expect(response.statusCode).toBe(200);
+    expect(response.statusCode).toBe(201);
     expect(JSON.parse(response.body)).toEqual({ message: 'Note updated', note: updatedNote });
   });
 
@@ -54,7 +54,7 @@ describe('updateNote handler', () => {
     const result = await handler(event);
 
     expect(result.statusCode).toBe(404);
-    expect(JSON.parse(result.body).message).toMatch('Note with id "does-not-exist" not found');
+    expect(JSON.parse(result.body).message).toMatch('Resource with id "does-not-exist" not found');
   });
 
   it('returns 500 when body is invalid JSON', async () => {

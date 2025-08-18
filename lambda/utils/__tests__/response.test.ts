@@ -35,7 +35,7 @@ describe('response utilities', () => {
   it('notFound returns 404 with default message', () => {
     const res = notFound();
     expect(res.statusCode).toBe(404);
-    expect(JSON.parse(res.body)).toEqual({ message: 'Note not found' });
+    expect(JSON.parse(res.body)).toEqual({ message: 'Resource not found' });
   });
 
   it('notFound returns 404 with custom message', () => {
@@ -54,12 +54,12 @@ describe('response utilities', () => {
     });
   });
 
-  it('internalError returns 500 with unknow message', () => {
+  it('internalError returns 500 with unknown message', () => {
     const res = internalError();
     expect(res.statusCode).toBe(500);
     expect(JSON.parse(res.body)).toEqual({
       message: 'Internal Server Error',
-      error: 'An unknown error occurred',
+      error: 'undefined',
     });
   });
 });

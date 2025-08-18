@@ -115,7 +115,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "7d44e18b8e0f39f6e9e90c507e9f48b57860ad8260a146b30920a00fd15e6d18.zip",
+          "S3Key": "07792e1a9f99895805c3695e1bcb779d3f86d9dd01f4028e1c0897277aba5550.zip",
         },
         "Environment": {
           "Variables": {
@@ -226,7 +226,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "2d8ebe931aed194f3fcb272502afb348a8923dce5d1c15a98a14ea4734f99df1.zip",
+          "S3Key": "effe4e6b7fe2c0efce36d54c1c03f2967c81786658839b0b56b4dcdf46f34013.zip",
         },
         "Environment": {
           "Variables": {
@@ -344,7 +344,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "3ad0dbe43b3f18dbbcbfd69e4445291a4943e91e236ffac3196fbf88604a5e51.zip",
+          "S3Key": "b49afebf9b3b9c67b00b9777c474648e317831435ef030c6ae34cea9cde1528e.zip",
         },
         "Environment": {
           "Variables": {
@@ -458,7 +458,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "7c0f96bdc6412224b097bdb3c289e85114a34ffb7ee4c1bad8e1215732883194.zip",
+          "S3Key": "63f5bf2fa8dd0ba048f487128630f68000d42cb06f8c48b97bd773b98cf1097b.zip",
         },
         "Environment": {
           "Variables": {
@@ -1560,7 +1560,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
     },
     "NotesUserPoolNotesUserPoolDomain7B9BE38F": {
       "Properties": {
-        "Domain": "notes-demo-id1",
+        "Domain": "notes-demo-id3",
         "UserPoolId": {
           "Ref": "NotesUserPoolC2397827",
         },
@@ -1577,7 +1577,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "f06b9e23fab733a421401d6ef142e84281282dab7ff712c7c83f7b24effed9a2.zip",
+          "S3Key": "c73ed1de7ab7361a248de86787627d8dc0c1de7069cb910fb96580c161b9c97d.zip",
         },
         "Environment": {
           "Variables": {
@@ -1831,7 +1831,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "7d44e18b8e0f39f6e9e90c507e9f48b57860ad8260a146b30920a00fd15e6d18.zip",
+          "S3Key": "07792e1a9f99895805c3695e1bcb779d3f86d9dd01f4028e1c0897277aba5550.zip",
         },
         "Environment": {
           "Variables": {
@@ -1942,7 +1942,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "2d8ebe931aed194f3fcb272502afb348a8923dce5d1c15a98a14ea4734f99df1.zip",
+          "S3Key": "effe4e6b7fe2c0efce36d54c1c03f2967c81786658839b0b56b4dcdf46f34013.zip",
         },
         "Environment": {
           "Variables": {
@@ -2060,7 +2060,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "3ad0dbe43b3f18dbbcbfd69e4445291a4943e91e236ffac3196fbf88604a5e51.zip",
+          "S3Key": "b49afebf9b3b9c67b00b9777c474648e317831435ef030c6ae34cea9cde1528e.zip",
         },
         "Environment": {
           "Variables": {
@@ -2174,7 +2174,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "7c0f96bdc6412224b097bdb3c289e85114a34ffb7ee4c1bad8e1215732883194.zip",
+          "S3Key": "63f5bf2fa8dd0ba048f487128630f68000d42cb06f8c48b97bd773b98cf1097b.zip",
         },
         "Environment": {
           "Variables": {
@@ -3276,7 +3276,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
     },
     "NotesUserPoolNotesUserPoolDomain7B9BE38F": {
       "Properties": {
-        "Domain": "notes-demo-id1",
+        "Domain": "notes-demo-id3",
         "UserPoolId": {
           "Ref": "NotesUserPoolC2397827",
         },
@@ -3293,7 +3293,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "f06b9e23fab733a421401d6ef142e84281282dab7ff712c7c83f7b24effed9a2.zip",
+          "S3Key": "c73ed1de7ab7361a248de86787627d8dc0c1de7069cb910fb96580c161b9c97d.zip",
         },
         "Environment": {
           "Variables": {
