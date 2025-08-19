@@ -39,8 +39,8 @@ describe('AppStack - Dev', () => {
     });
   });
 
-  it('creates 5 Lambda functions', () => {
-    template.resourceCountIs('AWS::Lambda::Function', 5);
+  it('creates 6 Lambda functions', () => {
+    template.resourceCountIs('AWS::Lambda::Function', 6);
   });
 
   it('creates API Gateway with expected methods on /notes and /notes/{id}', () => {
@@ -51,11 +51,11 @@ describe('AppStack - Dev', () => {
       (m: any) => m.Properties.HttpMethod !== 'OPTIONS'
     );
 
-    // We expect 5 CRUD methods
-    expect(nonOptionsMethods.length).toBe(5);
+    // We expect 6 CRUD methods
+    expect(nonOptionsMethods.length).toBe(6);
 
     // Confirm the methods are exactly the ones you configured
-    const expectedMethods = ['GET', 'GET', 'POST', 'PUT', 'DELETE'];
+    const expectedMethods = ['GET', 'GET', 'POST', 'POST', 'PUT', 'DELETE'];
     const actualMethods = nonOptionsMethods.map((m: any) => m.Properties.HttpMethod);
 
     expect(actualMethods.sort()).toEqual(expectedMethods.sort());
