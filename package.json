@@ -27,8 +27,8 @@
     "@types/jest": "^30.0.0",
     "@typescript-eslint/eslint-plugin": "^8.39.1",
     "@typescript-eslint/parser": "^8.38.0",
-    "codecov": "^3.8.3",
     "aws-cdk-lib": "^2.211.0",
+    "codecov": "^3.8.3",
     "constructs": "^10.0.0",
     "cross-env": "^10.0.0",
     "esbuild": "^0.25.9",
@@ -44,10 +44,12 @@
   },
   "dependencies": {
     "@aws-cdk/aws-lambda-nodejs": "^1.204.0",
+    "@aws-sdk/client-cognito-identity-provider": "^3.865.0",
     "@aws-sdk/client-dynamodb": "^3.848.0",
     "@aws-sdk/lib-dynamodb": "^3.868.0",
     "aws-xray-sdk-core": "^3.10.3",
     "dotenv": "^17.2.1",
+    "node-fetch": "^3.3.2",
     "zod": "^4.0.17"
   },
   "lint-staged": {

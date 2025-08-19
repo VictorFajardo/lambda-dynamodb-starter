@@ -139,6 +139,25 @@ export class AppStack extends Stack {
       authorizer,
     });
 
+    addLambda({
+      scope: this,
+      id: 'DemoLogin',
+      entryPath: 'lambda/demo-login/handler.ts',
+      table,
+      resource: api.root.addResource('demo-login'),
+      httpMethod: 'POST',
+      grantType: 'readWrite',
+      isProd,
+      authorizer: undefined,
+      environment: {
+        COGNITO_USER_POOL_ID: process.env.COGNITO_USER_POOL_ID!,
+        COGNITO_DOMAIN: process.env.COGNITO_DOMAIN!,
+        COGNITO_CLIENT_ID: process.env.COGNITO_CLIENT_ID!,
+        COGNITO_DEMO_USER: process.env.COGNITO_DEMO_USER!,
+        COGNITO_DEMO_PASSWORD: process.env.COGNITO_DEMO_PASSWORD!,
+      },
+    });
+
     // === CORS ===
     const allowedOrigin = process.env.ALLOWED_ORIGIN ?? '*';
 

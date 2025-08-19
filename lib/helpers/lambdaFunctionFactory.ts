@@ -17,6 +17,7 @@ interface CreateLambdaFunctionProps {
   grantType: 'read' | 'write' | 'readWrite';
   isProd: boolean;
   authorizer?: apigateway.CognitoUserPoolsAuthorizer;
+  environment?: Record<string, string>;
 }
 
 export function createLambdaFunction({
@@ -29,6 +30,7 @@ export function createLambdaFunction({
   grantType,
   isProd,
   authorizer,
+  environment,
 }: CreateLambdaFunctionProps): LambdaOrAlias {
   // === Lambda Function ===
   const fn = new NodejsFunction(scope, id, {
@@ -44,8 +46,9 @@ export function createLambdaFunction({
     },
     environment: {
       ALLOWED_ORIGIN: process.env.ALLOWED_ORIGIN ?? '*',
-      TABLE_NAME: table.tableName,
       REGION: process.env.REGION ?? 'us-east-1',
+      ...(table ? { TABLE_NAME: table.tableName } : {}),
+      ...(environment ?? {}),
     },
   });
 
