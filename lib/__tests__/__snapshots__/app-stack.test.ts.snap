@@ -1828,7 +1828,7 @@ exports[`AppStack - Dev matches snapshot 1`] = `
     },
     "NotesUserPoolNotesUserPoolDomain7B9BE38F": {
       "Properties": {
-        "Domain": "notes-demo-id2",
+        "Domain": "notes-demo-id3",
         "UserPoolId": {
           "Ref": "NotesUserPoolC2397827",
         },
@@ -3812,7 +3812,7 @@ exports[`AppStack - Prod matches snapshot 1`] = `
     },
     "NotesUserPoolNotesUserPoolDomain7B9BE38F": {
       "Properties": {
-        "Domain": "notes-demo-id2",
+        "Domain": "notes-demo-id3",
         "UserPoolId": {
           "Ref": "NotesUserPoolC2397827",
         },
