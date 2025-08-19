@@ -5,9 +5,8 @@ import {
   AdminInitiateAuthCommandInput,
   AdminInitiateAuthCommandOutput,
 } from '@aws-sdk/client-cognito-identity-provider';
-import { handler } from '../handler'; // adjust path to your Lambda
+import { handler } from '../handler';
 
-// Mock the Cognito client
 const cognitoMock = mockClient(CognitoIdentityProviderClient);
 
 describe('demo-login Lambda', () => {
@@ -52,7 +51,6 @@ describe('demo-login Lambda', () => {
     expect(body.IdToken).toBe('id-token');
     expect(body.AccessToken).toBe('access-token');
 
-    // Type-safe check of command input
     const callArgs = cognitoMock.calls()[0].args[0].input as AdminInitiateAuthCommandInput;
     expect(callArgs.AuthFlow).toBe('ADMIN_USER_PASSWORD_AUTH');
     expect(callArgs.AuthParameters?.USERNAME).toBe(ENV.COGNITO_DEMO_USER);
@@ -69,11 +67,11 @@ describe('demo-login Lambda', () => {
   });
 
   it('should fail if environment variables are missing', async () => {
-    delete process.env.COGNITO_DEMO_PASSWORD; // simulate missing env
+    delete process.env.COGNITO_DEMO_PASSWORD;
 
     const result = await handler();
     expect(result.statusCode).toBe(500);
     const body = JSON.parse(result.body);
-    expect(body.error).toContain('undefined'); // the missing variable triggers error
+    expect(body.error).toContain('undefined');
   });
 });
