@@ -4,6 +4,7 @@ import * as cdk from 'aws-cdk-lib';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import { createLambdaFunction } from './helpers/lambdaFunctionFactory';
 
 interface LambdaEnv {
@@ -139,9 +140,9 @@ export class AppStack extends Stack {
       authorizer,
     });
 
-    addLambda({
+    const demoLoginFn = addLambda({
       scope: this,
-      id: 'DemoLogin',
+      id: 'DemoLoginFunction',
       entryPath: 'lambda/demo-login/handler.ts',
       table,
       resource: api.root.addResource('demo-login'),
@@ -157,6 +158,15 @@ export class AppStack extends Stack {
         COGNITO_DEMO_PASSWORD: process.env.COGNITO_DEMO_PASSWORD!,
       },
     });
+
+    // Grant Cognito auth permissions
+    demoLoginFn.addToRolePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['cognito-idp:AdminInitiateAuth'],
+        resources: [userPool.userPoolArn],
+      })
+    );
 
     // === CORS ===
     const allowedOrigin = process.env.ALLOWED_ORIGIN ?? '*';
