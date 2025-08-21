@@ -1,12 +1,15 @@
+import { APIGatewayProxyEvent } from 'aws-lambda';
 import { handler } from '../handler';
 import * as service from '../service';
-import { APIGatewayProxyEvent } from 'aws-lambda';
+import * as getUser from '../../../utils/getUserName';
 
 jest.mock('../service');
 
 describe('deleteNote handler', () => {
   it('should return 200 on successful delete', async () => {
     jest.spyOn(service, 'deleteNote').mockResolvedValueOnce({ id: '123' });
+
+    jest.spyOn(getUser, 'getUserName').mockReturnValue('test name');
 
     const event = {
       pathParameters: { id: '123' },
@@ -16,6 +19,8 @@ describe('deleteNote handler', () => {
 
     expect(response.statusCode).toBe(204);
     expect(response.body).not.toBeTruthy();
+
+    expect(service.deleteNote).toHaveBeenCalledWith('123', 'test name');
   });
 
   it('should return 400 if id missing', async () => {

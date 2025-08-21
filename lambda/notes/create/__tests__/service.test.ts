@@ -16,13 +16,14 @@ describe('createNote service', () => {
     const mockSend = docClient.send as jest.Mock;
     mockSend.mockResolvedValueOnce({});
 
-    const input = { content: 'Test note content' };
-    const result = await createNote(input);
+    const input = { title: 'Test note title', content: 'Test note content' };
+    const result = await createNote(input, 'Test name');
 
     expect(result).toHaveProperty('id');
     expect(result).toHaveProperty('createdAt');
     expect(result.content).toBe(input.content);
     expect(mockSend).toHaveBeenCalledTimes(1);
+    expect(mockSend.mock.calls[0][0].input.Item.title).toBe(input.title);
     expect(mockSend.mock.calls[0][0].input.Item.content).toBe(input.content);
   });
 });

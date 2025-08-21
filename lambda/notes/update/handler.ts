@@ -5,6 +5,7 @@ import { badRequest, created } from '../../utils/response';
 import { updateNote } from './service';
 import { withSubsegment } from '../../utils/xray';
 import { handleError } from '../../utils/errorManager';
+import { getUserName } from '../../utils/getUserName';
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   const id = event.pathParameters?.id;
@@ -16,13 +17,16 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
   try {
     const body = JSON.parse(event.body || '{}');
 
-    const { content } = validate(updateNoteSchema, body);
+    const data = validate(updateNoteSchema, { ...body, id });
+
+    const userName = getUserName(event);
 
     return await withSubsegment('CustomLogicUpdateNote', async (sub) => {
       sub?.addAnnotation('operation', 'updateNote');
-      sub?.addMetadata('input', content);
+      sub?.addAnnotation('userName', userName);
+      sub?.addMetadata('input', data);
 
-      const note = await updateNote(id, content);
+      const note = await updateNote(id, data, userName);
 
       return created({ message: 'Note updated', note });
     });

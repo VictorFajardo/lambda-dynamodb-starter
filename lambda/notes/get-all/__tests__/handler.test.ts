@@ -1,12 +1,22 @@
 import { handler } from '../handler';
 import * as service from '../service';
+import * as getUser from '../../../utils/getUserName';
+import { APIGatewayProxyEvent } from 'aws-lambda';
 
 describe('getAllNotes handler', () => {
   it('should return 200 with notes', async () => {
-    const mockNotes = [{ id: '1', content: 'test', createdAt: 'now' }];
+    const mockNotes = [
+      { id: '1', userName: 'test', title: 'test', content: 'test', createdAt: 'now' },
+    ];
     jest.spyOn(service, 'getAllNotes').mockResolvedValueOnce(mockNotes);
 
-    const response = await handler();
+    jest.spyOn(getUser, 'getUserName').mockReturnValue('test name');
+
+    const event = {
+      pathParameters: { id: '123' },
+    } as unknown as APIGatewayProxyEvent;
+
+    const response = await handler(event);
     expect(response.statusCode).toBe(200);
     expect(JSON.parse(response.body)).toEqual({ notes: mockNotes });
   });
@@ -16,7 +26,11 @@ describe('getAllNotes handler', () => {
       throw new Error('DB is down');
     });
 
-    const result = await handler();
+    const event = {
+      pathParameters: { id: '123' },
+    } as unknown as APIGatewayProxyEvent;
+
+    const result = await handler(event);
 
     expect(result.statusCode).toBe(500);
     expect(JSON.parse(result.body).message).toBe('Internal Server Error');
