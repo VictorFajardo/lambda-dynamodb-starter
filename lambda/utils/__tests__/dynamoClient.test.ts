@@ -1,8 +1,8 @@
-import { docClient } from '../dynamoClient';
+import * as dynamoClient from '../dynamoClient';
 
-describe('DynamoDB Document Client', () => {
-  it('should initialize the docClient', () => {
-    expect(docClient).toBeDefined();
-    expect(typeof docClient.send).toBe('function');
+describe('dynamoClient', () => {
+  it('should export a docClient instance', () => {
+    expect(dynamoClient.docClient).toBeDefined();
+    expect(typeof dynamoClient.docClient.send).toBe('function');
   });
 });

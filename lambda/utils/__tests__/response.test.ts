@@ -1,65 +1,94 @@
-import { response, ok, badRequest, notFound, internalError, headers } from '../response';
+import {
+  ok,
+  created,
+  noContent,
+  badRequest,
+  unauthorized,
+  forbidden,
+  notFound,
+  conflict,
+  internalError,
+} from '../response';
 
-describe('response utilities', () => {
-  it('response returns correct structure', () => {
-    const res = response(201, { success: true });
-    expect(res.statusCode).toBe(201);
-    expect(res.headers).toEqual(headers);
-    expect(JSON.parse(res.body)).toEqual({ success: true });
-  });
-
-  it('ok returns 200 with data', () => {
-    const res = ok({ data: 'hello' });
+describe('response utils', () => {
+  it('should return 200 for ok', () => {
+    const res = ok({ foo: 'bar' });
     expect(res.statusCode).toBe(200);
-    expect(JSON.parse(res.body)).toEqual({ data: 'hello' });
+    expect(JSON.parse(res.body)).toEqual({ foo: 'bar' });
   });
 
-  it('badRequest returns 400 with message and optional errors', () => {
-    const res = badRequest('Invalid input', { content: ['Required'] });
+  it('should return 201 for created', () => {
+    const res = created({ id: 1 });
+    expect(res.statusCode).toBe(201);
+    expect(JSON.parse(res.body)).toEqual({ id: 1 });
+  });
+
+  it('should return 204 for noContent', () => {
+    const res = noContent();
+    expect(res.statusCode).toBe(204);
+    expect(res.body).toBe('');
+  });
+
+  it('should return 400 for badRequest', () => {
+    const res = badRequest('Invalid', { title: ['Required'] });
     expect(res.statusCode).toBe(400);
     expect(JSON.parse(res.body)).toEqual({
-      message: 'Invalid input',
-      errors: { content: ['Required'] },
+      message: 'Invalid',
+      errors: { title: ['Required'] },
     });
   });
 
-  it('badRequest returns 400 with message and undefined errors', () => {
-    const res = badRequest('Just a message');
-    expect(res.statusCode).toBe(400);
-    expect(JSON.parse(res.body)).toEqual({
-      message: 'Just a message',
-      errors: undefined,
-    });
+  it('should return 401 for unauthorized', () => {
+    const res = unauthorized();
+    expect(res.statusCode).toBe(401);
+    expect(JSON.parse(res.body)).toEqual({ message: 'Unauthorized' });
   });
 
-  it('notFound returns 404 with default message', () => {
+  it('should return 403 for forbidden', () => {
+    const res = forbidden();
+    expect(res.statusCode).toBe(403);
+    expect(JSON.parse(res.body)).toEqual({ message: 'Forbidden' });
+  });
+
+  it('should return 404 for notFound', () => {
+    const res = notFound('Not here');
+    expect(res.statusCode).toBe(404);
+    expect(JSON.parse(res.body)).toEqual({ message: 'Not here' });
+  });
+
+  it('should return 404 with default message when no argument is passed', () => {
     const res = notFound();
     expect(res.statusCode).toBe(404);
     expect(JSON.parse(res.body)).toEqual({ message: 'Resource not found' });
   });
 
-  it('notFound returns 404 with custom message', () => {
-    const res = notFound('Custom message');
-    expect(res.statusCode).toBe(404);
-    expect(JSON.parse(res.body)).toEqual({ message: 'Custom message' });
+  it('should return 409 for conflict', () => {
+    const res = conflict('duplicate');
+    expect(res.statusCode).toBe(409);
+    expect(JSON.parse(res.body)).toEqual({ message: 'duplicate' });
   });
 
-  it('internalError returns 500 with generic message', () => {
-    const mockError = new Error('Database not found!');
-    const res = internalError(mockError);
+  it('should return 409 with default message when no argument is passed', () => {
+    const res = conflict();
+    expect(res.statusCode).toBe(409);
+    expect(JSON.parse(res.body)).toEqual({ message: 'Conflict' });
+  });
+
+  it('should return 500 for internalError with Error', () => {
+    const res = internalError(new Error('boom'));
     expect(res.statusCode).toBe(500);
     expect(JSON.parse(res.body)).toEqual({
       message: 'Internal Server Error',
-      error: 'Database not found!',
+      error: 'boom',
     });
   });
 
-  it('internalError returns 500 with unknown message', () => {
-    const res = internalError();
+  it('should return 500 for internalError with string', () => {
+    const res = internalError('oops');
     expect(res.statusCode).toBe(500);
     expect(JSON.parse(res.body)).toEqual({
       message: 'Internal Server Error',
-      error: 'undefined',
+      error: 'oops',
     });
   });
 });

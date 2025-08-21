@@ -1,6 +1,7 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { handler } from '../handler';
 import * as service from '../service';
+import * as getUser from '../../../utils/getUserName';
 
 jest.mock('../service');
 
@@ -8,10 +9,11 @@ describe('updateNote handler', () => {
   it('should return 200 on successful update', async () => {
     const updatedNote = { id: '1', content: 'updated', createdAt: 'now' };
     jest.spyOn(service, 'updateNote').mockResolvedValueOnce(updatedNote);
+    jest.spyOn(getUser, 'getUserName').mockReturnValue('test name');
 
     const event = {
       pathParameters: { id: '1' },
-      body: JSON.stringify({ content: 'updated' }),
+      body: JSON.stringify({ title: 'updated', content: 'updated' }),
     } as unknown as APIGatewayProxyEvent;
 
     const response = await handler(event);
@@ -45,10 +47,11 @@ describe('updateNote handler', () => {
     error.name = 'ConditionalCheckFailedException';
 
     jest.spyOn(service, 'updateNote').mockRejectedValueOnce(error);
+    jest.spyOn(getUser, 'getUserName').mockReturnValue('test name');
 
     const event = {
       pathParameters: { id: 'does-not-exist' },
-      body: JSON.stringify({ content: 'Updated content' }),
+      body: JSON.stringify({ title: 'Updated title', content: 'Updated content' }),
     } as unknown as APIGatewayProxyEvent;
 
     const result = await handler(event);
