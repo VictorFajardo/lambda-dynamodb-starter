@@ -139,14 +139,11 @@ This flow is meant to reduce friction when testing the project.
 
 ---
 
-## 📸 Screenshots (Optional)
+## 📸 Screenshots
 
-_(Recommended for portfolio / hiring managers)_
-You can add:
-
-- A screenshot of the UI (note list + create form)
-- An architecture diagram (Lambda, DynamoDB, API Gateway, Cognito)
-- Example Postman request/response
+![App UI](./docs/app-0.png)
+![App UI](./docs/app-1.png)
+![App UI](./docs/app-2.png)
 
 ---
 
