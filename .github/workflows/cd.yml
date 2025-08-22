@@ -1,38 +1,42 @@
-name: CD
+name: CDK Deploy
 
 on:
   push:
     branches: [main]
 
+permissions:
+  id-token: write # Required for OIDC
+  contents: read # For repo checkout
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write # for AWS OIDC
-      contents: read
-
     steps:
-      - uses: actions/checkout@v4
+      # 1️⃣ Checkout the repo
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Configure AWS credentials
+      # 2️⃣ Configure AWS credentials via OIDC
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/${{ secrets.AWS_GITHUB_ROLE }}
           aws-region: us-east-1
 
-      - name: CDK Synth
-        run: npx cdk synth
+      # 3️⃣ Install Node.js (required for CDK CLI)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-      - name: CDK Diff
-        run: npx cdk diff || true # don't fail if there are changes
+      # 4️⃣ Install CDK CLI
+      - name: Install AWS CDK
+        run: npm install -g aws-cdk
 
+      # 5️⃣ Install project dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # 6️⃣ Deploy CDK stack
       - name: CDK Deploy
         run: npx cdk deploy --require-approval never
