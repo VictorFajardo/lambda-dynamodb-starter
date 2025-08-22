@@ -95,17 +95,37 @@ Here’s how the system is structured:
 
 ## 🧪 Local Development
 
-- Use `cdk synth` and `cdk deploy` to bootstrap infrastructure
-- Test locally with **Jest** and Postman
-- (Optional) Run locally with **AWS SAM** or `serverless-offline`
+This project supports full **local emulation** of the stack using Docker + SAM:
+
+```bash
+# Start local DynamoDB in Docker
+npm run db:up
+
+# Create and seed the DynamoDB table
+npm run db:create
+npm run db:seed
+
+# Prepare local CloudFormation template
+npm run local-prepare
+
+# Run the API locally with AWS SAM
+npm run local-api
+```
+
+- Run unit tests with **Jest**: `npm run test`
+- Run API tests with **Postman** or `curl`
+- DynamoDB data can be reset anytime using `db:create` + `db:seed`
 
 ---
 
 ## 🚀 CI/CD
 
-- **GitHub Actions** for build, test, and deploy
-- Automated `cdk synth`, `cdk diff`, and `cdk deploy`
-- Code coverage reporting with Codecov
+- **CI**: GitHub Actions run linting, tests, and upload coverage reports to Codecov on each PR.
+- **CD**: On merges to `main`, GitHub Actions automatically:
+  - Run `cdk synth` to validate CloudFormation templates
+  - Run `cdk diff` to preview changes
+  - Deploy with `cdk deploy` (no manual approval required)
+- Secure AWS OIDC integration (no long-lived AWS keys in secrets)
 
 ---
 
@@ -117,6 +137,16 @@ cd lambda-dynamodb-infra
 npm install
 cdk bootstrap
 cdk deploy
+```
+
+For **local development**:
+
+```bash
+npm run db:up
+npm run db:create
+npm run db:seed
+npm run local-prepare
+npm run local-api
 ```
 
 After deployment, check the CDK outputs for:
