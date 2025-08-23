@@ -1,6 +1,13 @@
 {
-  "name": "lambda-dynamodb-starter",
+  "name": "lambda-dynamodb-infra",
   "version": "1.0.0",
+  "description": "Serverless note-taking platform powered by AWS Lambda, DynamoDB, API Gateway, Cognito, and React UI.",
+  "license": "MIT",
+  "author": "Victor Fajardo",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VictorFajardo/lambda-dynamodb-infra.git"
+  },
   "scripts": {
     "build": "tsc",
     "cdk": "cdk",

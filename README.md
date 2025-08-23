@@ -2,7 +2,12 @@
 
 A **full-stack serverless note-taking platform** powered by **AWS Lambda, DynamoDB, API Gateway, and Cognito**, with a React-based UI.
 
+[![CI](https://github.com/VictorFajardo/lambda-dynamodb-infra/actions/workflows/ci.yml/badge.svg)](https://github.com/VictorFajardo/lambda-dynamodb-infra/actions/workflows/ci.yml)
+[![CD](https://github.com/VictorFajardo/lambda-dynamodb-infra/actions/workflows/cd.yml/badge.svg)](https://github.com/VictorFajardo/lambda-dynamodb-infra/actions/workflows/cd.yml)
 [![codecov](https://codecov.io/github/VictorFajardo/lambda-dynamodb-infra/graph/badge.svg?token=RWL3X3IAMM)](https://codecov.io/github/VictorFajardo/lambda-dynamodb-infra)
+[![Node.js](https://img.shields.io/badge/node-%3E=20-green)](https://nodejs.org/)
+[![AWS CDK](https://img.shields.io/badge/CDK-v2-blueviolet)](https://docs.aws.amazon.com/cdk/v2/guide/home.html)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 ---
 
