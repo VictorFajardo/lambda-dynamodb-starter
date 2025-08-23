@@ -1,72 +1,187 @@
-# Lambda + DynamoDB CDK Starter (TypeScript)
+# Lambda-DynamoDB Infra
 
-A serverless starter template using AWS CDK, Lambda, API Gateway, and DynamoDB — written in TypeScript.
+A **full-stack serverless note-taking platform** powered by **AWS Lambda, DynamoDB, API Gateway, and Cognito**, with a React-based UI.
 
-## 🚀 Features
+[![CI](https://github.com/VictorFajardo/lambda-dynamodb-infra/actions/workflows/ci.yml/badge.svg)](https://github.com/VictorFajardo/lambda-dynamodb-infra/actions/workflows/ci.yml)
+[![CD](https://github.com/VictorFajardo/lambda-dynamodb-infra/actions/workflows/cd.yml/badge.svg)](https://github.com/VictorFajardo/lambda-dynamodb-infra/actions/workflows/cd.yml)
+[![codecov](https://codecov.io/github/VictorFajardo/lambda-dynamodb-infra/graph/badge.svg?token=RWL3X3IAMM)](https://codecov.io/github/VictorFajardo/lambda-dynamodb-infra)
+[![Node.js](https://img.shields.io/badge/node-%3E=20-green)](https://nodejs.org/)
+[![AWS CDK](https://img.shields.io/badge/CDK-v2-blueviolet)](https://docs.aws.amazon.com/cdk/v2/guide/home.html)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
-- AWS CDK infrastructure (TypeScript)
-- Lambda functions written in TypeScript
-- REST API to create notes
-- DynamoDB table integration
+---
 
-## 🧱 Stack Components
+## ✅ Features
 
-- **API Gateway** – Exposes REST endpoint `/notes`
-- **Lambda Function** – `createNote`
-- **DynamoDB Table** – Stores notes with `id` as partition key
+### Core API Endpoints
 
-## 🛠 Setup
+- `GET /notes` - Fetch all notes
+- `GET /notes/{id}` - Fetch a single note by ID
+- `POST /notes` - Create a new note
+- `PUT /notes/{id}` - Update an existing note
+- `DELETE /notes` - Delete a note
+
+### Infrastructure (Provisioned with AWS CDK)
+
+- AWS Lambda (Node.js) with **esbuild bundling**
+- Amazon DynamoDB (NoSQL storage)
+- API Gateway (REST interface, with **CORS enabled**)
+- AWS Cognito for authentication (with auto-login demo flow)
+- IAM policies scoped to least privilege
+- Outputs API endpoint and resource ARNs for quick onboarding
+
+### Authentication
+
+- **AWS Cognito integration** for user authentication
+- **Auto-login functionality**:
+  The React UI can automatically log in a demo user and fetch an ID token, eliminating manual steps for first-time testers.
+
+### Testing
+
+- Unit tests using **Jest**
+- API testing via **Postman Collection**
+- GitHub Actions CI/CD pipeline with automated tests
+
+### Request Validation
+
+- Input validation using **Zod**
+- Graceful error handling with structured responses
+
+### Frontend
+
+- React-based UI hosted via GitHub Pages
+  👉 [UI — GitHub Pages](https://VictorFajardo.github.io/lambda-dynamodb-ui)
+
+### Observability
+
+- **AWS X-Ray** enabled for request tracing and monitoring
+- CloudWatch logs with structured logging
+
+### Security & Best Practices
+
+- Secure **environment variables** for table names, regions, and auth config
+- IAM roles with least-privilege access
+- Modular architecture for Lambdas and CDK resources
+
+---
+
+## 🏗️ Architecture
+
+Here’s how the system is structured:
+
+![Architecture Diagram](./docs/architecture.png)
+
+- React UI (GitHub Pages) calls API Gateway
+- API Gateway routes requests to Lambda
+- Lambda functions interact with DynamoDB
+- Cognito manages authentication and auto-login
+- GitHub Actions handles CI/CD
+
+---
+
+## 🔑 Authentication Flow
+
+![Auth Flow](./docs/auth-flow.png)
+
+- Users authenticate via AWS Cognito
+- Tokens are passed automatically to the API (auto-login demo in UI)
+- API Gateway verifies identity before invoking Lambdas
+
+---
+
+## 📁 Repositories
+
+| Repository                                                                        | Description                 |
+| --------------------------------------------------------------------------------- | --------------------------- |
+| [`lambda-dynamodb-infra`](https://github.com/VictorFajardo/lambda-dynamodb-infra) | Core backend infrastructure |
+| [`lambda-dynamodb-ui`](https://github.com/VictorFajardo/lambda-dynamodb-ui)       | Frontend React UI           |
+
+---
+
+## 🧪 Local Development
+
+This project supports full **local emulation** of the stack using Docker + SAM:
 
 ```bash
-# Install dependencies
+# Start local DynamoDB in Docker
+npm run db:up
+
+# Create and seed the DynamoDB table
+npm run db:create
+npm run db:seed
+
+# Prepare local CloudFormation template
+npm run local-prepare
+
+# Run the API locally with AWS SAM
+npm run local-api
+```
+
+- Run unit tests with **Jest**: `npm run test`
+- Run API tests with **Postman** or `curl`
+- DynamoDB data can be reset anytime using `db:create` + `db:seed`
+
+---
+
+## 🚀 CI/CD
+
+- **CI**: GitHub Actions run linting, tests, and upload coverage reports to Codecov on each PR.
+- **CD**: On merges to `main`, GitHub Actions automatically:
+  - Run `cdk synth` to validate CloudFormation templates
+  - Run `cdk diff` to preview changes
+  - Deploy with `cdk deploy` (no manual approval required)
+- Secure AWS OIDC integration (no long-lived AWS keys in secrets)
+
+---
+
+## 🏁 Getting Started
+
+```bash
+git clone https://github.com/VictorFajardo/lambda-dynamodb-infra
+cd lambda-dynamodb-infra
 npm install
-
-# Compile TypeScript
-npm run build
-
-# Bootstrap AWS CDK
 cdk bootstrap
-
-# Deploy stack
-npm run deploy
+cdk deploy
 ```
 
-## 📡 API Usage
-
-### POST /notes
-
-Creates a new note.
-
-#### Request Body
-
-```json
-{
-  "content": "My first note"
-}
-```
-
-#### Response
-
-```json
-{
-  "message": "Note created",
-  "note": {
-    "id": "<timestamp>",
-    "content": "My first note",
-    "createdAt": "<ISO timestamp>"
-  }
-}
-```
-
-## 🧼 Cleanup
+For **local development**:
 
 ```bash
-npm run destroy
+npm run db:up
+npm run db:create
+npm run db:seed
+npm run local-prepare
+npm run local-api
 ```
 
-## 📘 Notes
+After deployment, check the CDK outputs for:
 
-- Extend `app-stack.ts` to add more endpoints (GET, PUT, DELETE)
-- Add validation and logging
-- Use IAM roles and CDK best practices for production
-- Enable tests using `jest` or `vitest`
+- API endpoint
+- DynamoDB table name
+- Cognito user pool info
+
+---
+
+## 🔑 Using Auto-Login in the UI
+
+The frontend includes a **demo auto-login flow**:
+
+1. Open the [UI on GitHub Pages](https://VictorFajardo.github.io/lambda-dynamodb-ui).
+2. The app auto-logs in a demo user via Cognito and stores a valid token.
+3. Start creating, updating, or deleting notes immediately.
+
+This flow is meant to reduce friction when testing the project.
+
+---
+
+## 📸 Screenshots
+
+![App UI](./docs/app-0.png)
+![App UI](./docs/app-1.png)
+![App UI](./docs/app-2.png)
+
+---
+
+## 📄 License
+
+MIT
