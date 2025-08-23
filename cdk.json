@@ -1,3 +1,10 @@
 {
-  "app": "npx ts-node bin/app.ts"
+  "app": "npx ts-node bin/app.ts",
+  "context": {
+    "@aws-cdk/core:newStyleStackSynthesis": true,
+    "@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId": true,
+    "project:name": "lambda-dynamodb-infra",
+    "project:owner": "VictorFajardo",
+    "project:env": "dev"
+  }
 }
