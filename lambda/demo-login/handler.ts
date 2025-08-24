@@ -21,12 +21,6 @@ export async function handler() {
 
     return {
       statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': process.env.ALLOWED_ORIGIN ?? '*',
-        'Access-Control-Allow-Credentials': true,
-        'Access-Control-Allow-Headers': 'Content-Type,Authorization',
-        'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS',
-      },
       body: JSON.stringify(resp.AuthenticationResult),
     };
   } catch (err) {
