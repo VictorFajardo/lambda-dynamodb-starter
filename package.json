@@ -34,7 +34,7 @@
     "@types/jest": "^30.0.0",
     "@typescript-eslint/eslint-plugin": "^8.39.1",
     "@typescript-eslint/parser": "^8.38.0",
-    "aws-cdk-lib": "^2.211.0",
+    "aws-cdk-lib": "^2.212.0",
     "aws-sdk-client-mock": "^4.1.0",
     "codecov": "^3.8.3",
     "constructs": "^10.0.0",
