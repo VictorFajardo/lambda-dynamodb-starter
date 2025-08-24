@@ -10,12 +10,5 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "scripts/**/*.ts",
-    "lib/**/*.ts",
-    "bin/**/*.ts",
-    "lambda/**/*.ts",
-    "jest.config.ts",
-    "jest.coverage.config.ts"
-  ]
+  "include": ["lib/**/*.ts", "lambda/**/*.ts"]
 }
