@@ -5,7 +5,6 @@ import { validate } from '../../utils/validate';
 import { created } from '../../utils/response';
 import { withSubsegment } from '../../utils/xray';
 import { handleError } from '../../utils/errorManager';
-import { getUserName } from '../../utils/getUserName';
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   try {
@@ -13,14 +12,11 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 
     const data = validate(createNoteSchema, body);
 
-    const userName = getUserName(event);
-
     return await withSubsegment('CustomLogicCreateNote', async (sub) => {
       sub?.addAnnotation('operation', 'createNote');
-      sub?.addAnnotation('userName', userName);
       sub?.addMetadata('input', data);
 
-      const note = await createNote(data, userName);
+      const note = await createNote(data);
 
       return created({ message: 'Note created', note });
     });
