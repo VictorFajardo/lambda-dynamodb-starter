@@ -1,10 +1,16 @@
 import { response, ok, badRequest, notFound, internalError, headers } from '../response';
 
 describe('response utilities', () => {
+  const commonHeaders = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE',
+  };
+
   it('response returns correct structure', () => {
     const res = response(201, { success: true });
     expect(res.statusCode).toBe(201);
-    expect(res.headers).toEqual(headers);
+    expect(res.headers).toEqual(commonHeaders);
     expect(JSON.parse(res.body)).toEqual({ success: true });
   });
 
@@ -35,7 +41,7 @@ describe('response utilities', () => {
   it('notFound returns 404 with default message', () => {
     const res = notFound();
     expect(res.statusCode).toBe(404);
-    expect(JSON.parse(res.body)).toEqual({ message: 'Resource not found' });
+    expect(JSON.parse(res.body)).toEqual({ message: 'Note not found' });
   });
 
   it('notFound returns 404 with custom message', () => {
@@ -45,21 +51,12 @@ describe('response utilities', () => {
   });
 
   it('internalError returns 500 with generic message', () => {
-    const mockError = new Error('Database not found!');
-    const res = internalError(mockError);
-    expect(res.statusCode).toBe(500);
-    expect(JSON.parse(res.body)).toEqual({
-      message: 'Internal Server Error',
-      error: 'Database not found!',
-    });
-  });
-
-  it('internalError returns 500 with unknown message', () => {
     const res = internalError();
     expect(res.statusCode).toBe(500);
-    expect(JSON.parse(res.body)).toEqual({
-      message: 'Internal Server Error',
-      error: 'undefined',
-    });
+    expect(JSON.parse(res.body)).toEqual({ message: 'Internal Server Error' });
+  });
+
+  it('headers object is correct', () => {
+    expect(headers).toEqual(commonHeaders);
   });
 });

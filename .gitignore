@@ -4,8 +4,3 @@ cdk.out/
 .env
 *.log
 .vscode
-coverage/
-cdk.context.json
-.aws-sam/
-dynamodb-data/
-env.local.json
