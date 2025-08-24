@@ -27,7 +27,7 @@ export class AppStack extends Stack {
     // === Lambda: Create Note ===
     const createNoteLambda = new NodejsFunction(this, 'CreateNoteFunction', {
       runtime: lambda.Runtime.NODEJS_20_X,
-      entry: path.join(__dirname, '..', 'lambda', 'notes', 'create', 'create.handler.ts'),
+      entry: path.join(__dirname, '..', 'lambda', 'src', 'handlers', 'createNote.ts'),
       handler: 'handler',
       environment: {
         NOTES_TABLE: table.tableName,
@@ -42,7 +42,7 @@ export class AppStack extends Stack {
     // === Lambda: Get All Notes ===
     const getAllNotesLambda = new NodejsFunction(this, 'GetAllNotesFunction', {
       runtime: lambda.Runtime.NODEJS_20_X,
-      entry: path.join(__dirname, '..', 'lambda', 'notes', 'get-all', 'get-all.handler.ts'),
+      entry: path.join(__dirname, '..', 'lambda', 'src', 'handlers', 'getAllNotes.ts'),
       handler: 'handler',
       environment: {
         NOTES_TABLE: table.tableName,
@@ -56,7 +56,7 @@ export class AppStack extends Stack {
     // === Lambda: Get Note by ID ===
     const getNoteByIdLambda = new NodejsFunction(this, 'GetNoteByIdFunction', {
       runtime: lambda.Runtime.NODEJS_20_X,
-      entry: path.join(__dirname, '..', 'lambda', 'notes', 'get-by-id', 'get-by-id.handler.ts'),
+      entry: path.join(__dirname, '..', 'lambda', 'src', 'handlers', 'getNoteById.ts'),
       handler: 'handler',
       environment: {
         NOTES_TABLE: table.tableName,
@@ -70,7 +70,7 @@ export class AppStack extends Stack {
     // === Lambda: Put Note by ID ===
     const updateNoteLambda = new NodejsFunction(this, 'UpdateNoteFunction', {
       runtime: lambda.Runtime.NODEJS_20_X,
-      entry: path.join(__dirname, '..', 'lambda', 'notes', 'update', 'update.handler.ts'),
+      entry: path.join(__dirname, '..', 'lambda', 'src', 'handlers', 'updateNote.ts'),
       handler: 'handler',
       environment: {
         NOTES_TABLE: table.tableName,
@@ -84,7 +84,7 @@ export class AppStack extends Stack {
 
     const deleteNoteLambda = new NodejsFunction(this, 'DeleteNoteFunction', {
       runtime: lambda.Runtime.NODEJS_20_X,
-      entry: path.join(__dirname, '..', 'lambda', 'notes', 'delete', 'delete.handler.ts'),
+      entry: path.join(__dirname, '..', 'lambda', 'src', 'handlers', 'deleteNote.ts'),
       handler: 'handler',
       environment: {
         NOTES_TABLE: table.tableName,
