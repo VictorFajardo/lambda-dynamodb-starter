@@ -1,4 +1,3 @@
-
 jest.mock('aws-xray-sdk-core', () => {
   return {
     setContextMissingStrategy: jest.fn(),
