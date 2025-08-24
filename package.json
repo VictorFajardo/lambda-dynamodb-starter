@@ -7,31 +7,16 @@
     "watch": "tsc --watch",
     "synth": "cdk synth",
     "deploy": "cdk deploy",
-    "destroy": "cdk destroy",
-    "lint": "eslint . --ext .ts",
-    "format": "prettier --write .",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
-    "test:cov": "jest --config jest.config.ts --coverage",
-    "test:watch": "jest --watch"
+    "destroy": "cdk destroy"
   },
   "devDependencies": {
-    "@types/jest": "^30.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.38.0",
-    "@typescript-eslint/parser": "^8.38.0",
-    "@types/aws-lambda": "^8.10.152",
     "aws-cdk-lib": "^2.102.0",
-    "codecov": "^3.8.2",
     "constructs": "^10.0.0",
-    "eslint": "^9.32.0",
-    "jest": "^30.0.5",
-    "prettier": "^3.6.2",
-    "ts-jest": "^29.4.0",
-    "typescript": "^5.8.3"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.848.0",
-    "@aws-sdk/lib-dynamodb": "^3.850.0",
+    "aws-sdk": "^2.1360.0",
     "zod": "^4.0.10"
   }
 }
