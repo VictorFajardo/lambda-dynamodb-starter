@@ -24,11 +24,6 @@ A full-stack serverless note-taking API powered by AWS Lambda, DynamoDB, and API
 - IAM Permissions configured for secure access
 - Outputs API Gateway endpoint and resource ARNs
 
-### Authentication
-
-- AWS Cognito integration for secure login
-- Demo user login endpoint for quick testing
-
 ### Testing
 
 - Unit tests using **Jest**
@@ -41,8 +36,8 @@ A full-stack serverless note-taking API powered by AWS Lambda, DynamoDB, and API
 
 ### Frontend
 
-- React-based UI hosted via GitHub Pages
-  👉 [UI — GitHub Pages](https://VictorFajardo.github.io/lambda-dynamodb-ui)
+- React-based UI hosted via GitHub Pages  
+  👉 [UI Simple Test — GitHub Pages](https://VictorFajardo.github.io/lambda-dynamodb-ui)
 
 ### Security & Best Practices
 
@@ -58,7 +53,7 @@ A full-stack serverless note-taking API powered by AWS Lambda, DynamoDB, and API
 | Repository                                                                        | Description                 |
 | --------------------------------------------------------------------------------- | --------------------------- |
 | [`lambda-dynamodb-infra`](https://github.com/VictorFajardo/lambda-dynamodb-infra) | Core backend infrastructure |
-| [`lambda-dynamodb-ui`](https://github.com/VictorFajardo/lambda-dynamodb-ui)       | Frontend React UI           |
+| [`lambda-dynamodb-ui`](https://github.com/VictorFajardo/lambda-dynamodb-ui)       | Frontend React test UI      |
 
 ---
 
@@ -70,9 +65,8 @@ A full-stack serverless note-taking API powered by AWS Lambda, DynamoDB, and API
 
 ---
 
-## 🚀 CI/CD
+## 🚀 CI/CD (Optional)
 
-- GitHub Actions for build and deploy
 - Jest testing
 - Linting and formatting
 
