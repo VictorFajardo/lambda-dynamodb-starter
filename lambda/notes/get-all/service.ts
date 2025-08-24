@@ -8,11 +8,9 @@ export const getAllNotes = async () => {
 
   const notes =
     result.Items?.map((item) => ({
-      id: item.id?.S,
-      userName: item.userName?.S,
-      title: item.title?.S,
-      content: item.content?.S,
-      createdAt: item.createdAt?.S,
+      id: item.id.S,
+      content: item.content.S,
+      createdAt: item.createdAt.S,
     })) || [];
 
   return notes;
