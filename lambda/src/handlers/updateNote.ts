@@ -1,28 +1,43 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
-import { UpdateCommand } from '@aws-sdk/lib-dynamodb';
+import {
+  UpdateCommand,
+} from '@aws-sdk/lib-dynamodb';
 import { docClient } from '../utils/dynamoClient';
 import { updateNoteSchema } from '../schemas/updateNoteSchema';
-import { validate, ValidationError } from '../utils/validate';
-import { badRequest, internalError, notFound, ok } from '../utils/response';
 
-export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+export const handler = async (
+  event: APIGatewayProxyEvent
+): Promise<APIGatewayProxyResult> => {
   try {
     const noteId = event.pathParameters?.id;
 
+    const body = JSON.parse(event.body || '{}');
+    
+    const parsed = updateNoteSchema.safeParse(body);
+
     if (!noteId) {
-      return badRequest('Note ID is required');
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ message: 'Note ID is required' }),
+      };
     }
 
-    const body = JSON.parse(event.body || '{}');
-
-    const { content } = validate(updateNoteSchema, body);
+    if (!parsed.success) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({
+          message: 'Validation failed',
+          errors: parsed.error.flatten().fieldErrors,
+        }),
+      };
+    }
 
     const command = new UpdateCommand({
       TableName: process.env.NOTES_TABLE,
       Key: { id: noteId },
       UpdateExpression: 'set content = :content',
       ExpressionAttributeValues: {
-        ':content': content,
+        ':content': parsed.data.content,
       },
       ConditionExpression: 'attribute_exists(id)',
       ReturnValues: 'ALL_NEW',
@@ -30,16 +45,21 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
 
     const result = await docClient.send(command);
 
-    return ok({ message: 'Note updated', note: result.Attributes });
-  } catch (error: unknown) {
-    if (error instanceof ValidationError) {
-      return badRequest(error.message, error.details.flatten().fieldErrors);
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: 'Note updated', note: result.Attributes }),
+    };
+  } catch (error: any) {
+    if (error.name === 'ConditionalCheckFailedException') {
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ message: 'Note not found' }),
+      };
     }
 
-    if (error instanceof Error && error.name === 'ConditionalCheckFailedException') {
-      return notFound();
-    }
-
-    return internalError();
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: 'Internal Server Error', error }),
+    };
   }
 };
