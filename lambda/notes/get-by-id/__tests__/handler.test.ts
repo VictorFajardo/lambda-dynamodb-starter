@@ -1,23 +1,13 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import { handler } from '../handler';
 import * as service from '../service';
-import * as getUser from '../../../utils/getUserName';
 
 jest.mock('../service');
 
 describe('getNoteById handler', () => {
   it('should return 200 with note if found', async () => {
-    const mockNote = {
-      id: '1',
-      userName: 'test',
-      title: 'test',
-      content: 'test',
-      createdAt: 'now',
-    };
-
+    const mockNote = { id: '1', content: 'test', createdAt: 'now' };
     jest.spyOn(service, 'getNoteById').mockResolvedValueOnce(mockNote);
-
-    jest.spyOn(getUser, 'getUserName').mockReturnValue('test name');
 
     const event = { pathParameters: { id: '1' } } as unknown as APIGatewayProxyEvent;
     const response = await handler(event);

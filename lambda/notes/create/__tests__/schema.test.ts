@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 describe('createNoteSchema', () => {
   it('validates correct data', () => {
-    const data = { title: 'My title', content: 'My note' };
+    const data = { content: 'My note' };
     expect(() => createNoteSchema.parse(data)).not.toThrow();
   });
 
@@ -13,12 +13,12 @@ describe('createNoteSchema', () => {
   });
 
   it('fails with empty string', () => {
-    const data = { title: '', content: '' };
+    const data = { content: '' };
     expect(() => createNoteSchema.parse(data)).toThrow(z.ZodError);
   });
 
   it('fails with non-string content', () => {
-    const data = { title: 123, content: 123 };
+    const data = { content: 123 };
     expect(() => createNoteSchema.parse(data)).toThrow(z.ZodError);
   });
 });

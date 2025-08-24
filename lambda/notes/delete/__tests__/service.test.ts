@@ -15,8 +15,7 @@ describe('deleteNote service', () => {
     mockSend.mockResolvedValueOnce({});
 
     const id = '123456789';
-    const userName = 'test name';
-    const result = await deleteNote(id, userName);
+    const result = await deleteNote(id);
 
     expect(result).toEqual({ id });
 
@@ -36,8 +35,6 @@ describe('deleteNote service', () => {
     const error = new Error('ConditionalCheckFailedException');
     mockSend.mockRejectedValueOnce(error);
 
-    await expect(deleteNote('non-existent-id', '')).rejects.toThrow(
-      'ConditionalCheckFailedException'
-    );
+    await expect(deleteNote('non-existent-id')).rejects.toThrow('ConditionalCheckFailedException');
   });
 });
