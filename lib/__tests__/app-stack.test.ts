@@ -1,42 +1,88 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { App } from 'aws-cdk-lib';
-import { Template, Match } from 'aws-cdk-lib/assertions';
-import { AppStack } from '../app-stack';
+import { Template } from 'aws-cdk-lib/assertions';
+import { AppStack } from '../app-stack'; // adjust path as needed
 
-describe('AppStack', () => {
-    const app = new App();
-    const stack = new AppStack(app, 'TestStack');
-    const template = Template.fromStack(stack);
+describe('AppStack - Dev', () => {
+  let app: App;
+  let stack: AppStack;
+  let template: Template;
 
-    it('creates a DynamoDB table with id partition key', () => {
-        template.hasResourceProperties('AWS::DynamoDB::Table', {
-            KeySchema: [
-                { AttributeName: 'id', KeyType: 'HASH' }
-            ],
-            AttributeDefinitions: [
-                { AttributeName: 'id', AttributeType: 'S' }
-            ]
-        });
+  beforeEach(() => {
+    app = new App({
+      context: {
+        STAGE: 'dev',
+      },
     });
+    stack = new AppStack(app, 'TestStack');
+    template = Template.fromStack(stack);
+  });
 
-    it('creates 5 Lambda functions', () => {
-        template.resourceCountIs('AWS::Lambda::Function', 5);
+  it('matches snapshot', () => {
+    expect(template.toJSON()).toMatchSnapshot();
+  });
+
+  it('creates a DynamoDB table with partition key "id"', () => {
+    template.hasResourceProperties('AWS::DynamoDB::Table', {
+      KeySchema: [
+        {
+          AttributeName: 'id',
+          KeyType: 'HASH',
+        },
+      ],
+      AttributeDefinitions: [
+        {
+          AttributeName: 'id',
+          AttributeType: 'S',
+        },
+      ],
     });
+  });
 
-    it('sets environment variable for all Lambdas', () => {
-        template.hasResourceProperties('AWS::Lambda::Function', {
-            Environment: {
-                Variables: Match.objectLike({
-                    NOTES_TABLE: Match.anyValue(),
-                }),
-            },
-        });
+  it('creates 5 Lambda functions', () => {
+    template.resourceCountIs('AWS::Lambda::Function', 5);
+  });
+
+  it('creates API Gateway with expected methods on /notes and /notes/{id}', () => {
+    const methods = template.findResources('AWS::ApiGateway::Method');
+
+    // Filter out OPTIONS (CORS preflight)
+    const nonOptionsMethods = Object.values(methods).filter(
+      (m: any) => m.Properties.HttpMethod !== 'OPTIONS'
+    );
+
+    // We expect 5 CRUD methods
+    expect(nonOptionsMethods.length).toBe(5);
+
+    // Confirm the methods are exactly the ones you configured
+    const expectedMethods = ['GET', 'GET', 'POST', 'PUT', 'DELETE'];
+    const actualMethods = nonOptionsMethods.map((m: any) => m.Properties.HttpMethod);
+
+    expect(actualMethods.sort()).toEqual(expectedMethods.sort());
+  });
+
+  it('exports API URL and DynamoDB table name as outputs', () => {
+    template.hasOutput('ApiUrl', {});
+    template.hasOutput('TableName', {});
+  });
+});
+
+describe('AppStack - Prod', () => {
+  let app: App;
+  let stack: AppStack;
+  let template: Template;
+
+  beforeEach(() => {
+    app = new App({
+      context: {
+        STAGE: 'prod',
+      },
     });
+    stack = new AppStack(app, 'TestStackProd');
+    template = Template.fromStack(stack);
+  });
 
-    it('creates API Gateway with /notes resource and methods', () => {
-        template.hasResourceProperties('AWS::ApiGateway::RestApi', {
-            Name: 'Notes Service',
-        });
-
-        template.resourceCountIs('AWS::ApiGateway::Method', 5); // POST, GET, GET /{id}, PUT, DELETE
-    });
+  it('matches snapshot', () => {
+    expect(template.toJSON()).toMatchSnapshot();
+  });
 });

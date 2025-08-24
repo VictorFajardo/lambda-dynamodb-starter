@@ -2,13 +2,14 @@
 
 A full-stack serverless note-taking API powered by AWS Lambda, DynamoDB, and API Gateway!
 
-[![codecov](https://codecov.io/gh/VictorFajardo/lambda-dynamodb-starter/branch/main/graph/badge.svg)](https://codecov.io/gh/VictorFajardo/lambda-dynamodb-starter)
+[![codecov](https://codecov.io/github/VictorFajardo/lambda-dynamodb-infra/graph/badge.svg?token=RWL3X3IAMM)](https://codecov.io/github/VictorFajardo/lambda-dynamodb-infra)
 
 ---
 
 ## ✅ Features
 
 ### Core API Endpoints
+
 - `GET /notes` - Fetch all notes
 - `GET /notes/{id}` - Fetch a single note by ID
 - `POST /notes` - Create a new note
@@ -16,6 +17,7 @@ A full-stack serverless note-taking API powered by AWS Lambda, DynamoDB, and API
 - `DELETE /notes/{id}` - Delete a note
 
 ### Infrastructure (Provisioned with AWS CDK)
+
 - AWS Lambda (Node.js) with esbuild bundling
 - Amazon DynamoDB (NoSQL storage)
 - API Gateway (REST interface)
@@ -23,18 +25,22 @@ A full-stack serverless note-taking API powered by AWS Lambda, DynamoDB, and API
 - Outputs API Gateway endpoint and resource ARNs
 
 ### Testing
+
 - Unit tests using **Jest**
 - API testing via **Postman Collection**
 
 ### Request Validation
+
 - Input validation using **Zod**
 - Graceful error handling for all endpoints
 
 ### Frontend
+
 - React-based UI hosted via GitHub Pages  
   👉 [UI Simple Test — GitHub Pages](https://VictorFajardo.github.io/lambda-dynamodb-ui)
 
 ### Security & Best Practices
+
 - Environment variables used securely
 - IAM policies scoped to least privilege
 - Validation on input payloads
@@ -44,10 +50,10 @@ A full-stack serverless note-taking API powered by AWS Lambda, DynamoDB, and API
 
 ## 📁 Repositories
 
-| Repository | Description |
-|-----------|-------------|
+| Repository                                                                        | Description                 |
+| --------------------------------------------------------------------------------- | --------------------------- |
 | [`lambda-dynamodb-infra`](https://github.com/VictorFajardo/lambda-dynamodb-infra) | Core backend infrastructure |
-| [`lambda-dynamodb-ui`](https://github.com/VictorFajardo/lambda-dynamodb-ui) | Frontend React test UI |
+| [`lambda-dynamodb-ui`](https://github.com/VictorFajardo/lambda-dynamodb-ui)       | Frontend React test UI      |
 
 ---
 
@@ -74,3 +80,4 @@ cd lambda-dynamodb-infra
 npm install
 cdk bootstrap
 cdk deploy
+```
