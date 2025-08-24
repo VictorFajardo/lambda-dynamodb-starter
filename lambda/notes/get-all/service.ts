@@ -1,5 +1,4 @@
 import { ScanCommand } from '@aws-sdk/client-dynamodb';
-
 import { docClient } from '../../utils/dynamoClient';
 
 export const getAllNotes = async () => {

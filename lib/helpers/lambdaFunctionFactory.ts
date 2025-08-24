@@ -16,6 +16,8 @@ interface CreateLambdaFunctionProps {
   httpMethod: string;
   grantType: 'read' | 'write' | 'readWrite';
   isProd: boolean;
+  authorizer?: apigateway.CognitoUserPoolsAuthorizer;
+  environment?: Record<string, string>;
 }
 
 export function createLambdaFunction({
@@ -27,11 +29,15 @@ export function createLambdaFunction({
   httpMethod,
   grantType,
   isProd,
+  authorizer,
+  environment,
 }: CreateLambdaFunctionProps): LambdaOrAlias {
+  // === Lambda Function ===
   const fn = new NodejsFunction(scope, id, {
     runtime: lambda.Runtime.NODEJS_20_X,
     entry: path.join(__dirname, '../../', entryPath),
     handler: 'handler',
+    tracing: lambda.Tracing.ACTIVE,
     bundling: {
       minify: true,
       target: 'es2020',
@@ -40,11 +46,13 @@ export function createLambdaFunction({
     },
     environment: {
       ALLOWED_ORIGIN: process.env.ALLOWED_ORIGIN ?? '*',
-      TABLE_NAME: table.tableName,
       REGION: process.env.REGION ?? 'us-east-1',
+      ...(table ? { TABLE_NAME: table.tableName } : {}),
+      ...(environment ?? {}),
     },
   });
 
+  // === Alias for Prod ===
   const lambdaResource = isProd
     ? new lambda.Alias(scope, `${id}ProdAlias`, {
         aliasName: 'prod',
@@ -52,6 +60,7 @@ export function createLambdaFunction({
       })
     : fn;
 
+  // === DynamoDB Permissions ===
   switch (grantType) {
     case 'read':
       table.grantReadData(lambdaResource);
@@ -64,7 +73,19 @@ export function createLambdaFunction({
       break;
   }
 
-  resource.addMethod(httpMethod, new apigateway.LambdaIntegration(lambdaResource));
+  // === API Gateway Integration ===
+  const methodId = `${id}${httpMethod}Method`;
+
+  if (!resource.node.tryFindChild(methodId)) {
+    resource
+      .addMethod(httpMethod, new apigateway.LambdaIntegration(lambdaResource), {
+        authorizer,
+        authorizationType: authorizer
+          ? apigateway.AuthorizationType.COGNITO
+          : apigateway.AuthorizationType.NONE,
+      })
+      .node.addDependency(lambdaResource); // ensures deployment ordering
+  }
 
   return lambdaResource;
 }
