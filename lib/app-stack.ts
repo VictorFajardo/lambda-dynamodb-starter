@@ -1,25 +1,17 @@
-import { createLambdaFunction } from './helpers/lambdaFunctionFactory';
-import { CfnOutput, Stack, StackProps } from 'aws-cdk-lib';
+import * as path from 'path';
+import { Stack, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 
-interface LambdaEnv {
-  id: string;
-  env: Record<string, string>;
-}
-
 export class AppStack extends Stack {
-  public readonly functions: LambdaEnv[] = [];
-
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const isProd = process.env.STAGE === 'prod';
-
     // DynamoDB Table
     const table = new dynamodb.Table(this, 'NotesTable', {
-      tableName: 'NotesTable',
       partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
       // billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
     });
@@ -29,111 +21,78 @@ export class AppStack extends Stack {
       restApiName: 'Notes Service',
     });
 
-    // Create /notes and /notes/{id} resources once and store it
-    const notesResource = api.root.addResource('notes');
-    const noteById = notesResource.addResource('{id}');
-
-    // Add CORS
-    notesResource.addCorsPreflight({
-      allowOrigins: [process.env.ALLOWED_ORIGIN ?? '*'],
-      allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
-    });
-    noteById.addCorsPreflight({
-      allowOrigins: [process.env.ALLOWED_ORIGIN ?? '*'],
-      allowMethods: ['GET', 'PUT', 'DELETE'],
-    });
-
-    const addLambda = (props: Parameters<typeof createLambdaFunction>[0]) => {
-      const lambdaFn = createLambdaFunction(props);
-
-      // Track env separately for SAM local
-      this.functions.push({
-        id: lambdaFn.node.id,
-        env: {
-          TABLE_NAME: 'NotesTable',
-          DYNAMO_ENDPOINT: process.env.DYNAMO_ENDPOINT ?? 'http://host.docker.internal:8000',
-        },
-      });
-
-      return lambdaFn;
-    };
+    // Create /notes resource once and store it
+    const notesResource = api.root.getResource('notes') || api.root.addResource('notes');
 
     // === Lambda: Create Note ===
-    addLambda({
-      scope: this,
-      id: 'CreateNoteFunction',
-      entryPath: 'lambda/notes/create/handler.ts',
-      table,
-      resource: notesResource,
-      httpMethod: 'POST',
-      grantType: 'write',
-      isProd,
+    const createNoteLambda = new NodejsFunction(this, 'CreateNoteFunction', {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      entry: path.join(__dirname, '..', 'lambda', 'src', 'handlers', 'createNote.ts'),
+      handler: 'handler',
+      environment: {
+        NOTES_TABLE: table.tableName,
+      },
     });
+
+    table.grantWriteData(createNoteLambda);
+
+    notesResource.addMethod('POST', new apigateway.LambdaIntegration(createNoteLambda));
+    const noteById = notesResource.addResource('{id}');
 
     // === Lambda: Get All Notes ===
-    addLambda({
-      scope: this,
-      id: 'GetAllNotesFunction',
-      entryPath: 'lambda/notes/get-all/handler.ts',
-      table,
-      resource: notesResource,
-      httpMethod: 'GET',
-      grantType: 'read',
-      isProd,
+    const getAllNotesLambda = new NodejsFunction(this, 'GetAllNotesFunction', {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      entry: path.join(__dirname, '..', 'lambda', 'src', 'handlers', 'getAllNotes.ts'),
+      handler: 'handler',
+      environment: {
+        NOTES_TABLE: table.tableName,
+      },
     });
+
+    table.grantReadData(getAllNotesLambda);
+
+    notesResource.addMethod('GET', new apigateway.LambdaIntegration(getAllNotesLambda));
 
     // === Lambda: Get Note by ID ===
-    addLambda({
-      scope: this,
-      id: 'GetNoteByIdFunction',
-      entryPath: 'lambda/notes/get-by-id/handler.ts',
-      table,
-      resource: noteById,
-      httpMethod: 'GET',
-      grantType: 'read',
-      isProd,
+    const getNoteByIdLambda = new NodejsFunction(this, 'GetNoteByIdFunction', {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      entry: path.join(__dirname, '..', 'lambda', 'src', 'handlers', 'getNoteById.ts'),
+      handler: 'handler',
+      environment: {
+        NOTES_TABLE: table.tableName,
+      },
     });
+
+    table.grantReadData(getNoteByIdLambda);
+
+    noteById.addMethod('GET', new apigateway.LambdaIntegration(getNoteByIdLambda));
 
     // === Lambda: Put Note by ID ===
-    addLambda({
-      scope: this,
-      id: 'UpdateNoteFunction',
-      entryPath: 'lambda/notes/update/handler.ts',
-      table,
-      resource: noteById,
-      httpMethod: 'PUT',
-      grantType: 'readWrite',
-      isProd,
+    const updateNoteLambda = new NodejsFunction(this, 'UpdateNoteFunction', {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      entry: path.join(__dirname, '..', 'lambda', 'src', 'handlers', 'updateNote.ts'),
+      handler: 'handler',
+      environment: {
+        NOTES_TABLE: table.tableName,
+      },
     });
+
+    table.grantReadWriteData(updateNoteLambda);
 
     // === Lambda: Delete Note by ID ===
-    addLambda({
-      scope: this,
-      id: 'DeleteNoteFunction',
-      entryPath: 'lambda/notes/delete/handler.ts',
-      table,
-      resource: noteById,
-      httpMethod: 'DELETE',
-      grantType: 'readWrite',
-      isProd,
+    noteById.addMethod('PUT', new apigateway.LambdaIntegration(updateNoteLambda));
+
+    const deleteNoteLambda = new NodejsFunction(this, 'DeleteNoteFunction', {
+      runtime: lambda.Runtime.NODEJS_20_X,
+      entry: path.join(__dirname, '..', 'lambda', 'src', 'handlers', 'deleteNote.ts'),
+      handler: 'handler',
+      environment: {
+        NOTES_TABLE: table.tableName,
+      },
     });
 
-    // === Outputs ===
-    new CfnOutput(this, 'ApiUrl', {
-      value: api.url,
-      description: 'Base URL for the Notes API',
-      exportName: 'NotesApiUrl',
-    });
+    table.grantReadWriteData(deleteNoteLambda);
 
-    new CfnOutput(this, 'TableName', {
-      value: table.tableName,
-      description: 'Name of the DynamoDB table',
-      exportName: 'NotesTableName',
-    });
-
-    // new CfnOutput(this, 'CreateNoteLambdaArn', {
-    //   value: createNoteAlias.functionArn,
-    //   description: 'ARN of the CreateNote Lambda function',
-    // });
+    noteById.addMethod('DELETE', new apigateway.LambdaIntegration(deleteNoteLambda));
   }
 }
