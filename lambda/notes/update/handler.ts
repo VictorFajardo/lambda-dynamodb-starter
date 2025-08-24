@@ -17,7 +17,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     const body = JSON.parse(event.body || '{}');
 
     const { content } = validate(updateNoteSchema, body);
-
+    
     return await withSubsegment('CustomLogicUpdateNote', async (sub) => {
       sub?.addAnnotation('operation', 'updateNote');
       sub?.addMetadata('input', content);

@@ -1,4 +1,5 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+
 import { createNote } from './service';
 import { createNoteSchema } from './schema';
 import { validate } from '../../utils/validate';
@@ -11,6 +12,7 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     const body = JSON.parse(event.body || '{}');
 
     const data = validate(createNoteSchema, body);
+
 
     return await withSubsegment('CustomLogicCreateNote', async (sub) => {
       sub?.addAnnotation('operation', 'createNote');
