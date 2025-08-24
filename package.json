@@ -7,55 +7,16 @@
     "watch": "tsc --watch",
     "synth": "cdk synth",
     "deploy": "cdk deploy",
-    "destroy": "cdk destroy",
-    "lint": "eslint .",
-    "format": "prettier --write .",
-    "test": "jest",
-    "test:coverage": "jest --config jest.coverage.config.ts --coverage -u",
-    "test:watch": "jest --watch",
-    "db:up": "docker compose up -d",
-    "db:create": "npx ts-node scripts/createNotesTable.ts",
-    "db:seed": "npx ts-node scripts/seedNotesItems.ts",
-    "local-prepare": "cross-env NODE_ENV=local cdk synth --output cdk.out",
-    "gen-env": "ts-node scripts/generateEnvLocal.ts",
-    "local-api": "npm run gen-env && cross-env NODE_ENV=local sam local start-api -t cdk.out/AppStack.template.json --env-vars env.local.json",
-    "prepare": "node -e \"const fs=require('fs'); const isCI = !!process.env.CI || !!process.env.GITHUB_ACTIONS; if (!fs.existsSync('.git') || isCI) process.exit(0); try { require('husky').install(); } catch(e) {}\"",
-    "clean": "rm -rf node_modules package-lock.json"
+    "destroy": "cdk destroy"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.152",
-    "@types/jest": "^30.0.0",
-    "@typescript-eslint/eslint-plugin": "^8.39.1",
-    "@typescript-eslint/parser": "^8.38.0",
-    "aws-cdk-lib": "^2.211.0",
-    "aws-sdk-client-mock": "^4.1.0",
-    "codecov": "^3.8.3",
+    "aws-cdk-lib": "^2.102.0",
     "constructs": "^10.0.0",
-    "cross-env": "^10.0.0",
-    "esbuild": "^0.25.9",
-    "eslint": "^9.33.0",
-    "husky": "^9.1.7",
-    "is-ci": "^4.1.0",
-    "jest": "^30.0.5",
-    "lint-staged": "^16.1.5",
-    "prettier": "^3.6.2",
-    "ts-jest": "^29.4.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
   },
   "dependencies": {
-    "@aws-cdk/aws-lambda-nodejs": "^1.204.0",
-    "@aws-sdk/client-cognito-identity-provider": "^3.865.0",
-    "@aws-sdk/client-dynamodb": "^3.848.0",
-    "@aws-sdk/lib-dynamodb": "^3.868.0",
-    "aws-xray-sdk-core": "^3.10.3",
-    "dotenv": "^17.2.1",
-    "node-fetch": "^3.3.2",
-    "zod": "^4.0.17"
-  },
-  "lint-staged": {
-    "*.ts": [
-      "npm test -- --passWithNoTests --findRelatedTests"
-    ]
+    "aws-sdk": "^2.1360.0",
+    "zod": "^4.0.10"
   }
 }
