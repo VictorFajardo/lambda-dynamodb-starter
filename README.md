@@ -182,6 +182,33 @@ This flow is meant to reduce friction when testing the project.
 
 ---
 
+## 🏆 Production-Ready Enhancements (Future Work)
+
+For a real-world deployment, I would extend the infrastructure with:
+
+1. Multi-Environment Deployment Pipelines
+
+- Separate dev/staging/prod stacks, promoted via CI/CD.
+
+2. Custom Domains & Secure HTTPS
+
+- Route53 + ACM certificates for a branded API endpoint.
+
+3. Ephemeral Preview Environments
+
+- Automatic “review stacks” for each Pull Request.
+
+4. Enterprise-Grade Monitoring & Alerts
+
+- Centralized logs, metrics, and tracing (CloudWatch + X-Ray + OpenTelemetry).
+
+5. Governance & Cost Optimization
+
+- Resource tagging by environment/team/cost center.
+- AWS Budgets + alarms for proactive cost control.
+
+---
+
 ## 📄 License
 
 MIT
